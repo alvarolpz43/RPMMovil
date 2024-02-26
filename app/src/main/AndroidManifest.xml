@@ -46,7 +46,7 @@
 
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.RPMSQLite">
             <intent-filter>
@@ -60,15 +60,15 @@
             android:name=".Rmotos.ShowGarageActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainActivity"
             android:exported="true">
 
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".Login.Login"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".Login.Register"
             android:exported="false">
 
         </activity>
