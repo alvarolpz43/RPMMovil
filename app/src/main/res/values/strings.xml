@@ -15,5 +15,9 @@
     <string name="txt_nombre">Nombre</string>
     <string name="txt_registro">Registro</string>
     <string name="txt_registrate">Registrate</string>
-    <string name="txt_si_no_tienes_cuenta">¿Si no tienes cuenta?,</string>
+    <string name="txt_inicia_sesion">Inicia Sesion</string>
+    <string name="txt_si_no_tienes_cuenta">Si no tienes cuenta,</string>
+    <string name="txt_si__tienes_cuenta">¿Si tienes cuenta?,</string>
+    <string name="txt_numero_identificacion">Numero de Identificacion</string>
+    <string name="txt_numero_Telefono">Numero de Telefono</string>
 </resources>
