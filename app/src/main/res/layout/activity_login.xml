@@ -66,7 +66,7 @@
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="correo"
+                    android:hint="Ingresa tu correo"
                     android:textColor="@color/black"
                     android:textColorHint="@color/WP_Gray"
                     android:inputType="textEmailAddress" />
@@ -90,7 +90,7 @@
                     android:id="@+id/edtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="contraseña"
+                    android:hint="Ingresa tu contraseña"
                     android:inputType="textPassword"
                     android:textColorHint="@color/WP_Gray"
                     android:textColor="@color/black" />
