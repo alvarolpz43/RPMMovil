@@ -46,12 +46,13 @@ class Register : AppCompatActivity() {
             val password = binding.ETPassword.text.toString()
             val identificationNumber = binding.ETIdentificacion.text.toString().toInt()
             val phoneNumber = binding.ETTelefono.text.toString().toLong()
+            val date=binding.ETDate.text.toString()
 
             val userRegistrationData = DtaRegister(
                 Nombres_Mv = nombre,
                 Email_Mv = email,
                 NumeroIdent_Mv = identificationNumber,
-                FechaNac_Mv = "1990-01-01",
+                FechaNac_Mv = date,
                 Contraseña_Mv = password,
                 NumeroTel_Mv = phoneNumber
             )
