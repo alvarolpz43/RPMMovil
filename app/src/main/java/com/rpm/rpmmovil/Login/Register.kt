@@ -28,7 +28,7 @@ class Register : AppCompatActivity() {
 
     private val apiService = retrofit.create(ApiServiceRegister::class.java)
 
-    // Formato de fecha deseado (ejemplo: "yyyy/MM/dd")
+
     private val DATE_FORMAT = "yyyy/MM/dd"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +43,16 @@ class Register : AppCompatActivity() {
         binding.ETDate.setOnClickListener {
             showDatePicker()
         }
+        binding.fecha.setOnClickListener{
+            showDatePicker()
+        }
+
+        binding.login.setOnClickListener {
+            val loginIntent = Intent(this@Register, Login::class.java)
+            startActivity(loginIntent)
+            finish()
+        }
+
         setListeners()
     }
 
@@ -69,6 +79,16 @@ class Register : AppCompatActivity() {
                 Toast.makeText(applicationContext, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (identificationNumber.length != 10 || !identificationNumber.all { it.isDigit() }) {
+                Toast.makeText(applicationContext, "El número de identificación debe tener 10 dígitos y ser numérico", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (phoneNumber.length != 10 || !phoneNumber.all { it.isDigit() }) {
+                Toast.makeText(applicationContext, "El número de teléfono debe tener 10 dígitos y ser numérico", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
 
             val userRegistrationData = DtaRegister(
                 Nombres_Mv = nombre,
