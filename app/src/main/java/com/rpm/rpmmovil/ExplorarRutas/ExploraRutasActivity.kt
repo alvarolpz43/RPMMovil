@@ -1,37 +1,34 @@
 package com.rpm.rpmmovil.ExplorarRutas
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
+import android.view.inputmethod.InputMethodManager
+
 import android.widget.ListView
-import android.widget.TextView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rpm.rpmmovil.ExplorarRutas.model.ApiServiceRutas
-import com.rpm.rpmmovil.ExplorarRutas.model.DataAllRutas
-import com.rpm.rpmmovil.ExplorarRutas.model.DataRutas
-import com.rpm.rpmmovil.R
+import com.rpm.rpmmovil.ExplorarRutas.model.rutaAdapter
 import com.rpm.rpmmovil.databinding.ActivityExploraRutasBinding
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ExploraRutasActivity : AppCompatActivity() {
+class ExploraRutasActivity : AppCompatActivity(), OnQueryTextListener {
     private lateinit var binding: ActivityExploraRutasBinding
+    private lateinit var adapter:rutaAdapter
+    private val rutaImages = mutableListOf<String>()
     private lateinit var listView: ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityExploraRutasBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.searchView.setOnQueryTextListener(this)
         initRecyclerView()
 
 
@@ -39,12 +36,14 @@ class ExploraRutasActivity : AppCompatActivity() {
         }
 
     private fun initRecyclerView() {
-        TODO("Not yet implemented")
+        adapter=rutaAdapter(rutaImages)
+        binding.rvRutas.layoutManager = LinearLayoutManager(this)
+        binding.rvRutas.adapter = adapter
     }
 
     private fun getRetrofit():Retrofit{
         return  Retrofit.Builder()
-            .baseUrl("https://rpm-back-end.vercel.app/api/rutas/")
+            .baseUrl("https://rpm-back-end.vercel.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -52,10 +51,39 @@ class ExploraRutasActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val call = getRetrofit().create(ApiServiceRutas::class.java).getAllRutas("$query/ruta")
             val rutas = call.body()
-            if (call.isSuccessful){
-
+            runOnUiThread {
+                if (call.isSuccessful){
+                    val images = rutas?.images ?: emptyList()
+                    rutaImages.clear()
+                    rutaImages.addAll(images)
+                    adapter.notifyDataSetChanged()
+                }else{
+                    showError()
+                }
+                hideKeyBoard()
             }
+
         }
     }
+
+    private fun hideKeyBoard() {
+      val imm=getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.viewRoot.windowToken,0)
     }
+
+    private fun showError() {
+        Toast.makeText(this,"Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (!query.isNullOrEmpty()){
+            searchByName(query.toLowerCase())
+        }
+        return  true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return  true
+    }
+}
 

@@ -1,5 +1,6 @@
 package com.rpm.rpmmovil.Routes
 
+import android.R
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -23,7 +24,7 @@ class ListarRutasActivity : AppCompatActivity() {
         val nombreDeRutas = arrayRoute.map { it.rutaN }
 
         val listRoute = binding.listaRutas
-        val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nombreDeRutas)
+        val arrayAdapter = ArrayAdapter<String>(this, R.layout.simple_list_item_1, nombreDeRutas)
 
         listRoute.adapter = arrayAdapter
         Toast.makeText(this, "Rutas listadas", Toast.LENGTH_SHORT).show()

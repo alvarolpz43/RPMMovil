@@ -7,5 +7,5 @@ import retrofit2.http.Url
 
 interface ApiServiceRutas {
     @GET
-    fun getAllRutas(@Url url:String):Response<DataRutas>
+   suspend fun getAllRutas(@Url url:String):Response<DataRutas>
 }
