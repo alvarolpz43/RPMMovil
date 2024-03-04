@@ -28,6 +28,7 @@ class saveRutasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
         binding = ActivitySaveRutasBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
