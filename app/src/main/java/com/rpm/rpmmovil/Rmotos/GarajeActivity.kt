@@ -1,10 +1,11 @@
 package com.rpm.rpmmovil.Rmotos
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.rpm.rpmmovil.Rmotos.model.DataRMotos
-import com.rpm.rpmmovil.Rmotos.model.RegisterMoto
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,50 +15,53 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class GarajeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
-
-    // Ajusta la URL de tu API
-    private val BASE_URL = "https://tudominio.com/api/"
+    private val BASE_URL = "https://rpm-back-end.vercel.app/api/"
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGarajeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+
+        val token = sharedPreferences.getString("token", null)
+        Toast.makeText(this, "${token}", Toast.LENGTH_SHORT).show()
 
         binding.register.setOnClickListener {
             val marca = binding.marcamoto.text.toString()
             val modelo = binding.modelomoto.text.toString()
             val cilindraje = binding.cilindrajemoto.text.toString()
             val placa = binding.placamoto.text.toString()
-            val nombre= binding.motonombre.text.toString()
-            val version= binding.versionmoto.text.toString().toInt()
-            val consumo= binding.consumo.text.toString().toInt()
-
+            val nombre = binding.motonombre.text.toString()
+            val version = binding.versionmoto.text.toString()
+            val consumo = binding.consumo.text.toString()
 
             if (marca.isEmpty() || modelo.isEmpty() || cilindraje.isEmpty() || placa.isEmpty()) {
                 Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
             } else {
                 // Crea un objeto DataRMotos con la información de la moto
-                val moto = DataRMotos(
-                    MotoNombre = marca,
-                    ModeloMoto = modelo,
-                    MarcaMoto = nombre, // Ajusta según tu necesidad
-                    VersionMoto =version,
-                    ConsumoMotoLx100km = consumo,
-                    CilindrajeMoto = cilindraje,
-                    FotoMoto = "URL de la foto"
-                )
-
-                // Inicia Retrofit
                 val retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
 
-                // Crea la instancia de la interfaz de la API
                 val registerMotoService = retrofit.create(RegisterMoto::class.java)
 
-                // Realiza la llamada a la API para registrar la moto
-                val call = registerMotoService.PostRegisterMoto(moto)
+                val moto = DataRMotos(
+                    MotoNombre = marca,
+                    ModeloMoto = modelo,
+                    MarcaMoto = nombre,
+                    VersionMoto = version.toInt(),
+                    ConsumoMotoLx100km = consumo.toInt(),
+                    CilindrajeMoto = cilindraje
+                )
+
+                // Agrega el token como encabezado a la solicitud
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token"
+
+                // Llama a la función PostRegisterMoto de la interfaz RegisterMoto
+                val call = registerMotoService.PostRegisterMoto(moto, headers)
 
                 call.enqueue(object : Callback<DataRMotos> {
                     override fun onResponse(call: Call<DataRMotos>, response: Response<DataRMotos>) {
