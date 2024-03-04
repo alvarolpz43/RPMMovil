@@ -1,6 +1,7 @@
 package com.rpm.rpmmovil.Routes
 
 import android.R
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -20,10 +21,19 @@ class ListarRutasActivity : AppCompatActivity() {
     private lateinit var binding: ActivityListarRutasBinding
     val urlBase = "https://rpm-back-end.vercel.app/api/"
 
+    private lateinit var sharedPreferences: SharedPreferences
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListarRutasBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
+        Toast.makeText(this, "${token}", Toast.LENGTH_SHORT).show()
 
         val retrofit = Retrofit.Builder()
             .baseUrl(urlBase)
