@@ -1,11 +1,13 @@
+
+
+// Cambios en la interfaz de servicio para obtener todas las rutas
 package com.rpm.rpmmovil.ExplorarRutas.model
 
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Url
 
 interface ApiServiceRutas {
-    @GET
-   suspend fun getAllRutas(@Url url:String):Response<DataRutas>
+    @GET("rutas")
+    suspend fun getAllRutas(): Response<DataRutasRespose>
 }
+
