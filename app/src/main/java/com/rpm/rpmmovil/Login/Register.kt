@@ -79,10 +79,11 @@ class Register : AppCompatActivity() {
                 Toast.makeText(applicationContext, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (identificationNumber.length != 10 || !identificationNumber.all { it.isDigit() }) {
-                Toast.makeText(applicationContext, "El número de identificación debe tener 10 dígitos y ser numérico", Toast.LENGTH_SHORT).show()
+            if (identificationNumber.length < 5 || identificationNumber.length > 10 || !identificationNumber.all { it.isDigit() }) {
+                Toast.makeText(applicationContext, "El número de identificación debe tener entre 5 y 10 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
 
             if (phoneNumber.length != 10 || !phoneNumber.all { it.isDigit() }) {
                 Toast.makeText(applicationContext, "El número de teléfono debe tener 10 dígitos y ser numérico", Toast.LENGTH_SHORT).show()
