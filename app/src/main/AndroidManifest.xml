@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+
+
     <application
         android:name=".utils.AppRPM"
         android:allowBackup="true"
@@ -18,8 +21,15 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".Routes.MapActivity"
+            android:name=".ExplorarRutas.ExploraRutasActivity"
             android:exported="false" />
+        <activity
+            android:name=".Routes.MapActivity"
+
+            android:exported="false" />
+
+
+
 
         <activity
             android:name=".Routes.ListarRutasActivity"
@@ -54,11 +64,15 @@
             android:name=".Rmotos.ShowGarageActivity"
             android:exported="false" />
 
+
+
+
         <activity
             android:name=".Login.Login"
             android:exported="false" />
 
         <activity
+
             android:name=".Login.Register"
             android:exported="false" />
 
@@ -74,5 +88,7 @@
 
         </activity>
 
+
     </application>
+
 </manifest>
