@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Ingresa tu correo"
                 android:textColor="@color/black"
-                android:textColorHint="@color/WP_Gray"
+                android:textColorHint="@color/Gray"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
         <TextView
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Ingresa tu contraseña"
                 android:inputType="textPassword"
-                android:textColorHint="@color/WP_Gray"
+                android:textColorHint="@color/Gray"
                 android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 

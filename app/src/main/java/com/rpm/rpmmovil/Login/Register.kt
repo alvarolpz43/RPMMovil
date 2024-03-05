@@ -105,7 +105,7 @@ class Register : AppCompatActivity() {
             call.enqueue(object : Callback<DtaRegister> {
                 override fun onResponse(call: Call<DtaRegister>, response: Response<DtaRegister>) {
                     if (response.isSuccessful) {
-                        val intent = Intent(this@Register, MainActivity::class.java)
+                        val intent = Intent(this@Register,Login::class.java)
                         Toast.makeText(applicationContext, "Registro exitoso", Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                     } else {

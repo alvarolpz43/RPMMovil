@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_nombre"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/WP_Gray"
+                    android:textColorHint="@color/Gray"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_correo_hint"
                     android:inputType="textEmailAddress"
-                    android:textColorHint="@color/WP_Gray"
+                    android:textColorHint="@color/Gray"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Seguir formato(AAAA/MM/DD) o tocar nuevamente"
-                    android:textColorHint="@color/WP_Gray"
+                    android:textColorHint="@color/Gray"
                     android:inputType="date"
                     android:textColor="@color/black" />
 
@@ -139,7 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_numero_identificacion"
-                    android:textColorHint="@color/WP_Gray"
+                    android:textColorHint="@color/Gray"
                     android:inputType="text"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_telefono_hint"
-                    android:textColorHint="@color/WP_Gray"
+                    android:textColorHint="@color/Gray"
                     android:inputType="text"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_contrase_a_hint"
-                    android:textColorHint="@color/WP_Gray"
+                    android:textColorHint="@color/Gray"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>

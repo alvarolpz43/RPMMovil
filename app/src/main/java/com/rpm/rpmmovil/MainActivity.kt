@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun home() {
-        Toast.makeText(this, "Welcome to RPM", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Bienvenido Motero", Toast.LENGTH_SHORT).show()
 
     }
 }
