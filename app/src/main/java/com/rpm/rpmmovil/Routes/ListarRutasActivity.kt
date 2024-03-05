@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.rpm.rpmmovil.Model.Route
 import com.rpm.rpmmovil.Routes.apiRoute.AllRutes
 import com.rpm.rpmmovil.Routes.apiRoute.RoutesApiService
 import com.rpm.rpmmovil.databinding.ActivityListarRutasBinding
-import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
