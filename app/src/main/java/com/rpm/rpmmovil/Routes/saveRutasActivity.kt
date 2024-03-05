@@ -62,7 +62,7 @@ class saveRutasActivity : AppCompatActivity() {
         val manager = ManagerDb(this)
         manager.insertRoute(nombreRuta, cordenadasInicio, cordenadasFinal, detalleRuta, imagenRuta)
 
-        Toast.makeText(this, "Ruta guardada: $nombreRuta", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Ruta guardada ahora.: $nombreRuta", Toast.LENGTH_SHORT).show()
 
 
     }
