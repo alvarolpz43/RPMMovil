@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.rpm.rpmmovil.Login.model.ApiServiceRegister
 import com.rpm.rpmmovil.Login.model.DtaRegister
-import com.rpm.rpmmovil.MainActivity
+import com.rpm.rpmmovil.R
 import com.rpm.rpmmovil.databinding.ActivityRegisterBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -126,7 +126,7 @@ class Register : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
-        datePickerDialog = DatePickerDialog(this,
+        datePickerDialog = DatePickerDialog(this, R.style.MyDatePickerDialogTheme,
             { _, selectedYear, selectedMonth, day ->
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(selectedYear, selectedMonth, day)
@@ -138,4 +138,5 @@ class Register : AppCompatActivity() {
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis() - 1000
         datePickerDialog.show()
     }
+
 }
