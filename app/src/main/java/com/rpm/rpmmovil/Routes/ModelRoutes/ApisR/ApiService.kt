@@ -1,4 +1,4 @@
-package com.rpm.rpmmovil.Routes.ModelRoutes
+package com.rpm.rpmmovil.Routes.ModelRoutes.ApisR
 
 import com.rpm.rpmmovil.Routes.RouteResponse
 import retrofit2.Response

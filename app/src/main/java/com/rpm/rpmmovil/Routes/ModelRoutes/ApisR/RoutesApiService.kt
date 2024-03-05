@@ -1,5 +1,6 @@
-package com.rpm.rpmmovil.Routes.apiRoute
+package com.rpm.rpmmovil.Routes.ModelRoutes.ApisR
 
+import com.rpm.rpmmovil.Routes.ModelRoutes.DataRoutes.Route
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
