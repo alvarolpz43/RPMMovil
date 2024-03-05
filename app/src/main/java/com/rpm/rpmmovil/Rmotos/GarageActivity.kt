@@ -1,9 +1,11 @@
 package com.rpm.rpmmovil.Rmotos
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.rpm.rpmmovil.Rmotos.model.Apis.RegisterMoto
@@ -18,7 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class GarageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
-//    private lateinit var registerMotoService: RegisterMoto
     private var selectedImageUri: Uri? = null
 
 
@@ -39,6 +40,10 @@ class GarageActivity : AppCompatActivity() {
             .build()
         val apiService = retrofit.create(RegisterMoto::class.java)
 
+        binding.garage.setOnClickListener {
+            val intent = Intent(this, ShowGarageActivity::class.java)
+            startActivity(intent)
+        }
 
 
         // Registrar la selección de imágenes
@@ -61,6 +66,9 @@ class GarageActivity : AppCompatActivity() {
             val nombre = binding.motonombre.text.toString()
             val version = binding.versionmoto.text.toString()
             val consumo = binding.consumo.text.toString()
+            val imagemoto = binding.imageButton.setOnClickListener {
+                pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
 
             // Validar campos obligatorios
             if (marca.isEmpty() || cilindraje.isEmpty() || placa.isEmpty()) {
@@ -74,7 +82,7 @@ class GarageActivity : AppCompatActivity() {
                     motovers = version.toIntOrNull() ?: 0,
                     consumokmxg = consumo.toIntOrNull() ?: 0,
                     cilimoto = cilindraje,
-                    imagemoto = selectedImageUri?.toString() ?: ""
+                    imagemoto = imagemoto.toString()
                 )
 
                 // Registrar la motocicleta usando Retrofit

@@ -34,10 +34,6 @@ class ShowGarageActivity : AppCompatActivity() {
 
         binding = ActivityShowGarageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-
-//        val token = sharedPreferences.getString("token", null)
-//        Toast.makeText(this, "${token}", Toast.LENGTH_SHORT).show()
 
         retrofit = getRetrofit()
         initUI()
@@ -66,10 +62,11 @@ class ShowGarageActivity : AppCompatActivity() {
     private fun searchAllMotos() {
         binding.progressBar2.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
-            val token = sharedPreferences.getString("token", null)
+            val token = obtenerToken()
+            val userId = obtenerIdUsuarioDesdeToken(token)
             try {
                 val myResponse: Response<DataMotosResponse> =
-                    retrofit.create(ApiServiceMotos::class.java).getAllMotos("Bearer $token")
+                    retrofit.create(ApiServiceMotos::class.java).getAllMotos("Bearer $token", userId)
 
                 if (myResponse.isSuccessful) {
                     val response: DataMotosResponse? = myResponse.body()
@@ -103,5 +100,24 @@ class ShowGarageActivity : AppCompatActivity() {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    private fun obtenerToken(): String {
+        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("token", "") ?: ""
+    }
+
+    private fun obtenerIdUsuarioDesdeToken(token: String): String {
+        try {
+            val jwt = JWT(token)
+            val userIdClaim = jwt.getClaim("userId")
+
+            if (!userIdClaim.isNull && userIdClaim.isString) {
+                return userIdClaim.asString()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
     }
 }

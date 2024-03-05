@@ -34,10 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures{
-        viewBinding= true
+    buildFeatures {
+        viewBinding = true
     }
-
 
 
 }
@@ -47,7 +46,7 @@ dependencies {
     //map
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     //Dependences of navigation
-    val navVersion= "2.7.1"
+    val navVersion = "2.7.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
@@ -65,16 +64,23 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")
 
 
-
     //material.io
-    implementation ("com.google.android.material:material:1.3.0-alpha01")
+    implementation("com.google.android.material:material:1.3.0-alpha01")
 
 
     //picaso
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.squareup.picasso:picasso:2.71828")
 
-    
+    //jwt
+
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
+    implementation ("com.auth0.android:jwtdecode:2.1.0")
+
+
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
