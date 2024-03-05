@@ -29,8 +29,6 @@ class GarageActivity : AppCompatActivity() {
             val result = bitmapToByteArray(bitmapImage)
             selectedImageByte = result
 
-            // Ahora puedes realizar acciones adicionales con la imagen seleccionada si es necesario
-            // Por ejemplo, puedes mostrar la imagen en un ImageView
             binding.imageView.setImageBitmap(bitmapImage)
         } else {
             // No se seleccionó ninguna imagen
