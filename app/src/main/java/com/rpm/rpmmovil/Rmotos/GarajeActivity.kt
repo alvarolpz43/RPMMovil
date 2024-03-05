@@ -1,12 +1,12 @@
 package com.rpm.rpmmovil.Rmotos
 
 import RegisterMoto
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.rpm.rpmmovil.Rmotos.model.DataRMotos
+import com.rpm.rpmmovil.Rmotos.model.DataItemMotos
+import com.rpm.rpmmovil.Rmotos.model.DataMotosResponse
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,6 +36,7 @@ class GarajeActivity : AppCompatActivity() {
             val nombre = binding.motonombre.text.toString()
             val version = binding.versionmoto.text.toString()
             val consumo = binding.consumo.text.toString()
+            val imagenmoto =
 
             if (marca.isEmpty() || modelo.isEmpty() || cilindraje.isEmpty() || placa.isEmpty()) {
                 Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
@@ -48,14 +49,16 @@ class GarajeActivity : AppCompatActivity() {
 
                 val registerMotoService = retrofit.create(RegisterMoto::class.java)
 
-                val moto = DataRMotos(
-                    MotoNombre = marca,
-                    ModeloMoto = modelo,
-                    MarcaMoto = nombre,
-                    VersionMoto = version.toInt(),
-                    ConsumoMotoLx100km = consumo.toInt(),
-                    CilindrajeMoto = cilindraje
-                )
+                val moto = DataItemMotos(
+                    motonom = nombre,
+                    motomodel = modelo,
+                    motomarca = marca,
+                    motovers = version.toInt(),
+                    consumokmxg = consumo.toInt(),
+                    cilimoto = cilindraje,
+                    imagemoto =
+
+                    )
 
                 // Agrega el token como encabezado a la solicitud
                 val headers = HashMap<String, String>()
@@ -64,8 +67,11 @@ class GarajeActivity : AppCompatActivity() {
                 // Llama a la función PostRegisterMoto de la interfaz RegisterMoto
                 val call = registerMotoService.PostRegisterMoto(moto, headers)
 
-                call.enqueue(object : Callback<DataRMotos> {
-                    override fun onResponse(call: Call<DataRMotos>, response: Response<DataRMotos>) {
+                call.enqueue(object : Callback<DataMotosResponse> {
+                    override fun onResponse(
+                        call: Call<DataMotosResponse>,
+                        response: Response<DataMotosResponse>
+                    ) {
                         if (response.isSuccessful) {
                             Toast.makeText(
                                 this@GarajeActivity,
@@ -81,7 +87,7 @@ class GarajeActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<DataRMotos>, t: Throwable) {
+                    override fun onFailure(call: Call<DataMotosResponse>, t: Throwable) {
                         Toast.makeText(
                             this@GarajeActivity,
                             "Error al conectar con la API",
