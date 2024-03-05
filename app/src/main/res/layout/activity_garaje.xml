@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Rmotos.GarajeActivity">
+    tools:context=".Rmotos.GarageActivity">
 
     <LinearLayout
         android:id="@+id/top"
@@ -138,11 +138,19 @@
                         android:gravity="center"
                         android:hint="ConsumoMotoLx100km"
                         android:inputType="number" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
                     <Button
                         android:id="@+id/imageButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Subir imagen" />
+
+
 
 
 

@@ -2,7 +2,7 @@ package com.rpm.rpmmovil.Rmotos.model.Data
 
 import com.google.gson.annotations.SerializedName
 
-data class DataMotosResponse( @SerializedName("moto") val moto:List<DataItemMotos>)
+data class DataMotosResponse( @SerializedName("motos") val moto:List<DataItemMotos>)
 
 data class DataItemMotos(
    @SerializedName("MotoNombre") val motonom: String,

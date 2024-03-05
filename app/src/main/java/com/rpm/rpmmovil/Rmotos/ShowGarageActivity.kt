@@ -63,14 +63,14 @@ class ShowGarageActivity : AppCompatActivity() {
         binding.progressBar2.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
             val token = obtenerToken()
-            val userId = obtenerIdUsuarioDesdeToken(token)
             try {
                 val myResponse: Response<DataMotosResponse> =
-                    retrofit.create(ApiServiceMotos::class.java).getAllMotos("Bearer $token", userId)
+                    retrofit.create(ApiServiceMotos::class.java)
+                        .getAllMotos(token)
 
                 if (myResponse.isSuccessful) {
                     val response: DataMotosResponse? = myResponse.body()
-
+                    Log.e("TAG", "${response}", )
                     if (response != null) {
                         runOnUiThread {
                             adapter.updatelist(response.moto)
@@ -106,18 +106,5 @@ class ShowGarageActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         return sharedPreferences.getString("token", "") ?: ""
     }
-
-    private fun obtenerIdUsuarioDesdeToken(token: String): String {
-        try {
-            val jwt = JWT(token)
-            val userIdClaim = jwt.getClaim("userId")
-
-            if (!userIdClaim.isNull && userIdClaim.isString) {
-                return userIdClaim.asString()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return ""
-    }
 }
+
