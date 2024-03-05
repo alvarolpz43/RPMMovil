@@ -36,8 +36,8 @@ class ShowGarageActivity : AppCompatActivity() {
         setContentView(binding.root)
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
-        val token = sharedPreferences.getString("token", null)
-        Toast.makeText(this, "${token}", Toast.LENGTH_SHORT).show()
+//        val token = sharedPreferences.getString("token", null)
+//        Toast.makeText(this, "${token}", Toast.LENGTH_SHORT).show()
 
         retrofit = getRetrofit()
         initUI()
@@ -66,9 +66,10 @@ class ShowGarageActivity : AppCompatActivity() {
     private fun searchAllMotos() {
         binding.progressBar2.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
+            val token = sharedPreferences.getString("token", null)
             try {
                 val myResponse: Response<DataMotosResponse> =
-                    retrofit.create(ApiServiceMotos::class.java).getAllMotos()
+                    retrofit.create(ApiServiceMotos::class.java).getAllMotos("Bearer $token")
 
                 if (myResponse.isSuccessful) {
                     val response: DataMotosResponse? = myResponse.body()

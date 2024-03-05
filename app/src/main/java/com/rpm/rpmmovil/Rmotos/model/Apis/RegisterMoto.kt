@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface RegisterMoto {
     @POST("motos")
     fun PostRegisterMoto(
-        @Body dataRMotos: DataItemMotos,
+        @Body moto: DataItemMotos,
         @Header("Authorization") token: String
-    ): Call<DataMotosResponse>
+    ): Call<DataItemMotos>
 }
