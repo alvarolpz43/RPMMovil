@@ -1,5 +1,6 @@
 package com.rpm.rpmmovil.Rmotos
 
+import RegisterMoto
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
