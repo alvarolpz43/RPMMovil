@@ -62,7 +62,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".Rmotos.GarajeActivity"
+            android:name=".Rmotos.GarageActivity"
             android:exported="false" />
 
 

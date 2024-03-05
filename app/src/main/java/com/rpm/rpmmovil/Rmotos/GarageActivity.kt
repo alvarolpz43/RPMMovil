@@ -1,3 +1,5 @@
+package com.rpm.rpmmovil.Rmotos
+
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
@@ -13,7 +15,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GarajeActivity : AppCompatActivity() {
+class GarageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var retrofit: Retrofit
