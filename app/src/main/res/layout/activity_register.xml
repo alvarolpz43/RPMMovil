@@ -113,7 +113,7 @@
                     android:id="@+id/ETDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Seguir formato(AAAA/MM/DD) o tocar nuevamente"
+                    android:hint="Clickea dos veces"
                     android:textColorHint="@color/Gray"
                     android:inputType="date"
                     android:textColor="@color/black" />
