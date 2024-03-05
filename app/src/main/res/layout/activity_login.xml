@@ -11,7 +11,7 @@
         android:layout_width="225dp"
         android:layout_height="239dp"
         android:layout_margin="60dp"
-        android:src="@drawable/logosmall"
+        android:src="@drawable/logo_negativo"
 
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
