@@ -113,10 +113,12 @@
                     android:id="@+id/ETDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Clickea dos veces"
+                    android:hint="AAAA/MM/DD"
                     android:textColorHint="@color/Gray"
-                    android:inputType="date"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"  />
 
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
