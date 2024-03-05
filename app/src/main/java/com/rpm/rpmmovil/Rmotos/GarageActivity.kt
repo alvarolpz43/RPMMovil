@@ -18,10 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class GarageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var retrofit: Retrofit
 //    private lateinit var registerMotoService: RegisterMoto
     private var selectedImageUri: Uri? = null
-    private val apiService = retrofit.create(RegisterMoto::class.java)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +33,11 @@ class GarageActivity : AppCompatActivity() {
 
 
         // Configurar Retrofit y el servicio
-        retrofit = Retrofit.Builder()
+       val retrofit = Retrofit.Builder()
             .baseUrl("https://rpm-back-end.vercel.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+        val apiService = retrofit.create(RegisterMoto::class.java)
 
 
 
