@@ -1,9 +1,8 @@
-package com.rpm.rpmmovil.Rmotos.model
+package com.rpm.rpmmovil.Rmotos.model.Apis
 
-import retrofit2.Call
+import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.POST
 
 interface ApiServiceMotosAll {
     @GET("motos")

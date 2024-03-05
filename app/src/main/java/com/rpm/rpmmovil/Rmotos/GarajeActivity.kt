@@ -1,12 +1,12 @@
 package com.rpm.rpmmovil.Rmotos
 
-import RegisterMoto
+import com.rpm.rpmmovil.Rmotos.model.Apis.RegisterMoto
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.rpm.rpmmovil.Rmotos.model.DataItemMotos
-import com.rpm.rpmmovil.Rmotos.model.DataMotosResponse
+import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.Rmotos.model.Data.DataMotosResponse
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,7 +64,7 @@ class GarajeActivity : AppCompatActivity() {
                 val headers = HashMap<String, String>()
                 headers["Authorization"] = "Bearer $token"
 
-                // Llama a la función PostRegisterMoto de la interfaz RegisterMoto
+                // Llama a la función PostRegisterMoto de la interfaz com.rpm.rpmmovil.Rmotos.model.Apis.RegisterMoto
                 val call = registerMotoService.PostRegisterMoto(moto, headers)
 
                 call.enqueue(object : Callback<DataMotosResponse> {

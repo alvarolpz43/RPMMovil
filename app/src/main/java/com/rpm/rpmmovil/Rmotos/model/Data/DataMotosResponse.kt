@@ -1,4 +1,4 @@
-package com.rpm.rpmmovil.Rmotos.model
+package com.rpm.rpmmovil.Rmotos.model.Data
 
 import com.google.gson.annotations.SerializedName
 
