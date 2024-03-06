@@ -20,3 +20,7 @@ data class DataRutasItemRespose(
 )
 
 //data class RutaImageResponse(@SerializedName("url") val url: String)
+
+
+
+
