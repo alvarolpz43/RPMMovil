@@ -272,17 +272,23 @@
 
 package com.rpm.rpmmovil.Rmotos
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import com.rpm.rpmmovil.interfaces.ApiClient
@@ -299,6 +305,9 @@ class GarageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedImageByte: ByteArray? = null
+    private val PICK_IMAGE_REQUEST = 1
+    private lateinit var storage: FirebaseStorage
+    private var imageUri: Uri? = null
 
     val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) {
@@ -319,6 +328,7 @@ class GarageActivity : AppCompatActivity() {
         binding = ActivityGarajeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+        storage = Firebase.storage
 
         binding.garage.setOnClickListener {
             val intent = Intent(this, ShowGarageActivity::class.java)
@@ -337,6 +347,7 @@ class GarageActivity : AppCompatActivity() {
             val nombre = binding.motonombre.text.toString()
             val version = binding.versionmoto.text.toString()
             val consumo = binding.consumo.text.toString()
+            val imgmoto = String
 
             // Validar campos obligatorios
             if (marca.isEmpty() || cilindraje.isEmpty() || placa.isEmpty()) {
@@ -357,7 +368,11 @@ class GarageActivity : AppCompatActivity() {
 
                     // Crear un objeto MultipartBody.Part para la imagen
                     val imageFilePart = selectedImageByte?.let {
-                        MultipartBody.Part.createFormData("image", "image.jpg", it.toRequestBody("image/*".toMediaTypeOrNull()))
+                        MultipartBody.Part.createFormData(
+                            "image",
+                            "image.jpg",
+                            it.toRequestBody("image/*".toMediaTypeOrNull())
+                        )
                     }
 
                     registerNewMot(motoRegisterData, imageFilePart)
@@ -382,34 +397,79 @@ class GarageActivity : AppCompatActivity() {
                 // Verificar la nulidad de token e imageFile antes de hacer la solicitud
                 if (token != null && imageFile != null) {
                     // Agregar el archivo de imagen como parte del cuerpo de la solicitud
-                    val call = ApiClient.web.PostRegisterMotoWithImage(motoRegisterData, imageFile, token)
+                    val call =
+                        ApiClient.web.PostRegisterMotoWithImage(motoRegisterData, imageFile, token)
 
 
                     // Utilizar el método enqueue para manejar la respuesta asíncronamente
                     call.enqueue(object : Callback<DataItemMotos> {
-                        override fun onResponse(call: Call<DataItemMotos>, response: Response<DataItemMotos>) {
+                        override fun onResponse(
+                            call: Call<DataItemMotos>,
+                            response: Response<DataItemMotos>
+                        ) {
                             if (response.isSuccessful) {
                                 Log.d("TAG", "Registro exitoso: ${response.body()}")
-                                Toast.makeText(applicationContext, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Registro exitoso",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
-                                Log.e("TAG", "Error en el registro: ${response.code()} - ${response.message()}")
-                                Toast.makeText(applicationContext, "Error en el registro", Toast.LENGTH_SHORT).show()
+                                Log.e(
+                                    "TAG",
+                                    "Error en el registro: ${response.code()} - ${response.message()}"
+                                )
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Error en el registro",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
 
                         override fun onFailure(call: Call<DataItemMotos>, t: Throwable) {
                             Log.e("TAG", "Error en el registro: $t")
-                            Toast.makeText(applicationContext, "Error en el registro", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "Error en el registro",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     })
                 } else {
                     Log.e("TAG", "Token o imageFile es nulo")
-                    Toast.makeText(this@GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "Excepción: $e")
                 Toast.makeText(this@GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun seleccionarImagen(){
+        val intent = Intent(Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent,PICK_IMAGE_REQUEST)
+    }
+    private fun subirImagen(){
+        if (imageUri != null){
+            val storageRef = storage.reference
+            val imageRef = storageRef.child("imagenes/imagen_"+System.currentTimeMillis()+".jpg")
+            imageRef.putFile(imageUri!!)
+                .addOnSuccessListener {
+                 it.metadata?.reference?.downloadUrl
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this@GarageActivity,"Error al subir la imagen",Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==PICK_IMAGE_REQUEST && resultCode ==Activity.RESULT_OK && data != null && data.data != null){
+            imageUri = data.data
         }
     }
 }
