@@ -134,9 +134,15 @@ class Register : AppCompatActivity() {
                 val formattedDate = sdf.format(selectedCalendar.time)
                 binding.ETDate.setText(formattedDate)
             }, year, month, dayOfMonth)
+        datePickerDialog.datePicker.minDate = getMillisFromYearMonthDay(1400, 0, 1)
+        datePickerDialog.datePicker.maxDate = getMillisFromYearMonthDay(2006, 0, 1)
 
-        datePickerDialog.datePicker.maxDate = System.currentTimeMillis() - 1000
         datePickerDialog.show()
+    }
+    private fun getMillisFromYearMonthDay(year: Int, month: Int, day: Int): Long {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day)
+        return calendar.timeInMillis
     }
 
 }

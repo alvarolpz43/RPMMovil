@@ -36,10 +36,12 @@ class MenuFragment : Fragment() {
         val editor = sharedPreferences.edit()
         editor.clear()
         editor.apply()
-
         val intent = Intent(requireActivity(), Login::class.java)
         startActivity(intent)
         requireActivity().finish()
+      //  val userTokenAfterClear = sharedPreferences.getString("token", null)
+    //Toast.makeText(requireContext(), "Token después de limpiar: $userTokenAfterClear", Toast.LENGTH_SHORT).show()
+
     }
 
     private fun recuperarToken() {
@@ -47,8 +49,9 @@ class MenuFragment : Fragment() {
         val userToken = sharedPreferences.getString("token", null)
 
         if (userToken != null) {
-            Toast.makeText(requireContext(), "Token: $userToken", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),"Sesion Finalizada", Toast.LENGTH_SHORT).show()
             limpiarYRedirigirALogin()
+
         } else {
             Toast.makeText(requireContext(), "Token no encontrado", Toast.LENGTH_SHORT).show()
         }
