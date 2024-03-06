@@ -3,7 +3,6 @@ package com.rpm.rpmmovil.Rmotos.model.RecyclerV
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
-import com.rpm.rpmmovil.Rmotos.model.Data.DataMotosResponse
 import com.rpm.rpmmovil.databinding.ItemMotosBinding
 import com.squareup.picasso.Picasso
 

@@ -12,10 +12,10 @@ public interface RoutesApiService {
 
 
 
-    @GET("usermotos")
-    suspend fun getUserMotos(
+    @GET("userrutas")
+    suspend fun getAllUserroutes(
         @Header("Authorization") token: String
-    ): Response<DataMotosResponse>
+    ): Response<AllRutes>
 
 
 

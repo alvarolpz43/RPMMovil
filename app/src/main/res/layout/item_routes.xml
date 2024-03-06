@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <EditText
+                <TextView
                     android:id="@+id/nombreRuta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -31,14 +31,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
+                <TextView
                     android:id="@+id/pInicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/nombreRuta" />
-                <EditText
+                <TextView
                     android:id="@+id/pFinal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pInicio" />
 
-                <EditText
+                <TextView
                     android:id="@+id/km"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,14 +54,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pFinal" />
 
-                <EditText
+                <TextView
                     android:id="@+id/presupuesto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pFinal" />
-                <EditText
+                <TextView
                     android:id="@+id/fotoRuta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -69,21 +69,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/pFinal" />
 
-                <EditText
+                <TextView
                     android:id="@+id/descripcionRuta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/fotoRuta" />
-                <EditText
+                <TextView
                     android:id="@+id/calificacionRuta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/descripcionRuta" />
-                <EditText
+                <TextView
                     android:id="@+id/motoviajeroRuta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

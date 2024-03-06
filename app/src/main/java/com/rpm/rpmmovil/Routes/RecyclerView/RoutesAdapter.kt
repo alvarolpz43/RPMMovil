@@ -8,19 +8,18 @@ import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
 import com.rpm.rpmmovil.Rmotos.model.RecyclerV.motoViewHolder
 import com.rpm.rpmmovil.Routes.apiRoute.Route
 
-class RoutesAdapter(
-    var userRoutes: List<Route> = emptyList(),
+class RoutesAdapter(var userRoutes: List<Route> = emptyList(),
     private val onItemSelected: (String) -> Unit
 ) : RecyclerView.Adapter<RoutesView>() {
 
-    fun updatelist(List: List<Route>){
-        userRoutes = List ?: emptyList()
+    fun updatelist(list: List<Route>){
+        userRoutes = list ?: emptyList()
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoutesView {
         return  RoutesView(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_motos,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_routes,parent,false)
         )
     }
 
