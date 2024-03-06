@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName
 data class AllRutes( @SerializedName("rutas") val ruta:List<Route>)
 
 data class Route(
-    @SerializedName("NombreRuta") val NombreRuta: String,
-    @SerializedName("PuntoInicioRuta") val PuntoInicioRuta: String,
-    @SerializedName("PuntoFinalRuta") val PuntoFinalRuta: String,
-    @SerializedName("KmTotalesRuta") val KmTotalesRuta: String,
-    @SerializedName("PresupuestoGas") val PresupuestoGas: Number,
-    @SerializedName("FotoRuta") val FotoRuta: String,
-    @SerializedName("DescripcionRuta") val DescripcionRuta: String,
-    @SerializedName("CalificacionRuta") val CalificacionRuta: Number,
-    @SerializedName("motoviajero") val motoviajero: String,
+    @SerializedName("_id") val rutaid: String,
+    @SerializedName("NombreRuta") val nomruta: String,
+    @SerializedName("PuntoInicioRuta") val puntoiniruta: String,
+    @SerializedName("PuntoFinalRuta") val puntofinalruta: String,
+    @SerializedName("KmTotalesRuta") val kmstotruta: Number,
+    @SerializedName("PresupuestoGas") val pptogas: Number,
+    @SerializedName("FotoRuta") val images: String,
+    @SerializedName("DescripcionRuta") val descripruta: String,
+    @SerializedName("CalificacionRuta") val califruta: Number
 
 
 
