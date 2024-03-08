@@ -9,6 +9,7 @@ android {
     namespace = "com.rpm.rpmmovil"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.rpm.rpmmovil"
         minSdk = 24
@@ -49,6 +50,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-common-ktx:20.4.2")
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     //Dependences of navigation
     val navVersion = "2.7.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
@@ -85,7 +87,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp-urlconnection:4.9.1")
     implementation ("com.squareup.okio:okio:2.10.0")
 
-
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
