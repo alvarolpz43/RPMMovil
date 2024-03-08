@@ -13,4 +13,3 @@ data class DataItemMotos(
    @SerializedName("CilindrajeMoto") val cilimoto: String,
    @SerializedName("FotoMoto") val imagemoto: String,
 )
-

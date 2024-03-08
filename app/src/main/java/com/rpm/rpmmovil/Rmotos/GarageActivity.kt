@@ -1,4 +1,4 @@
-//package com.rpm.rpmmovil.Rmotos
+package com.rpm.rpmmovil.Rmotos//package com.rpm.rpmmovil.Rmotos
 //
 //import android.content.Intent
 //import android.content.SharedPreferences
@@ -17,7 +17,7 @@
 //import retrofit2.Response
 //import java.io.ByteArrayOutputStream
 //
-//class GarageActivity : AppCompatActivity() {
+//class com.rpm.rpmmovil.Rmotos.GarageActivity : AppCompatActivity() {
 //    private lateinit var binding: ActivityGarajeBinding
 //    private lateinit var sharedPreferences: SharedPreferences
 //    private var selectedImageByte: ByteArray? = null
@@ -135,7 +135,7 @@
 ////                Log.e("TAG", "${result}", )
 ////            }catch (e:Exception){
 ////                Log.e("TAG", "${e}", )
-////                Toast.makeText(this@GarageActivity, "Ocurrio un error", Toast.LENGTH_SHORT).show()
+////                Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "Ocurrio un error", Toast.LENGTH_SHORT).show()
 ////            }
 ////        }
 ////    }
@@ -163,7 +163,7 @@
 //import retrofit2.Response
 //import java.io.ByteArrayOutputStream
 //
-//class GarageActivity : AppCompatActivity() {
+//class com.rpm.rpmmovil.Rmotos.GarageActivity : AppCompatActivity() {
 //    private lateinit var binding: ActivityGarajeBinding
 //    private lateinit var sharedPreferences: SharedPreferences
 //    private var selectedImageByte: ByteArray? = null
@@ -301,7 +301,7 @@
 //import retrofit2.Response
 //import java.io.ByteArrayOutputStream
 //
-//class GarageActivity : AppCompatActivity() {
+//class com.rpm.rpmmovil.Rmotos.GarageActivity : AppCompatActivity() {
 //    private lateinit var binding: ActivityGarajeBinding
 //    private lateinit var sharedPreferences: SharedPreferences
 //    private var selectedImageByte: ByteArray? = null
@@ -438,12 +438,12 @@
 //                    })
 //                } else {
 //                    Log.e("TAG", "Token o imageFile es nulo")
-//                    Toast.makeText(this@GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT)
+//                    Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT)
 //                        .show()
 //                }
 //            } catch (e: Exception) {
 //                Log.e("TAG", "Excepción: $e")
-//                Toast.makeText(this@GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "Ocurrió un error", Toast.LENGTH_SHORT).show()
 //            }
 //        }
 //    }
@@ -461,7 +461,7 @@
 //                 it.metadata?.reference?.downloadUrl
 //                }
 //                .addOnFailureListener {
-//                    Toast.makeText(this@GarageActivity,"Error al subir la imagen",Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity,"Error al subir la imagen",Toast.LENGTH_SHORT).show()
 //                }
 //        }
 //    }
@@ -500,7 +500,7 @@
 //import okhttp3.RequestBody.Companion.toRequestBody
 //import java.io.ByteArrayOutputStream
 //
-//class GarageActivity : AppCompatActivity() {
+//class com.rpm.rpmmovil.Rmotos.GarageActivity : AppCompatActivity() {
 //    private lateinit var binding: ActivityGarajeBinding
 //    private lateinit var sharedPreferences: SharedPreferences
 //    private var selectedImageByte: ByteArray? = null
@@ -596,10 +596,10 @@
 //                    it.metadata?.reference?.downloadUrl
 //                }
 //                .addOnFailureListener {
-//                    Toast.makeText(this@GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
 //                }
 //        } else {
-//            Toast.makeText(this@GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
 //        }
 //    }
 //
@@ -640,7 +640,7 @@
 //import okhttp3.RequestBody.Companion.toRequestBody
 //import java.io.ByteArrayOutputStream
 //
-//class GarageActivity : AppCompatActivity() {
+//class com.rpm.rpmmovil.Rmotos.GarageActivity : AppCompatActivity() {
 //    private lateinit var binding: ActivityGarajeBinding
 //    private lateinit var sharedPreferences: SharedPreferences
 //    private var selectedImageByte: ByteArray? = null
@@ -736,10 +736,10 @@
 //                    it.metadata?.reference?.downloadUrl
 //                }
 //                .addOnFailureListener {
-//                    Toast.makeText(this@GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
 //                }
 //        } else {
-//            Toast.makeText(this@GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@com.rpm.rpmmovil.Rmotos.GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
 //        }
 //    }
 //
@@ -751,12 +751,6 @@
 //        }
 //    }
 //}
-
-
-
-package com.rpm.rpmmovil.Rmotos
-
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -765,29 +759,32 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.FirebaseApp
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.storage
+import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 
 class GarageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
     private var selectedImageByte: ByteArray? = null
-    private val PICK_IMAGE_REQUEST = 1
     private lateinit var storage: FirebaseStorage
     private var imageUri: Uri? = null
+    private lateinit var token: String
 
-    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) {
             imageUri = uri
             val bitmapImage = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
@@ -795,7 +792,6 @@ class GarageActivity : AppCompatActivity() {
             selectedImageByte = result
             binding.imageView.setImageBitmap(bitmapImage)
         } else {
-            // No se seleccionó ninguna imagen
             Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
         }
     }
@@ -803,12 +799,13 @@ class GarageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializar Firebase
-        Firebase.initializeApp(this)
+        FirebaseApp.initializeApp(this)
 
         binding = ActivityGarajeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+
         storage = FirebaseStorage.getInstance()
 
         binding.garage.setOnClickListener {
@@ -817,7 +814,7 @@ class GarageActivity : AppCompatActivity() {
         }
 
         binding.imageButton.setOnClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMedia.launch("image/*")
         }
 
         binding.register.setOnClickListener {
@@ -829,48 +826,34 @@ class GarageActivity : AppCompatActivity() {
             val version = binding.versionmoto.text.toString()
             val consumo = binding.consumo.text.toString()
 
-            // Validar campos obligatorios
-            if (marca.isEmpty() || cilindraje.isEmpty() || placa.isEmpty()) {
-                Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
-            } else {
-                // Verificar si la imagen ha sido seleccionada antes de continuar
-                if (selectedImageByte != null) {
-                    // Crear un objeto DataItemMotos con la información de la motocicleta
-                    val motoRegisterData = DataItemMotos(
-                        motonom = nombre,
-                        motomarca = marca,
-                        motomodel = modelo,
-                        motovers = version.toIntOrNull() ?: 0,
-                        consumokmxg = consumo.toIntOrNull() ?: 0,
-                        cilimoto = cilindraje,
-                        imagemoto = imageUri.toString()
+            if (selectedImageByte != null) {
+                val motoRegisterData = DataItemMotos(
+                    motonom = nombre,
+                    motomarca = marca,
+                    motomodel = modelo,
+                    motovers = version.toIntOrNull() ?: 0,
+                    consumokmxg = consumo.toIntOrNull() ?: 0,
+                    cilimoto = cilindraje,
+                    imagemoto = imageUri.toString()
+                )
+
+                val imageFilePart = selectedImageByte?.let {
+                    MultipartBody.Part.createFormData(
+                        "image",
+                        "image.jpg",
+                        it.toRequestBody("image/*".toMediaTypeOrNull())
                     )
-
-                    // Crear un objeto MultipartBody.Part para la imagen
-                    val imageFilePart = selectedImageByte?.let {
-                        MultipartBody.Part.createFormData(
-                            "image",
-                            "image.jpg",
-                            it.toRequestBody("image/*".toMediaTypeOrNull())
-                        )
-                    }
-
-                    // Obtener el usuario actualmente autenticado
-                    val user = FirebaseAuth.getInstance().currentUser
-
-                    if (user != null) {
-                        // El usuario está autenticado, puedes proceder con la lógica que requiere autenticación.
-                        // Por ejemplo, obtener el token con user.getIdToken() y utilizarlo en tus solicitudes a Firebase Storage.
-
-                        subirImagen(imageFilePart)
-                    } else {
-                        // El usuario no está autenticado, realiza la lógica necesaria (por ejemplo, iniciar sesión).
-                        Toast.makeText(this@GarageActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
-                    }
-
-                } else {
-                    Toast.makeText(this, "Seleccione una imagen", Toast.LENGTH_SHORT).show()
                 }
+
+                token = sharedPreferences.getString("token", "") ?: ""
+
+                if (verificarToken()) {
+                    subirImagen(imageFilePart)
+                } else {
+                    Toast.makeText(this@GarageActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Seleccione una imagen", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -887,14 +870,12 @@ class GarageActivity : AppCompatActivity() {
             val imageRef = storageRef.child("imagenes/imagen_${System.currentTimeMillis()}.jpg")
             imageRef.putFile(imageUri!!)
                 .addOnSuccessListener { uploadTask ->
-
                     uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
-
                         val downloadUrl = uri.toString()
-                        Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
-
+                        Log.d("com.rpm.rpmmovil.Rmotos.GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
                         Toast.makeText(this@GarageActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
 
+                        guardarDatosEnBaseDeDatos(downloadUrl)
                     }
                 }
                 .addOnFailureListener {
@@ -905,14 +886,61 @@ class GarageActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            imageUri = data.data
+    private fun guardarDatosEnBaseDeDatos(imageUrl: String) {
+        val marca = binding.marcamoto.text.toString()
+        val modelo = binding.modelomoto.text.toString()
+        val cilindraje = binding.cilindrajemoto.text.toString()
+        val placa = binding.placamoto.text.toString()
+        val nombre = binding.motonombre.text.toString()
+        val version = binding.versionmoto.text.toString()
+        val consumo = binding.consumo.text.toString()
+
+        val motoRegisterData = DataItemMotos(
+            motonom = nombre,
+            motomarca = marca,
+            motomodel = modelo,
+            motovers = version.toIntOrNull() ?: 0,
+            consumokmxg = consumo.toIntOrNull() ?: 0,
+            cilimoto = cilindraje,
+            imagemoto = imageUrl
+        )
+
+        token = sharedPreferences.getString("token", "") ?: ""
+
+        if (verificarToken()) {
+            val retrofit = Retrofit.Builder()
+                .baseUrl("tu_url_base")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            val service = retrofit.create(ApiServiceMotos::class.java)
+
+            GlobalScope.launch(Dispatchers.IO) {
+                try {
+                    val response = service.postDataMoto(token, motoRegisterData)
+                    if (response.isSuccessful) {
+                        runOnUiThread {
+                            Toast.makeText(this@GarageActivity, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this@GarageActivity, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        Toast.makeText(this@GarageActivity, "Error al guardar los datos: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this@GarageActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
         }
     }
-}
 
-private fun Firebase.initializeApp(garageActivity: GarageActivity) {
-
+    private fun verificarToken(): Boolean {
+        val token: String? = sharedPreferences.getString("token", null)
+        Log.d("TOKEN", "$token")
+        return !token.isNullOrBlank()
+    }
 }
