@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasItemRespose
+import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasRespose
 import com.rpm.rpmmovil.R
 import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +42,7 @@ import java.io.IOException
 @Suppress("DEPRECATION")
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
+
     private lateinit var binding: ActivityMapBinding
     private lateinit var map: GoogleMap
 
@@ -50,10 +53,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var startLatLng: LatLng? = null
     private var endLatLng: LatLng? = null
 
-
     //vaarivle para abuscador
     private lateinit var pInicioEditText: EditText
     private lateinit var pFinalEditText: EditText
+
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
@@ -83,6 +86,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         const val REQUEST_CODE_LOCATION = 0
+        const val EXTRA_ID = "extra_id"
     }
 
 
@@ -90,6 +94,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
+        getCordinatesRoute(id)
+
 
 
         val mapFragment = supportFragmentManager
@@ -162,7 +169,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-
         //desplegable
         val bottomSheet = findViewById<FrameLayout>(R.id.desp)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
@@ -200,6 +206,98 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     }
+
+    private fun getCordinatesRoute(id:String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val rutaCordinate =
+                getRetrofit2().create(ApiService::class.java).getCordinateRoutes(id)
+            if (rutaCordinate.body() != null){
+                runOnUiThread { createUIRoute(rutaCordinate.body()!!) }
+            }
+        }
+
+    }
+
+    private fun createUIRoute(rutas: DataRutasItemRespose) {
+
+ val location3 = "yo cuando"
+        val location1 = rutas.puntoiniruta ?: ""
+        val location2 = rutas.puntofinalruta ?:""
+        println("location1:$location1")
+        println("location2:$location2")
+        println("location3:$location3")
+
+        if (location1.isNotBlank() && location2.isNotBlank()) {
+            val geocoder = Geocoder(this@MapActivity)
+
+            try {
+                val addressList1 = geocoder.getFromLocationName(location1, 1)
+                val addressList2 = geocoder.getFromLocationName(location2, 1)
+
+                if (!addressList1.isNullOrEmpty() && !addressList2.isNullOrEmpty()) {
+                    val startAddress: Address = addressList1[0]
+                    val endAddress: Address = addressList2[0]
+                    val startLatLng = LatLng(startAddress.latitude, startAddress.longitude)
+                    val endLatLng = LatLng(endAddress.latitude, endAddress.longitude)
+
+
+                    // Trazar la ruta entre los dos puntos
+                    createRoute(startLatLng, endLatLng)
+                    Toast.makeText(this, "Calculando Ruta", Toast.LENGTH_SHORT).show()
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+                    val distanceKm = distanceInKm(
+                        startLatLng.latitude,
+                        startLatLng.longitude,
+                        endLatLng.latitude,
+                        endLatLng.longitude
+                    )
+                    val distanceKmRounded = "%.2f".format(distanceKm)
+                    binding.km.text = "${distanceKmRounded} Km"
+
+
+                } else {
+                    Toast.makeText(
+                        this,
+                        "No se encontraron direcciones para los puntos ingresados",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: IOException) {
+                // Manejo de errores más detallado aquí (por ejemplo, mostrar un mensaje de error)
+                e.printStackTrace()
+            }
+        } else {
+            Toast.makeText(
+                this,
+                "Por favor, ingrese los puntos de inicio y final",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+
+
+            val call = getRetrofit().create(ApiService::class.java)
+                .getRoute(
+                    "5b3ce3597851110001cf6248c50b947f1222418498fae123bb1a6114",
+                    "${startLatLng?.longitude},${startLatLng?.latitude}",
+                    "${endLatLng?.longitude},${endLatLng?.latitude}"
+                )
+
+            if (call.isSuccessful) {
+                drawRoute(call.body(), startLatLng!!, endLatLng!!)
+            } else {
+                Log.i("aris", "Error al obtener la ruta")
+            }
+        }
+
+
+    }
+
+
+
+
+
     //fura de oncreate
 
 
@@ -284,6 +382,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://api.openrouteservice.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    }
+    private fun getRetrofit2(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://rpm-back-end.vercel.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

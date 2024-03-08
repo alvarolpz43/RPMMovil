@@ -7,7 +7,9 @@ import com.squareup.picasso.Picasso
 
 class rutaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemRutasBinding.bind(view)
-    fun bind(datarutas: DataRutasItemRespose) {
+
+
+    fun bind(datarutas: DataRutasItemRespose,onItemSelected:(String)->Unit) {
         binding.nomruta.text = datarutas.nomruta
         binding.puntoinicioruta.text = datarutas.puntoiniruta
         binding.puntofinalruta.text = datarutas.puntofinalruta
@@ -16,6 +18,11 @@ class rutaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.descripruta.text = datarutas.descripruta
         binding.calificacionruta.text = datarutas.califruta?.toString() ?: "N/A"
         Picasso.get().load(datarutas.images).into(binding.ivRutas)
+
+
+
+        binding.irmapa.setOnClickListener { onItemSelected(datarutas.rutaid) }
+        }
     }
 
 
@@ -33,4 +40,4 @@ class rutaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 //    }
 
 
-}
+
