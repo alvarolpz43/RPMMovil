@@ -50,7 +50,7 @@ interface ApiServices {
 
     @Multipart
     @POST("motos")
-    fun PostRegisterMotoWithImage(
+    fun postRegisterMotoWithImage(
         @Part("moto") moto: DataItemMotos,
         @Part image: MultipartBody.Part,
         @Header("Authorization") token: String

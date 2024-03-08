@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "729931829862",
+    "project_id": "rpm-img",
+    "storage_bucket": "rpm-img.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729931829862:android:5df07f107ba1c4866313a7",
+        "android_client_info": {
+          "package_name": "com.rpm.rpmmovil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6ZqxIvcFXSNuCE6LRYjL8gp4aWEj6l7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
