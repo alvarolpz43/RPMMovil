@@ -486,6 +486,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -592,8 +593,16 @@ class GarageActivity : AppCompatActivity() {
             val storageRef = storage.reference
             val imageRef = storageRef.child("imagenes/imagen_${System.currentTimeMillis()}.jpg")
             imageRef.putFile(imageUri!!)
-                .addOnSuccessListener {
-                    it.metadata?.reference?.downloadUrl
+                .addOnSuccessListener { uploadTask ->
+
+                    uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
+
+                        val downloadUrl = uri.toString()
+                        Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
+
+                        Toast.makeText(this@GarageActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
+
+                    }
                 }
                 .addOnFailureListener {
                     Toast.makeText(this@GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
