@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.rpm.rpmmovil.Login.model.ApiServiceRegister
 import com.rpm.rpmmovil.Login.model.DtaRegister
-import com.rpm.rpmmovil.MainActivity
+import com.rpm.rpmmovil.R
 import com.rpm.rpmmovil.databinding.ActivityRegisterBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -79,10 +79,11 @@ class Register : AppCompatActivity() {
                 Toast.makeText(applicationContext, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (identificationNumber.length != 10 || !identificationNumber.all { it.isDigit() }) {
-                Toast.makeText(applicationContext, "El número de identificación debe tener 10 dígitos y ser numérico", Toast.LENGTH_SHORT).show()
+            if (identificationNumber.length < 5 || identificationNumber.length > 10 || !identificationNumber.all { it.isDigit() }) {
+                Toast.makeText(applicationContext, "El número de identificación debe tener entre 5 y 10 caracteres", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
 
             if (phoneNumber.length != 10 || !phoneNumber.all { it.isDigit() }) {
                 Toast.makeText(applicationContext, "El número de teléfono debe tener 10 dígitos y ser numérico", Toast.LENGTH_SHORT).show()
@@ -104,7 +105,7 @@ class Register : AppCompatActivity() {
             call.enqueue(object : Callback<DtaRegister> {
                 override fun onResponse(call: Call<DtaRegister>, response: Response<DtaRegister>) {
                     if (response.isSuccessful) {
-                        val intent = Intent(this@Register, MainActivity::class.java)
+                        val intent = Intent(this@Register,Login::class.java)
                         Toast.makeText(applicationContext, "Registro exitoso", Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                     } else {
@@ -125,7 +126,7 @@ class Register : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
-        datePickerDialog = DatePickerDialog(this,
+        datePickerDialog = DatePickerDialog(this, R.style.MyDatePickerDialogTheme,
             { _, selectedYear, selectedMonth, day ->
                 val selectedCalendar = Calendar.getInstance()
                 selectedCalendar.set(selectedYear, selectedMonth, day)
@@ -137,4 +138,5 @@ class Register : AppCompatActivity() {
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis() - 1000
         datePickerDialog.show()
     }
+
 }

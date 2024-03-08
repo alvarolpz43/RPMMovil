@@ -15,5 +15,7 @@ class Constains {
 
         const val REGISTERMOTOS = "CREATE TABLE rmotos (marca text, modelo int, cilindraje int, placa text)"
         const val GETRMOTOS = "Select * from rmotos"
+
+        const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
     }
 }

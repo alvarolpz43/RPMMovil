@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.rpm.rpmmovil.databinding.ActivityMainBinding
+import com.rpm.rpmmovil.interfaces.ApiClient
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun home() {
-        Toast.makeText(this, "Welcome to RPM", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Bienvenido Motero", Toast.LENGTH_SHORT).show()
 
     }
 }

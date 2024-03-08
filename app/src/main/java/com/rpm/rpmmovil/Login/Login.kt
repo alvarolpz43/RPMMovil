@@ -67,7 +67,7 @@ class Login : AppCompatActivity() {
 
 
                         if (isValidToken(userToken)) {
-                            // Guardar el token en SharedPreferences
+
                             saveTokenToSharedPreferences(userToken)
 
                             Toast.makeText(applicationContext, "Token: $userToken", Toast.LENGTH_LONG)

@@ -1,5 +1,6 @@
-package com.rpm.rpmmovil.Routes
+package com.rpm.rpmmovil.Routes.ModelRoutes.ApisR
 
+import com.rpm.rpmmovil.Routes.RouteResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
