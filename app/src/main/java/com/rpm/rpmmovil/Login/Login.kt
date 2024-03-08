@@ -53,6 +53,7 @@ class Login : AppCompatActivity() {
             val password = binding.edtPassword.text.toString()
             val token = userToken
 
+
             val user = DtaUser(email, password, token)
 
             val call = apiService.getLogin(user)
@@ -60,16 +61,18 @@ class Login : AppCompatActivity() {
                 override fun onResponse(call: Call<DtaUser>, response: Response<DtaUser>) {
                     if (response.isSuccessful) {
                         userToken = response.body()?.Token
+                        val header = response.headers()
+                        Log.i("headers", " estos son los headers  $header");
+
+
 
                         if (isValidToken(userToken)) {
                             // Guardar el token en SharedPreferences
                             saveTokenToSharedPreferences(userToken)
 
-                            Toast.makeText(
-                                applicationContext,
-                                "Token: $userToken",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(applicationContext, "Token: $userToken", Toast.LENGTH_LONG)
+                                .show();
+
 
                             val intent = Intent(this@Login, MainActivity::class.java)
                             startActivity(intent)
