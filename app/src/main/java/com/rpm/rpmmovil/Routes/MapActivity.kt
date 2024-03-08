@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.R
 import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
@@ -138,6 +139,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         )
                         val distanceKmRounded = "%.2f".format(distanceKm)
                         binding.km.text = "${distanceKmRounded} Km"
+                        Constains.DISTANCIA_RUTA = distanceKmRounded.toDouble()
 
 
                     } else {

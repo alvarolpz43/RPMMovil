@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--Permisos uso de CÁMARA-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!--Permisos uso de INTERNET-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -74,5 +81,16 @@
 
         </activity>
 
+        <!--Proveedor de archivos para guardar imágenes en FIREBASE-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="io.devexpert.android_firebase.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        
     </application>
 </manifest>

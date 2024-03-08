@@ -10,14 +10,9 @@ import retrofit2.http.POST
 
 public interface RoutesApiService {
 
-
-
     @GET("userrutas")
     suspend fun getAllUserroutes(
         @Header("Authorization") token: String
     ): Response<AllRutes>
 
-
-
-    @POST("routes") fun postRoutes(): Call<Route>
 }

@@ -2,6 +2,7 @@ package com.rpm.rpmmovil.interfaces
 
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,18 +13,18 @@ import retrofit2.http.POST
 
 interface ApiServices {
 
-
-
-
-
-
-
     @POST("motos")
     fun PostRegisterMoto(
         @Body moto: DataItemMotos,
         @Header("Authorization") token: String
     ): Call<DataItemMotos>
 
+
+    @POST("rutas")
+    fun PostSaveRoutes(
+        @Body postRoutes: PostRoutes,
+        @Header("Authorization") token: String
+    ): Call<PostRoutes>
 
 }
 

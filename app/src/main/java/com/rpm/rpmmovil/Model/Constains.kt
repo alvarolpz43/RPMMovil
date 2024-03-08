@@ -17,5 +17,7 @@ class Constains {
         const val GETRMOTOS = "Select * from rmotos"
 
         const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
+
+        var DISTANCIA_RUTA = 0.0
     }
 }
