@@ -14,7 +14,7 @@ interface ApiServiceMotos {
         @Header("Authorization") token: String
     ): Response<DataMotosResponse>
 
-    @POST("usermotos")
+    @POST("motos")
     suspend fun postDataMoto(
         @Header("Authorization") token: String,
         @Body data: DataItemMotos

@@ -37,6 +37,7 @@ import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
 import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Header
@@ -50,11 +51,11 @@ interface ApiServices {
 
     @Multipart
     @POST("motos")
-    fun postRegisterMotoWithImage(
+    suspend fun postRegisterMotoWithImage(
         @Part("moto") moto: DataItemMotos,
         @Part image: MultipartBody.Part,
         @Header("Authorization") token: String
-    ): Call<DataItemMotos>
+    ): Response<Any>
 
     // Otras funciones y anotaciones...
 

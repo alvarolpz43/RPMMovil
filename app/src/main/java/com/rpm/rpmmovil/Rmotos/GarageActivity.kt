@@ -751,6 +751,9 @@ package com.rpm.rpmmovil.Rmotos//package com.rpm.rpmmovil.Rmotos
 //        }
 //    }
 //}
+
+
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -762,6 +765,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
@@ -772,6 +776,7 @@ import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
@@ -779,10 +784,10 @@ import java.io.ByteArrayOutputStream
 class GarageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private var selectedImageByte: ByteArray? = null
     private lateinit var storage: FirebaseStorage
-    private var imageUri: Uri? = null
     private lateinit var token: String
+    private var imageUri: Uri? = null
+    private var selectedImageByte: ByteArray? = null
 
     private val pickMedia = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) {
@@ -805,8 +810,19 @@ class GarageActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-
         storage = FirebaseStorage.getInstance()
+
+        FirebaseAuth.getInstance().signInAnonymously()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // El inicio de sesión anónimo fue exitoso
+                    val user = task.result?.user
+                    // Puedes usar el usuario actual para acceder a los datos protegidos por reglas de seguridad
+                } else {
+                    // Maneja el caso en el que el inicio de sesión anónimo falla
+                    Log.e("GarageActivity", "Error al iniciar sesión anónimamente", task.exception)
+                }
+            }
 
         binding.garage.setOnClickListener {
             val intent = Intent(this, ShowGarageActivity::class.java)
@@ -821,7 +837,6 @@ class GarageActivity : AppCompatActivity() {
             val marca = binding.marcamoto.text.toString()
             val modelo = binding.modelomoto.text.toString()
             val cilindraje = binding.cilindrajemoto.text.toString()
-            val placa = binding.placamoto.text.toString()
             val nombre = binding.motonombre.text.toString()
             val version = binding.versionmoto.text.toString()
             val consumo = binding.consumo.text.toString()
@@ -872,7 +887,7 @@ class GarageActivity : AppCompatActivity() {
                 .addOnSuccessListener { uploadTask ->
                     uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
                         val downloadUrl = uri.toString()
-                        Log.d("com.rpm.rpmmovil.Rmotos.GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
+                        Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
                         Toast.makeText(this@GarageActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
 
                         guardarDatosEnBaseDeDatos(downloadUrl)
@@ -890,7 +905,6 @@ class GarageActivity : AppCompatActivity() {
         val marca = binding.marcamoto.text.toString()
         val modelo = binding.modelomoto.text.toString()
         val cilindraje = binding.cilindrajemoto.text.toString()
-        val placa = binding.placamoto.text.toString()
         val nombre = binding.motonombre.text.toString()
         val version = binding.versionmoto.text.toString()
         val consumo = binding.consumo.text.toString()
@@ -909,7 +923,7 @@ class GarageActivity : AppCompatActivity() {
 
         if (verificarToken()) {
             val retrofit = Retrofit.Builder()
-                .baseUrl("tu_url_base")
+                .baseUrl("https://rpm-back-end.vercel.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
@@ -923,11 +937,14 @@ class GarageActivity : AppCompatActivity() {
                             Toast.makeText(this@GarageActivity, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
                         }
                     } else {
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("GarageActivity", "Error en la respuesta: $errorBody")
                         runOnUiThread {
                             Toast.makeText(this@GarageActivity, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } catch (e: Exception) {
+                    Log.e("GarageActivity", "Error al guardar los datos: ${e.message}", e)
                     runOnUiThread {
                         Toast.makeText(this@GarageActivity, "Error al guardar los datos: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
