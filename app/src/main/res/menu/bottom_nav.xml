@@ -7,12 +7,15 @@
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/notificationFragment"
-        android:title="@string/Notification"
-        android:icon="@drawable/ic_notification"/>
+
+        android:title="@string/Rpm"
+        android:tint="@color/red"
+        android:icon="@drawable/logosmall"/>
     <item
         android:id="@+id/menuFragment"
         android:title="@string/Menu"
         android:icon="@drawable/ic_menu"/>
+
+
 
 </menu>
