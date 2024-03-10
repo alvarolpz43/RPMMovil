@@ -193,6 +193,9 @@ class GarageActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         runOnUiThread {
                             Toast.makeText(this@GarageActivity, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@GarageActivity, ShowGarageActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         }
                     } else {
                         val errorBody = response.errorBody()?.string()
