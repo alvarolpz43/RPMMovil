@@ -1,7 +1,6 @@
 package com.rpm.rpmmovil.Login
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -69,9 +68,6 @@ class Login : AppCompatActivity() {
                         if (isValidToken(userToken)) {
 
                             saveTokenToSharedPreferences(userToken)
-
-                            Toast.makeText(applicationContext, "Token: $userToken", Toast.LENGTH_LONG)
-                                .show();
 
 
                             val intent = Intent(this@Login, MainActivity::class.java)
