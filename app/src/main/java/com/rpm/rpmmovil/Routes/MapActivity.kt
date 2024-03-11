@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import kotlin.math.log
 
 @Suppress("DEPRECATION")
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -95,6 +96,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
+        println(id)
         getCordinatesRoute(id)
 
 
@@ -218,13 +220,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun createUIRoute(rutas: DataRutasItemRespose) {
+    private fun createUIRoute(ruta: DataRutasRespose) {
 
 
-       startLatLng = rutas.puntoiniruta
-        endLatLng = rutas.puntofinalruta
-
-        createRoute("2.483800320923335, -76.5621739444354",endLatLng)
+       println(ruta)
+//        createRoute("2.483800320923335, -76.5621739444354",endLatLng)
 
     }
 

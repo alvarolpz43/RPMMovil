@@ -16,5 +16,5 @@ interface ApiService {
     ): Response<RouteResponse>
 
     @GET("rutas/{id}")
-    suspend fun getCordinateRoutes(@Path("id") rutaid:String):Response<DataRutasItemRespose>
+    suspend fun getCordinateRoutes(@Path("id") rutaid:String):Response<DataRutasRespose>
 }
