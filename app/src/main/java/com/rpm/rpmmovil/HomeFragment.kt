@@ -8,6 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+
+
+
+import com.rpm.rpmmovil.ExplorarRutas.ExploraRutasActivity
+
 import com.rpm.rpmmovil.Routes.ListarRutasActivity
 import com.rpm.rpmmovil.Routes.MapActivity
 import com.rpm.rpmmovil.databinding.FragmentHomeBinding
@@ -29,6 +34,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         val btnTrazarRuta = binding.btnTrazarRuta
         btnTrazarRuta.setOnClickListener {
             val intent = Intent(requireContext(), MapActivity::class.java)
@@ -44,7 +51,8 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         binding.btnExplorar.setOnClickListener {
-            Toast.makeText(requireContext(), "Proximamente!!", Toast.LENGTH_SHORT).show()
+           val intent = Intent(requireContext(),ExploraRutasActivity::class.java)
+            startActivity(intent)
         }
     }
 

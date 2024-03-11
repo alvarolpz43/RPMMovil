@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="font_black">#191A1F</color>
+    <color name="font_black2">#262A35</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#FFC800</color>
     <color name="red">#FF0000</color>
-
-
     <color name="WP_Gray">#EDF1F1</color>
+    <color name="Gray">#7E7D7D</color>
     <color name="WP_trasparent">#00EDF1F1</color>
     <color name="ColorPrincipalAPP">#FFC300</color>
-
-
-
     <color name="base">#292929</color>
     <color name="secundary">#1486cc</color>
     <color name="card_font">#1c1c1c</color>

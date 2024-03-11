@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/font_black"
     tools:context=".HomeFragment">
 
 
@@ -12,15 +12,12 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_height="match_parent"
+            android:layout_margin="0dp">
 
             <LinearLayout
                 android:id="@+id/header"
@@ -193,7 +190,7 @@
                         android:layout_width="0dp"
                         android:layout_height="125dp"
                         android:layout_marginTop="16dp"
-                        android:backgroundTint="@color/card_font"
+                        android:backgroundTint="@color/font_black2"
                         app:cardCornerRadius="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/btnGaraje"

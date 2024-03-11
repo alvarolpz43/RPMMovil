@@ -1,7 +1,6 @@
 package com.rpm.rpmmovil.Login
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -53,6 +52,7 @@ class Login : AppCompatActivity() {
             val password = binding.edtPassword.text.toString()
             val token = userToken
 
+
             val user = DtaUser(email, password, token)
 
             val call = apiService.getLogin(user)
@@ -60,16 +60,15 @@ class Login : AppCompatActivity() {
                 override fun onResponse(call: Call<DtaUser>, response: Response<DtaUser>) {
                     if (response.isSuccessful) {
                         userToken = response.body()?.Token
+                        val header = response.headers()
+                        Log.i("headers", " estos son los headers  $header");
+
+
 
                         if (isValidToken(userToken)) {
-                            // Guardar el token en SharedPreferences
+
                             saveTokenToSharedPreferences(userToken)
 
-                            Toast.makeText(
-                                applicationContext,
-                                "Token: $userToken",
-                                Toast.LENGTH_SHORT
-                            ).show()
 
                             val intent = Intent(this@Login, MainActivity::class.java)
                             startActivity(intent)
@@ -106,6 +105,7 @@ class Login : AppCompatActivity() {
         return token != null && token.isNotEmpty()
     }
 
+    //y ese code???
     private fun saveTokenToSharedPreferences(token: String?) {
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
