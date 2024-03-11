@@ -78,6 +78,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
+                    android:text="Id"
+                    android:textColor="@color/white" />
+
+                <EditText
+                    android:id="@+id/idUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    tools:hint="id"
+                    android:enabled="false"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/Gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
                     android:text="Nombres y Apellidos"
                     android:textColor="@color/white" />
 

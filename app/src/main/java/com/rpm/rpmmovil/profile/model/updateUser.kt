@@ -1,6 +1,7 @@
 package com.rpm.rpmmovil.profile.model
 
 data class updateUser(
+
     val Nombres_Mv: String,
     val Email_Mv: String,
     val NumeroIdent_Mv: String,

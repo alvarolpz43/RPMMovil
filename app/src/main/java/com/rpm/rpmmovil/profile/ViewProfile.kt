@@ -1,6 +1,7 @@
 package com.rpm.rpmmovil.profile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +9,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.rpm.rpmmovil.ExplorarRutas.ExploraRutasActivity
+import com.rpm.rpmmovil.MainActivity
+import com.rpm.rpmmovil.MenuFragment
 import com.rpm.rpmmovil.databinding.ActivityViewProfileBinding
 import com.rpm.rpmmovil.interfaces.ApiClient
 import com.rpm.rpmmovil.interfaces.ApiServices
 import com.rpm.rpmmovil.profile.model.dataProfileUser
+import com.rpm.rpmmovil.profile.model.updateUser
 import com.rpm.rpmmovil.utils.AppRPM
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +35,8 @@ class ViewProfile : AppCompatActivity() {
     companion object {
         const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
     }
+
+    private var idUser = null
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +63,8 @@ class ViewProfile : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     myResponse?.let {
+
+                        binding.idUser.setText(myResponse.userFound._id)
                         binding.name.setText(myResponse.userFound.Nombres_Mv)
                         binding.email.setText(myResponse.userFound.Email_Mv)
                         binding.identification.setText(myResponse.userFound.NumeroIdent_Mv.toString())
@@ -89,6 +97,50 @@ class ViewProfile : AppCompatActivity() {
 
 
         val btnGuardar = binding.btnGuardar
+        btnGuardar.setOnClickListener {
+            val idUser = binding.idUser.text.toString()
+            val userName = binding.name.text.toString()
+            val userEmail = binding.email.text.toString()
+            val userIdenti = binding.identification.text.toString()
+            val userBrithday = binding.brithday.text.toString()
+            val userPassword = binding.password.text.toString()
+            val userPhoneNumber = binding.phoneNumber.text.toString()
+
+            val updateData = updateUser(
+                userName,
+                userEmail,
+                userIdenti,
+                userBrithday,
+                userPassword,
+                userPhoneNumber
+            )
+
+            lifecycleScope.launch(Dispatchers.IO) {
+
+                val response = retrofit.create(ApiServices::class.java)
+                    .updateUser(idUser, updateData, token)
+                if (response.isSuccessful) {
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@ViewProfile, "Usuario Actualizado", Toast.LENGTH_SHORT)
+                            .show()
+                        val intent = Intent(this@ViewProfile, MainActivity::class.java)
+                        startActivity(intent)
+
+
+                    }
+
+                } else {
+                    Toast.makeText(
+                        this@ViewProfile,
+                        "Algo Salio mal por q nose",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+        }
+
         val editTexts = listOf(
             binding.name,
             binding.email,
@@ -100,21 +152,18 @@ class ViewProfile : AppCompatActivity() {
 
         editTexts.forEach { it.isEnabled = false }
 
-
         binding.btnEdit.setOnClickListener {
             editTexts.forEach { it.isEnabled = true }
             btnGuardar.visibility = View.VISIBLE
-
         }
+
 
     }
 
-    private fun getRetrofit(): Retrofit {
+    fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-
 }
