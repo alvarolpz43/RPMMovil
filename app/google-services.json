@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858427834110",
+    "project_id": "imagenes-rpm",
+    "storage_bucket": "imagenes-rpm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858427834110:android:f07111d213d97358bcafaf",
+        "android_client_info": {
+          "package_name": "com.rpm.rpmmovil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC23PM-d4Ff-4VSDuSmEbrplTtV4f3avcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
