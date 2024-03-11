@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.rpm.rpmmovil.Rmotos.GarajeActivity
 import com.rpm.rpmmovil.Routes.ListarRutasActivity
-import com.rpm.rpmmovil.Routes.MapActivity
+import com.rpm.rpmmovil.Usermotos.UserMotosActivity
 import com.rpm.rpmmovil.databinding.FragmentHomeBinding
 
 
@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
 
         val btnTrazarRuta = binding.btnTrazarRuta
         btnTrazarRuta.setOnClickListener {
-            val intent = Intent(requireContext(), MapActivity::class.java)
+            val intent = Intent(requireContext(),UserMotosActivity::class.java)
             startActivity(intent)
         }
         val btnListarRuta = binding.btnTusRutas
