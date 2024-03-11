@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.rpm.rpmmovil.Login.Login
 import com.rpm.rpmmovil.databinding.FragmentMenuBinding
+import com.rpm.rpmmovil.profile.ViewProfile
+import com.rpm.rpmmovil.utils.AppRPM
+import com.rpm.rpmmovil.utils.Preferences
 
 class MenuFragment : Fragment() {
 
@@ -24,12 +27,27 @@ class MenuFragment : Fragment() {
         return binding.root
     }
 
+    //Traigo el token sisis
+    val token= AppRPM.prefe.getToken()
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogout.setOnClickListener {
             recuperarToken()
         }
+
+
+        //Vamos al ViewProfile
+        binding.userProfile.setOnClickListener {
+            val intent:Intent= Intent(requireContext(), ViewProfile::class.java)
+            startActivity(intent)
+        }
     }
+
+
+
+
 
     private fun limpiarYRedirigirALogin() {
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", AppCompatActivity.MODE_PRIVATE)
@@ -47,6 +65,7 @@ class MenuFragment : Fragment() {
     private fun recuperarToken() {
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", AppCompatActivity.MODE_PRIVATE)
         val userToken = sharedPreferences.getString("token", null)
+        Toast.makeText(requireContext(), "${userToken}", Toast.LENGTH_SHORT).show()
 
         if (userToken != null) {
             Toast.makeText(requireContext(),"Sesion Finalizada", Toast.LENGTH_SHORT).show()

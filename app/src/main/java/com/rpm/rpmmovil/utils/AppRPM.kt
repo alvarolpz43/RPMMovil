@@ -18,10 +18,10 @@ class AppRPM : Application() {
 
 class Preferences(context: Context){
 
-    val storage = context.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+    val storage = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
     fun saveToken(token:String){
-        storage.edit().putString("token", token)
+        storage.edit().putString("token", token).apply()
     }
 
     fun getToken() : String? {

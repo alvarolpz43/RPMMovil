@@ -105,6 +105,7 @@ class Login : AppCompatActivity() {
         return token != null && token.isNotEmpty()
     }
 
+    //y ese code???
     private fun saveTokenToSharedPreferences(token: String?) {
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()

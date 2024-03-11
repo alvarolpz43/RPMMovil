@@ -2,7 +2,9 @@ package com.rpm.rpmmovil.interfaces
 
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.profile.model.dataProfileUser
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -11,6 +13,10 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiServices {
+
+
+    @GET("/verify")
+    fun getprofileUser():Call<dataProfileUser>
 
 
 
