@@ -18,8 +18,8 @@ class MotosAdapter(private val motosList: List<Usermoto>) : RecyclerView.Adapter
         fun bind(usermoto: Usermoto) {
             Log.d("MotosAdapter", "Bind usermoto: $usermoto")
             nombreTextView.text = usermoto.MotoNombre
-            modeloTextView.text = usermoto.ModeloMoto
-            marcaTextView.text = usermoto.MarcaMoto
+            modeloTextView.text = "Modelo: ${usermoto.ModeloMoto}"
+            marcaTextView.text = "Marca: ${usermoto.MarcaMoto}"
             consumoTextView.text = "Consumo: ${usermoto.ConsumoMotoLx100km} L/100km"
             cilindrajeTextView.text = "Cilindraje: ${usermoto.CilindrajeMoto}"
         }

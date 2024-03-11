@@ -1,15 +1,15 @@
 package com.rpm.rpmmovil.Rmotos
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.rpm.rpmmovil.Model.Garage
 import com.rpm.rpmmovil.Model.ManagerDb
 import com.rpm.rpmmovil.databinding.ActivityShowGarageBinding
 
 class ShowGarageActivity : AppCompatActivity() {
-    private lateinit var binding:ActivityShowGarageBinding
+    private lateinit var binding: ActivityShowGarageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
