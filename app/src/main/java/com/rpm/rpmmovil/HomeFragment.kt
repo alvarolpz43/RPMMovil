@@ -1,5 +1,6 @@
 package com.rpm.rpmmovil
 
+import com.rpm.rpmmovil.Rmotos.GarageActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.rpm.rpmmovil.Rmotos.GarageActivity
 import com.rpm.rpmmovil.Routes.ListarRutasActivity
 import com.rpm.rpmmovil.Routes.MapActivity
 import com.rpm.rpmmovil.databinding.FragmentHomeBinding
