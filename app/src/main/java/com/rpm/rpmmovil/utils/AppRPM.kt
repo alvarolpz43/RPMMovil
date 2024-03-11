@@ -25,7 +25,7 @@ class Preferences(context: Context){
     }
 
     fun getToken() : String? {
-        return storage.getString("token", null)
+        return storage.getString("token", "")
     }
 
 }

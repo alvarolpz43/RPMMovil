@@ -32,6 +32,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         val btnTrazarRuta = binding.btnTrazarRuta
         btnTrazarRuta.setOnClickListener {
             val intent = Intent(requireContext(), MapActivity::class.java)

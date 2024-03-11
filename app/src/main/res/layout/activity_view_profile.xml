@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="Luis Martinez"
+                    tools:hint="User Name"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="Luis@gmail.com"
+                    tools:hint="user@gmail.com"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
@@ -118,7 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="Luis@gmail.com"
+                    tools:hint="userId"
+                    android:inputType="number"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
@@ -135,7 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="26-04-2002"
+
+                    tools:hint="26-04-2002"
                     android:inputType="date"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
@@ -152,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="luis123"
+                    tools:hint="userPassword"
                     android:inputType="textPassword"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
@@ -169,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:hint="3007203106"
+                    tools:hint="123456"
                     android:inputType="number"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
