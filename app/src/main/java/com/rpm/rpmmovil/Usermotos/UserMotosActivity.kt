@@ -1,91 +1,76 @@
 package com.rpm.rpmmovil.Usermotos
 
+
 import MotosAdapter
+import Usermoto
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.Usermotos.model.ApiServiceMotouser
-import com.rpm.rpmmovil.Usermotos.model.Usermoto
+import com.rpm.rpmmovil.Usermotos.model.MotosResponse
+import com.rpm.rpmmovil.Usermotos.model.RetrofitClient
 import com.rpm.rpmmovil.databinding.ActivityUserMotosBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class UserMotosActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserMotosBinding
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: MotosAdapter
+    private lateinit var motosAdapter: MotosAdapter
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var apiService: ApiServiceMotouser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserMotosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        recyclerView = binding.recyclerViewMotos
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = MotosAdapter()
-        recyclerView.adapter = adapter
+        sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        apiService = RetrofitClient.apiService
+
+        val token = sharedPreferences.getString("token", null)
+        Log.d("UserMotosActivity", "Token: $token")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response: MotosResponse? = apiService.getMotos(token ?: "")
+
+                withContext(Dispatchers.Main) {
+                    response?.let { motosResponse ->
+                        val motosList: List<Usermoto> = motosResponse.motos
+                        if (motosList.isEmpty()) {
+
+                            Toast.makeText(this@UserMotosActivity, "El usuario no tiene motos registradas", Toast.LENGTH_SHORT).show()
+                        } else {
+
+                            motosAdapter = MotosAdapter(motosList)
+                            binding.recyclerView.adapter = motosAdapter
 
 
-        val token = getSavedTokenFromSharedPreferences()
-        Log.d("UserMotosActivity", "Token obtenido: $token")
+                            val primerMoto = motosList[0]
+                            Log.d("UserMotosActivity", "ID: ${primerMoto._id}")
+                            Log.d("UserMotosActivity", "Nombre: ${primerMoto.MotoNombre}")
+                            Log.d("UserMotosActivity", "Modelo: ${primerMoto.ModeloMoto}")
+                            Log.d("UserMotosActivity", "Marca: ${primerMoto.MarcaMoto}")
+                            Log.d("UserMotosActivity", "Consumo: ${primerMoto.ConsumoMotoLx100km}")
+                        }
 
 
-        if (isValidToken(token)) {
+                    } ?: run {
 
-            fetchUserMotos(token)
-        } else {
-
-            showError("El token de autenticación no es válido o está vacío.")
-        }
-    }
-
-    private fun fetchUserMotos(token: String) {
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rpm-back-end.vercel.app/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-
-        val apiService = retrofit.create(ApiServiceMotouser::class.java)
-
-        apiService.getUserMotos("Bearer $token").enqueue(object : Callback<List<Usermoto>> {
-            override fun onResponse(call: Call<List<Usermoto>>, response: Response<List<Usermoto>>) {
-                if (response.isSuccessful) {
-                    val userMotos = response.body()
-                    userMotos?.let {
-                        adapter.submitList(userMotos)
-                    } ?: showError("No se encontraron motos para el usuario.")
-                } else if (response.code() == 403) {
-                    showError("No tienes permisos suficientes para acceder a esta información.")
-                } else {
-                    val errorMessage = "Error al obtener las motos del usuario: ${response.code()}"
-                    showError(errorMessage)
+                        Toast.makeText(this@UserMotosActivity, "No se encontraron datos de motos", Toast.LENGTH_SHORT).show()
+                    }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@UserMotosActivity, "Error al obtener datos de motos", Toast.LENGTH_SHORT).show()
             }
-
-            override fun onFailure(call: Call<List<Usermoto>>, t: Throwable) {
-                showError("Error de red: ${t.message}")
-            }
-        })
-    }
-
-
-    private fun showError(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
-    }
-    private fun isValidToken(token: String): Boolean {
-        return token.isNotEmpty()
-    }
-
-    private fun getSavedTokenFromSharedPreferences(): String {
-        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-        return sharedPreferences.getString("token", "") ?: ""
+        }
     }
 }
