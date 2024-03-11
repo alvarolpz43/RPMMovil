@@ -2,12 +2,19 @@ package com.rpm.rpmmovil.profile
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.storage.FirebaseStorage
 import com.rpm.rpmmovil.ExplorarRutas.ExploraRutasActivity
 import com.rpm.rpmmovil.MainActivity
 import com.rpm.rpmmovil.MenuFragment
@@ -32,9 +39,32 @@ class ViewProfile : AppCompatActivity() {
 
     private lateinit var binding: ActivityViewProfileBinding
 
+
+    //pick media
+    val pickMedia= registerForActivityResult(PickVisualMedia()){uri->
+        if (uri!=null){
+            binding.userPhoto.setImageURI(uri)
+            Log.i("this is th image", uri.toString())
+
+        }else{
+            Log.i("Luis", "No seleccionado")
+
+        }
+
+    }
+    //
+
+
     companion object {
         const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
     }
+
+    val uri:Uri?=null
+    val firebaseStorage: FirebaseStorage?=null
+    val firebaseDatabase:FireBaseDatabase ?=null
+
+
+
 
     private var idUser = null
 
@@ -45,12 +75,17 @@ class ViewProfile : AppCompatActivity() {
         setContentView(binding.root)
 
         val token = AppRPM.prefe.getToken().toString()
-
-
         val retrofit = getRetrofit()
 
+        binding.userPhoto.setOnClickListener {
+            //lo que puede seleccionar aqui de tipo solo imagen
+            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
 
-//        Toast.makeText(this, "${token}", Toast.LENGTH_SHORT).show()
+
+        }
+
+
+
 
         lifecycleScope.launch(Dispatchers.IO) {
             val response: Response<dataProfileUser> =
@@ -98,6 +133,11 @@ class ViewProfile : AppCompatActivity() {
 
         val btnGuardar = binding.btnGuardar
         btnGuardar.setOnClickListener {
+
+
+            subirImagen()
+
+            //
             val idUser = binding.idUser.text.toString()
             val userName = binding.name.text.toString()
             val userEmail = binding.email.text.toString()
@@ -158,6 +198,17 @@ class ViewProfile : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun subirImagen() {
+        val reference= firebaseStorage!!.reference.child("Images").child(System.currentTimeMillis().toString()+"")
+        reference.putFile(uri!!).addOnSuccessListener {
+            reference.downloadUrl.addOnSuccessListener { uri->
+                val model=ImageModel()
+                model.image= uri.toString()
+                firebaseStorage!!.reference.child("Imagenes")
+            }
+        }
     }
 
     fun getRetrofit(): Retrofit {
