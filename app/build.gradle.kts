@@ -81,6 +81,16 @@ dependencies {
 
     //jwt
 
+    // PARA IMAGENES
+
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("com.squareup.okhttp3:okhttp-urlconnection:4.9.1")
+    implementation ("com.squareup.okio:okio:2.10.0")
+
+
+    //fire
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+
 
 
     implementation("androidx.core:core-ktx:1.12.0")
