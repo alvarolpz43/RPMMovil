@@ -79,9 +79,22 @@ class MenuFragment : Fragment() {
                     myResponse?.let {
                         binding.userName.setText(myResponse.userFound.Nombres_Mv)
                         binding.userEmail.setText(myResponse.userFound.Email_Mv)
-                        Picasso.get()
-                            .load(myResponse.userFound.ImageUser)
-                            .into(binding.userPhoto)
+
+
+
+
+                        if (myResponse.userFound.ImageUser.isEmpty()){
+                            Picasso.get()
+                                .load("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
+                                .into(binding.userPhoto)
+
+                        }else{
+                            Picasso.get()
+                                .load(myResponse.userFound.ImageUser)
+                                .into(binding.userPhoto)
+
+                        }
+
 
 
 
