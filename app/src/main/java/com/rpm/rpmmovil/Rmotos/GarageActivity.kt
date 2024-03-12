@@ -46,6 +46,11 @@ class GarageActivity : AppCompatActivity() {
             val result = bitmapToByteArray(bitmapImage)
             selectedImageByte = result
             binding.imageView.setImageBitmap(bitmapImage)
+
+            val aspectRatio = bitmapImage.width.toFloat() / bitmapImage.height.toFloat()
+            val newHeight = (binding.imageView.width / aspectRatio).toInt()
+            binding.imageView.layoutParams.height = newHeight
+            binding.imageView.requestLayout()
         } else {
             Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
         }
