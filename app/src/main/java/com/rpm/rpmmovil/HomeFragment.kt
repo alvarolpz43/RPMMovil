@@ -1,27 +1,27 @@
 package com.rpm.rpmmovil
 
+import com.rpm.rpmmovil.Rmotos.GarageActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-
-import com.rpm.rpmmovil.Rmotos.GarageActivity
-
 import com.rpm.rpmmovil.ExplorarRutas.ExploraRutasActivity
+
 import com.rpm.rpmmovil.Model.Constains
+
+
 import com.rpm.rpmmovil.Routes.ListarRutasActivity
 import com.rpm.rpmmovil.Routes.MapActivity
 import com.rpm.rpmmovil.databinding.FragmentHomeBinding
-import com.rpm.rpmmovil.interfaces.ApiClient
+
 import com.rpm.rpmmovil.interfaces.ApiServices
 import com.rpm.rpmmovil.profile.model.dataProfileUser
 import com.rpm.rpmmovil.utils.AppRPM
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import retrofit2.Retrofit

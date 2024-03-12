@@ -11,6 +11,5 @@ data class DataItemMotos(
    @SerializedName("VersionMoto") val motovers: Number,
    @SerializedName("ConsumoMotoLx100km") val consumokmxg: Number,
    @SerializedName("CilindrajeMoto") val cilimoto: String,
-   @SerializedName("FotoMoto") val imagemoto:String,
+   @SerializedName("FotoMoto") val imagemoto: String,
 )
-

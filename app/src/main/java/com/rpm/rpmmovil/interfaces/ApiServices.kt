@@ -1,9 +1,15 @@
 package com.rpm.rpmmovil.interfaces
 
+
+
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+
+import okhttp3.MultipartBody
+
 import com.rpm.rpmmovil.profile.model.dataProfileUser
 import com.rpm.rpmmovil.profile.model.updateUser
+
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -11,9 +17,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+
+import retrofit2.http.Part
+
 import retrofit2.http.PUT
 import retrofit2.http.Path
+
 
 interface ApiServices {
 
@@ -30,11 +41,14 @@ interface ApiServices {
 
 
 
+    @Multipart
     @POST("motos")
-    fun PostRegisterMoto(
-        @Body moto: DataItemMotos,
+    suspend fun postRegisterMotoWithImage(
+        @Part("moto") moto: DataItemMotos,
+        @Part image: MultipartBody.Part,
         @Header("Authorization") token: String
-    ): Call<DataItemMotos>
+    ): Response<Any>
+
 
 
 }
