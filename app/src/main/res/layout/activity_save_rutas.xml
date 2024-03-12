@@ -49,8 +49,8 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_height="match_parent"
+
             android:padding="10dp"
             app:cardCornerRadius="20dp">
 
@@ -97,16 +97,33 @@
                 <ImageView
                     android:id="@+id/imagenRuta"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     />
 
                 <Button
                     android:id="@+id/imageButton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Subir imagen" />
+                    android:text="Subir imagen"
+                    android:layout_gravity="center_horizontal"/>
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:progressTint="@color/primary"
+                    android:layout_gravity="center_horizontal"/>
 
 
+                <Button
+                    android:id="@+id/btnGuardarRoute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/primary"
+                    android:text="Guardar"
+                    android:layout_gravity="center_horizontal"/>
             </LinearLayout>
 
 
@@ -115,18 +132,7 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnGuardarRoute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/primary"
-        android:text="Guardar"
-        app:layout_constraintBottom_toBottomOf="parent"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sectionTwo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

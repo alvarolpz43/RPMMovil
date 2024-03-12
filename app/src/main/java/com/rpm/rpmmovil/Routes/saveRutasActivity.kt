@@ -1,6 +1,4 @@
 package com.rpm.rpmmovil.Routes//package com.rpm.rpmmovil.Rmotos
-
-
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -11,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.api.Api.Client
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
@@ -19,6 +18,7 @@ import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.ShowGarageActivity
 import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
 import com.rpm.rpmmovil.databinding.ActivitySaveRutasBinding
+import com.rpm.rpmmovil.interfaces.ApiClient
 import com.rpm.rpmmovil.interfaces.ApiServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -108,8 +108,6 @@ class saveRutasActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Seleccione una imagen", Toast.LENGTH_SHORT).show()
             }
-
-
         }
     }
 
@@ -149,8 +147,8 @@ class saveRutasActivity : AppCompatActivity() {
         val ppto = 5000
         val imagenRuta = imageUrl
         val detalleRuta = binding.detallesRuta.text.toString()
-        val calificacion = 5
-        val motoviajero = "fasfdf5456464"
+        val calificacion = binding.ratingBar.rating.toInt()
+        val motoviajero = ""
 
             val route = PostRoutes(
                 nombreRuta,
@@ -167,14 +165,15 @@ class saveRutasActivity : AppCompatActivity() {
         token = sharedPreferences.getString("token", "") ?: ""
 
         if (verificarToken()) {
+            //val retro = ApiClient.web
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rpm-back-end.vercel.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(
                     OkHttpClient.Builder()
-                        .readTimeout(60, TimeUnit.SECONDS) // Ajusta el tiempo de espera según tus necesidades
-                        .writeTimeout(60, TimeUnit.SECONDS)
-                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(15, TimeUnit.SECONDS) // Ajusta el tiempo de espera según tus necesidades
+                        .writeTimeout(15, TimeUnit.SECONDS)
+                        .connectTimeout(15, TimeUnit.SECONDS)
                         .build()
                 )
                 .build()
