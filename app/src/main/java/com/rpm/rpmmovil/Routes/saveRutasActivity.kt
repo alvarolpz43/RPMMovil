@@ -62,14 +62,13 @@ class saveRutasActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //GUARDA LAS CORDENADAS DE LA RUTA
-        val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
-        val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()
-        binding.cordenadasRutaInicio.text = cordenadasInicio
-        binding.cordenadasRutaFinal.text = cordenadasFinal
+//        val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
+//        val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()
+//        binding.cordenadasRutaInicio.text = cordenadasInicio
+//        binding.cordenadasRutaFinal.text = cordenadasFinal
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         storage = FirebaseStorage.getInstance()
-
 
         FirebaseAuth.getInstance().signInAnonymously()
             .addOnCompleteListener(this) { task ->
@@ -79,7 +78,11 @@ class saveRutasActivity : AppCompatActivity() {
                     // Puedes usar el usuario actual para acceder a los datos protegidos por reglas de seguridad
                 } else {
                     // Maneja el caso en el que el inicio de sesión anónimo falla
-                    Log.e("saveRutasActivity", "Error al iniciar sesión anónimamente", task.exception)
+                    Log.e(
+                        "saveRutasActivity",
+                        "Error al iniciar sesión anónimamente",
+                        task.exception
+                    )
                 }
             }
 
@@ -103,7 +106,11 @@ class saveRutasActivity : AppCompatActivity() {
                 if (verificarToken()) {
                     subirImagen(imageFilePart)
                 } else {
-                    Toast.makeText(this@saveRutasActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@saveRutasActivity,
+                        "Usuario no autenticado",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } else {
                 Toast.makeText(this, "Seleccione una imagen", Toast.LENGTH_SHORT).show()
@@ -126,16 +133,28 @@ class saveRutasActivity : AppCompatActivity() {
                     uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
                         val downloadUrl = uri.toString()
                         Log.d("saveRutasActivity", "Enlace de descarga de la imagen: $downloadUrl")
-                        Toast.makeText(this@saveRutasActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@saveRutasActivity,
+                            "Imagen subida con éxito",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                         guardarDatosEnBaseDeDatos(downloadUrl)
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this@saveRutasActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@saveRutasActivity,
+                        "Error al subir la imagen",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else {
-            Toast.makeText(this@saveRutasActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@saveRutasActivity,
+                "La URI de la imagen es nula",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -150,17 +169,17 @@ class saveRutasActivity : AppCompatActivity() {
         val calificacion = binding.ratingBar.rating.toInt()
         val motoviajero = ""
 
-            val route = PostRoutes(
-                nombreRuta,
-                cordenadasInicio,
-                cordenadasFinal,
-                kmRuta,
-                ppto,
-                imagenRuta,
-                detalleRuta,
-                calificacion,
-                motoviajero
-            )
+        val route = PostRoutes(
+            nombreRuta,
+            cordenadasInicio,
+            cordenadasFinal,
+            kmRuta,
+            ppto,
+            imagenRuta,
+            detalleRuta,
+            calificacion,
+            motoviajero
+        )
 
         token = sharedPreferences.getString("token", "") ?: ""
 
@@ -171,7 +190,10 @@ class saveRutasActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(
                     OkHttpClient.Builder()
-                        .readTimeout(15, TimeUnit.SECONDS) // Ajusta el tiempo de espera según tus necesidades
+                        .readTimeout(
+                            15,
+                            TimeUnit.SECONDS
+                        ) // Ajusta el tiempo de espera según tus necesidades
                         .writeTimeout(15, TimeUnit.SECONDS)
                         .connectTimeout(15, TimeUnit.SECONDS)
                         .build()
@@ -186,8 +208,12 @@ class saveRutasActivity : AppCompatActivity() {
                     val response = service.PostSaveRoutes(token, route)
                     if (response.isSuccessful) {
                         runOnUiThread {
-                            Toast.makeText(this@saveRutasActivity, "Ruta guardada exitosamente", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this@saveRutasActivity,MainActivity ::class.java)
+                            Toast.makeText(
+                                this@saveRutasActivity,
+                                "Ruta guardada exitosamente",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            val intent = Intent(this@saveRutasActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
@@ -195,18 +221,27 @@ class saveRutasActivity : AppCompatActivity() {
                         val errorBody = response.errorBody()?.string()
                         Log.e("saveRutasActivity", "Error en la respuesta: $errorBody")
                         runOnUiThread {
-                            Toast.makeText(this@saveRutasActivity, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@saveRutasActivity,
+                                "Error al guardar los datos",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } catch (e: Exception) {
                     Log.e("saveRutasActivity", "Error al guardar los datos: ${e.message}", e)
                     runOnUiThread {
-                        Toast.makeText(this@saveRutasActivity, "Error al guardar los datos: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@saveRutasActivity,
+                            "Error al guardar los datos: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         } else {
-            Toast.makeText(this@saveRutasActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@saveRutasActivity, "Usuario no autenticado", Toast.LENGTH_SHORT)
+                .show()
         }
 
     }

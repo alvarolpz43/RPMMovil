@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48dp"
-                android:text="Registar Rutas"
+                android:text="Guarda tus rutas"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,23 +68,22 @@
                     android:background="@drawable/background_btn"
                     android:hint="Nombre de Ruta" />
 
-                <TextView
-                    android:id="@+id/cordenadasRutaInicio"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="7dp"
+<!--                <TextView-->
+<!--                    android:id="@+id/cordenadasRutaInicio"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_margin="7dp"-->
+<!--                    android:background="@drawable/background_btn"-->
+<!--                    android:text="cordenadasRutaInicio" />-->
 
-                    android:background="@drawable/background_btn"
-                    android:text="cordenadasRutaInicio" />
-
-                <TextView
-                    android:id="@+id/cordenadasRutaFinal"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/background_btn"
-                    android:hint="Cordenadas Ruta"
-                    android:text="cordenadasRutaFinal" />
+<!--                <TextView-->
+<!--                    android:id="@+id/cordenadasRutaFinal"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:layout_margin="7dp"-->
+<!--                    android:background="@drawable/background_btn"-->
+<!--                    android:hint="Cordenadas Ruta"-->
+<!--                    android:text="cordenadasRutaFinal" />-->
 
                 <MultiAutoCompleteTextView
                     android:id="@+id/detallesRuta"
