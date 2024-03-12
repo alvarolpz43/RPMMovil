@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".Login">
+    tools:context=".Login.Login">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/moto"
+        android:layout_width="225dp"
+        android:layout_height="239dp"
         android:layout_margin="60dp"
+        android:src="@drawable/logosmall"
 
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,12 @@
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold" />
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_correo"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,10 +66,17 @@
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="correo"
+                    android:hint="Ingresa tu correo"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/WP_Gray"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_contrase_a"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,8 +90,9 @@
                     android:id="@+id/edtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="contraseña"
+                    android:hint="Ingresa tu contraseña"
                     android:inputType="textPassword"
+                    android:textColorHint="@color/WP_Gray"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 

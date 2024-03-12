@@ -69,47 +69,6 @@ data class ManagerDb(val context: Context) {
         return user
     }
 
-    fun getData ():ArrayList<Route>{
-        openBdRd()
-
-        val routeList = ArrayList<Route>()
-
-        val cursor: Cursor? = bd.rawQuery(Constains.GETROUTES,null)
-
-        if (cursor != null && cursor.moveToFirst()) {
-
-            // Se verifica que si hay datos en la primera posición.
-
-            do {
-                //Almacenar en variable lo que contiene el cursor en la columna cod y nombre
-                val nombreR = cursor.getColumnIndex("rutaN") // se almacena en las variables lo que tiene en el cursor en la fila cero
-                val cordenadasInicio = cursor.getColumnIndex("cordenadasInicio")
-                val cordenadasFinal = cursor.getColumnIndex("cordenadasFinal")
-                val detalle = cursor.getColumnIndex("detalle")
-                val imagen = cursor.getColumnIndex("imagen")
-
-                //Obtener valores condicionando a valores no null
-                val vlrNombreR:String = cursor.getString(nombreR)
-                val vlrcodCordenadaInicio: String = cursor.getString(cordenadasInicio)
-                val vlrcodCordenadaFinal: String = cursor.getString(cordenadasFinal)
-                val vlrDetalle: String = cursor.getString(detalle)
-                val vlrImagen: String = cursor.getString(imagen)
-
-                //Crear instancia de ciudad y agregar a la lista
-
-                val route = Route(vlrNombreR, vlrcodCordenadaInicio,vlrcodCordenadaFinal, vlrDetalle, vlrImagen) // paso los valores obtenidos del cursor a mi objeto ciudad
-
-                routeList.add(route) // Agrego mi objeto ciudad al array list
-
-            } while (cursor.moveToNext()) // El ciclo se hace hasta que el cursor se mueva al la siguiente posicion
-
-            cursor.close()
-        }
-
-
-        return routeList
-    }
-
     fun inserDataRmotos(marca:String, modelo:Int, cilindraje:Int, placa:String):Long{
         openBdWr()
         val content = ContentValues()

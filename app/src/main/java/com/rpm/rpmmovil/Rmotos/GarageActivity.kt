@@ -1,4 +1,6 @@
-package com.rpm.rpmmovil.Routes//package com.rpm.rpmmovil.Rmotos
+package com.rpm.rpmmovil.Rmotos//package com.rpm.rpmmovil.Rmotos
+
+
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -9,17 +11,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.common.api.Api.Client
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
-import com.rpm.rpmmovil.MainActivity
-import com.rpm.rpmmovil.Model.Constains
-import com.rpm.rpmmovil.Rmotos.ShowGarageActivity
-import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
-import com.rpm.rpmmovil.databinding.ActivitySaveRutasBinding
-import com.rpm.rpmmovil.interfaces.ApiClient
-import com.rpm.rpmmovil.interfaces.ApiServices
+import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
+import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,9 +29,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
 
-class saveRutasActivity : AppCompatActivity() {
-    private lateinit var binding: ActivitySaveRutasBinding
-
+class GarageActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityGarajeBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var storage: FirebaseStorage
     private lateinit var token: String
@@ -47,7 +43,7 @@ class saveRutasActivity : AppCompatActivity() {
             val bitmapImage = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
             val result = bitmapToByteArray(bitmapImage)
             selectedImageByte = result
-            binding.imagenRuta.setImageBitmap(bitmapImage)
+            binding.imageView.setImageBitmap(bitmapImage)
         } else {
             Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
         }
@@ -58,18 +54,11 @@ class saveRutasActivity : AppCompatActivity() {
 
         FirebaseApp.initializeApp(this)
 
-        binding = ActivitySaveRutasBinding.inflate(layoutInflater)
+        binding = ActivityGarajeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //GUARDA LAS CORDENADAS DE LA RUTA
-        val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
-        val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()
-        binding.cordenadasRutaInicio.text = cordenadasInicio
-        binding.cordenadasRutaFinal.text = cordenadasFinal
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         storage = FirebaseStorage.getInstance()
-
 
         FirebaseAuth.getInstance().signInAnonymously()
             .addOnCompleteListener(this) { task ->
@@ -79,17 +68,37 @@ class saveRutasActivity : AppCompatActivity() {
                     // Puedes usar el usuario actual para acceder a los datos protegidos por reglas de seguridad
                 } else {
                     // Maneja el caso en el que el inicio de sesión anónimo falla
-                    Log.e("saveRutasActivity", "Error al iniciar sesión anónimamente", task.exception)
+                    Log.e("GarageActivity", "Error al iniciar sesión anónimamente", task.exception)
                 }
             }
+
+        binding.garage.setOnClickListener {
+            val intent = Intent(this, ShowGarageActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.imageButton.setOnClickListener {
             pickMedia.launch("image/*")
         }
 
-        binding.btnGuardarRoute.setOnClickListener {
+        binding.register.setOnClickListener {
+            val marca = binding.marcamoto.text.toString()
+            val modelo = binding.modelomoto.text.toString()
+            val cilindraje = binding.cilindrajemoto.text.toString()
+            val nombre = binding.motonombre.text.toString()
+            val version = binding.versionmoto.text.toString()
+            val consumo = binding.consumo.text.toString()
 
             if (selectedImageByte != null) {
+                val motoRegisterData = DataItemMotos(
+                    motonom = nombre,
+                    motomarca = marca,
+                    motomodel = modelo,
+                    motovers = version.toIntOrNull() ?: 0,
+                    consumokmxg = consumo.toIntOrNull() ?: 0,
+                    cilimoto = cilindraje,
+                    imagemoto = imageUri.toString()
+                )
 
                 val imageFilePart = selectedImageByte?.let {
                     MultipartBody.Part.createFormData(
@@ -98,12 +107,13 @@ class saveRutasActivity : AppCompatActivity() {
                         it.toRequestBody("image/*".toMediaTypeOrNull())
                     )
                 }
+
                 token = sharedPreferences.getString("token", "") ?: ""
 
                 if (verificarToken()) {
                     subirImagen(imageFilePart)
                 } else {
-                    Toast.makeText(this@saveRutasActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@GarageActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Seleccione una imagen", Toast.LENGTH_SHORT).show()
@@ -125,90 +135,83 @@ class saveRutasActivity : AppCompatActivity() {
                 .addOnSuccessListener { uploadTask ->
                     uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
                         val downloadUrl = uri.toString()
-                        Log.d("saveRutasActivity", "Enlace de descarga de la imagen: $downloadUrl")
-                        Toast.makeText(this@saveRutasActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
+                        Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
+                        Toast.makeText(this@GarageActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
 
                         guardarDatosEnBaseDeDatos(downloadUrl)
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this@saveRutasActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            Toast.makeText(this@saveRutasActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun guardarDatosEnBaseDeDatos(imageUrl: String) {
-        val nombreRuta = binding.nombreRuta.text.toString()
-        val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
-        val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()
-        val kmRuta = Constains.DISTANCIA_RUTA
-        val ppto = 5000
-        val imagenRuta = imageUrl
-        val detalleRuta = binding.detallesRuta.text.toString()
-        val calificacion = binding.ratingBar.rating.toInt()
-        val motoviajero = ""
+        val marca = binding.marcamoto.text.toString()
+        val modelo = binding.modelomoto.text.toString()
+        val cilindraje = binding.cilindrajemoto.text.toString()
+        val nombre = binding.motonombre.text.toString()
+        val version = binding.versionmoto.text.toString()
+        val consumo = binding.consumo.text.toString()
 
-            val route = PostRoutes(
-                nombreRuta,
-                cordenadasInicio,
-                cordenadasFinal,
-                kmRuta,
-                ppto,
-                imagenRuta,
-                detalleRuta,
-                calificacion,
-                motoviajero
-            )
+        val motoRegisterData = DataItemMotos(
+            motonom = nombre,
+            motomarca = marca,
+            motomodel = modelo,
+            motovers = version.toIntOrNull() ?: 0,
+            consumokmxg = consumo.toIntOrNull() ?: 0,
+            cilimoto = cilindraje,
+            imagemoto = imageUrl
+        )
 
         token = sharedPreferences.getString("token", "") ?: ""
 
         if (verificarToken()) {
-            //val retro = ApiClient.web
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rpm-back-end.vercel.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(
                     OkHttpClient.Builder()
-                        .readTimeout(15, TimeUnit.SECONDS) // Ajusta el tiempo de espera según tus necesidades
-                        .writeTimeout(15, TimeUnit.SECONDS)
-                        .connectTimeout(15, TimeUnit.SECONDS)
+                        .readTimeout(60, TimeUnit.SECONDS) // Ajusta el tiempo de espera según tus necesidades
+                        .writeTimeout(60, TimeUnit.SECONDS)
+                        .connectTimeout(60, TimeUnit.SECONDS)
                         .build()
                 )
                 .build()
 
 
-            val service = retrofit.create(ApiServices::class.java)
+            val service = retrofit.create(ApiServiceMotos::class.java)
 
             GlobalScope.launch(Dispatchers.IO) {
                 try {
-                    val response = service.PostSaveRoutes(token, route)
+                    val response = service.postDataMoto(token, motoRegisterData)
                     if (response.isSuccessful) {
                         runOnUiThread {
-                            Toast.makeText(this@saveRutasActivity, "Ruta guardada exitosamente", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this@saveRutasActivity,MainActivity ::class.java)
+                            Toast.makeText(this@GarageActivity, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@GarageActivity, ShowGarageActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
                     } else {
                         val errorBody = response.errorBody()?.string()
-                        Log.e("saveRutasActivity", "Error en la respuesta: $errorBody")
+                        Log.e("GarageActivity", "Error en la respuesta: $errorBody")
                         runOnUiThread {
-                            Toast.makeText(this@saveRutasActivity, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@GarageActivity, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } catch (e: Exception) {
-                    Log.e("saveRutasActivity", "Error al guardar los datos: ${e.message}", e)
+                    Log.e("GarageActivity", "Error al guardar los datos: ${e.message}", e)
                     runOnUiThread {
-                        Toast.makeText(this@saveRutasActivity, "Error al guardar los datos: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@GarageActivity, "Error al guardar los datos: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         } else {
-            Toast.makeText(this@saveRutasActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@GarageActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
         }
-
     }
 
     private fun verificarToken(): Boolean {
