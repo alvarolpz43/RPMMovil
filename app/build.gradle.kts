@@ -71,6 +71,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 
+
     // Necesario para subir imágenes
     implementation("androidx.activity:activity:1.8.2")
 

@@ -1,7 +1,6 @@
 package com.rpm.rpmmovil.Rmotos//package com.rpm.rpmmovil.Rmotos
 
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -25,7 +24,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
