@@ -61,14 +61,8 @@ class Login : AppCompatActivity() {
                         userToken = response.body()?.Token
 
                         if (isValidToken(userToken)) {
-                            // Guardar el token en SharedPreferences
-                            saveTokenToSharedPreferences(userToken)
 
-                            Toast.makeText(
-                                applicationContext,
-                                "Token: $userToken",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            saveTokenToSharedPreferences(userToken)
 
                             val intent = Intent(this@Login, MainActivity::class.java)
                             startActivity(intent)

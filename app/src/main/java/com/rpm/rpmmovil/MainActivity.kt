@@ -1,9 +1,9 @@
 package com.rpm.rpmmovil
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -42,7 +42,10 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun home() {
-        Toast.makeText(this, "Welcome to RPM", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Bienvenido Motero", Toast.LENGTH_SHORT).show()
 
     }
+
+
+
 }
