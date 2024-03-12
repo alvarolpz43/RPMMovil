@@ -9,7 +9,7 @@
     import androidx.core.view.isVisible
     import androidx.recyclerview.widget.LinearLayoutManager
     import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
-    import com.rpm.rpmmovil.Rmotos.model.Data.DataMotosResponse
+    import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataMotosResponse
     import com.rpm.rpmmovil.Rmotos.model.RecyclerV.MotoAdapter
     import com.rpm.rpmmovil.databinding.ActivityShowGarageBinding
     import kotlinx.coroutines.CoroutineScope
@@ -94,7 +94,9 @@
                 }
             }
         }
+        private fun updateMotos(){
 
+        }
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)

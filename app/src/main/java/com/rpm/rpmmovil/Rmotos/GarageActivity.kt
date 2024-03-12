@@ -16,7 +16,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
-import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataItemMotos
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -226,4 +226,6 @@ class GarageActivity : AppCompatActivity() {
         Log.d("TOKEN", "$token")
         return !token.isNullOrBlank()
     }
+
+
 }

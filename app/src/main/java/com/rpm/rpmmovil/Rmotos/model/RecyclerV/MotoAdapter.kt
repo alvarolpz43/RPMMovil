@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.R
-import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataItemMotos
 
 class MotoAdapter(var motolist: List<DataItemMotos> = emptyList(),
-    private  val onItemSelected: (String) -> Unit
+                  private  val onItemSelected: (String) -> Unit
     ) :
         RecyclerView.Adapter<motoViewHolder>(){
             fun updatelist(List: List<DataItemMotos>){

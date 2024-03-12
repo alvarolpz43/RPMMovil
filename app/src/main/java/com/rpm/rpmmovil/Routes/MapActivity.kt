@@ -46,6 +46,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var btnCalculate: Button
 
+
     var poly: Polyline? = null
 
     private var startLatLng: LatLng? = null

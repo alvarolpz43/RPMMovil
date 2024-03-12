@@ -3,7 +3,7 @@ package com.rpm.rpmmovil.interfaces
 
 
 import com.rpm.rpmmovil.Model.Constains
-import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataItemMotos
 
 import okhttp3.MultipartBody
 
@@ -40,7 +40,12 @@ interface ApiServices {
     ): Response<updateUser>
 
 
-
+    @PUT("motos/update/{idMoto}")
+    suspend fun updateMoto(
+        @Path("idMoto") idMoto: String,
+        @Body request: DataItemMotos,
+        @Header("Authorization") token: String
+    ): Response<DataItemMotos>
     @Multipart
     @POST("motos")
     suspend fun postRegisterMotoWithImage(
