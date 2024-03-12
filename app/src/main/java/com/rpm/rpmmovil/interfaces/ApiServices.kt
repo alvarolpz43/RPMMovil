@@ -1,16 +1,12 @@
 package com.rpm.rpmmovil.interfaces
 
 
-
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
-
-import okhttp3.MultipartBody
-
+import com.rpm.rpmmovil.Routes.apiRoute.UserRoutes
 import com.rpm.rpmmovil.profile.model.dataProfileUser
 import com.rpm.rpmmovil.profile.model.updateUser
-
-import retrofit2.Call
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,10 +15,8 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
-
-import retrofit2.http.Part
-
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 
@@ -40,6 +34,9 @@ interface ApiServices {
     ): Response<updateUser>
 
 
+    @GET("userrutas")
+    suspend fun getUserRutas(@Header("Authorization") token: String): Response<UserRoutes>
+
 
     @Multipart
     @POST("motos")
@@ -48,7 +45,6 @@ interface ApiServices {
         @Part image: MultipartBody.Part,
         @Header("Authorization") token: String
     ): Response<Any>
-
 
 
 }
