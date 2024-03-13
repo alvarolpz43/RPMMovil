@@ -14,13 +14,18 @@ class RoutesView (view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(userRoutes: Route){
         binding.nomruta.text = userRoutes.NombreRuta
-        binding.puntoinicioruta.text = userRoutes.PuntoInicioRuta
-        binding.puntofinalruta.text = userRoutes.PuntoFinalRuta
-        binding.kmtotalesruta.text = userRoutes.KmTotalesRuta?.toString() ?: "N/A"
-        binding.presupuestogas.text = userRoutes.PresupuestoGas?.toString() ?: "N/A"
-        binding.descripruta.text = userRoutes.DescripcionRuta
+
+        binding.kmtotalesruta.text = "${userRoutes.KmTotalesRuta?.toString()} Km" ?: "N/A"
+        binding.presupuestogas.text = "$ ${userRoutes.PresupuestoGas?.toString()}" ?: "N/A"
+
         binding.calificacionruta.text = userRoutes.CalificacionRuta?.toString() ?: "N/A"
-        Picasso.get().load(userRoutes.FotoRuta).into(binding.ivRutas)
+        Picasso.get().load(userRoutes.FotoRuta).fit()
+            .into(binding.ivRutas)
+
+        //datos que no uso por ahora
+//        binding.puntoinicioruta.text = userRoutes.PuntoInicioRuta
+//        binding.puntofinalruta.text = userRoutes.PuntoFinalRuta
+//        binding.descripruta.text = userRoutes.DescripcionRuta
 
     }
 
