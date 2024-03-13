@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.ViewsUpdateMotos
+import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.dataUpdatemoto
 
 import com.rpm.rpmmovil.databinding.ItemMotosBinding
 import com.squareup.picasso.Picasso
