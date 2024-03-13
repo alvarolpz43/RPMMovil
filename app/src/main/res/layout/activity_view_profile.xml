@@ -54,7 +54,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:shapeAppearanceOverlay="@style/circular"
-                        app:srcCompat="@drawable/userprofile" />
+                        tools:src="@drawable/userprofile" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -79,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:text="Id"
+                    android:visibility="invisible"
                     android:textColor="@color/white" />
 
                 <EditText
@@ -88,6 +89,7 @@
                     android:layout_marginHorizontal="20dp"
                     tools:hint="id"
                     android:enabled="false"
+                    android:visibility="invisible"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
@@ -159,22 +161,6 @@
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:text="Password"
-                    android:textColor="@color/white" />
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="20dp"
-                    tools:hint="userPassword"
-                    android:inputType="textPassword"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/Gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -218,6 +204,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
                     android:text="Editar" />
+                <Button
+                    android:id="@+id/btnCancelar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:text="Cancelar"
+                    android:visibility="gone"/>
 
 
             </LinearLayout>

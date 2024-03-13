@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="fontRoutes">#EAEAEA</color>
     <color name="black">#FF000000</color>
     <color name="font_black">#191A1F</color>
     <color name="font_black2">#262A35</color>

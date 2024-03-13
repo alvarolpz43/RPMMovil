@@ -56,11 +56,12 @@
                         app:layout_constraintTop_toBottomOf="@+id/saludo" />
 
 
-                    <ImageView
-                        android:id="@+id/imageView2"
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/userProfile"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginEnd="8dp"
+                        app:shapeAppearanceOverlay="@style/circular"
                         android:src="@drawable/user_1"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -1,7 +1,7 @@
 package com.rpm.rpmmovil.Routes.ModelRoutes.ApisR
 
 
-import com.rpm.rpmmovil.Routes.apiRoute.Route
+import com.rpm.rpmmovil.Routes.apiRoute.UserRoutes
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -9,5 +9,5 @@ import retrofit2.http.POST
 interface RoutesApiService {
 
     @POST("rutas")
-    fun postRoutes (@Body route: Route): Call<Route>
+    fun postRoutes (@Body route: UserRoutes): Call<UserRoutes>
 }

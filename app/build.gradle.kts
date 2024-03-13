@@ -47,10 +47,15 @@ dependencies {
 
     //map
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+
+    implementation("com.google.firebase:firebase-analytics:21.5.1")
+
+
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-common-ktx:20.4.2")
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+
     //Dependences of navigation
     val navVersion = "2.7.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
@@ -82,6 +87,16 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
 
     //jwt
+
+    // PARA IMAGENES
+
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("com.squareup.okhttp3:okhttp-urlconnection:4.9.1")
+    implementation ("com.squareup.okio:okio:2.10.0")
+
+
+    //fire
+    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
 
     // PARA IMAGENES
