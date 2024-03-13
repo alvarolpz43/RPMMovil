@@ -40,10 +40,10 @@ class saveRutasActivity : AppCompatActivity() {
     private lateinit var token: String
     private var imageUri: Uri? = null
 
+    //Metodo para tomar la url de la imagen de la galería del teléfono
     private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
             imageUri = uri
-
             Constains.ivImage.setImageURI(uri)
         } else {
             Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
@@ -61,6 +61,7 @@ class saveRutasActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         storage = FirebaseStorage.getInstance()
 
+        //Función inicio anónimo para acceder a firebase ??
         FirebaseAuth.getInstance().signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -83,11 +84,9 @@ class saveRutasActivity : AppCompatActivity() {
             pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
 
+        //Función para guardar la ruta
         binding.btnGuardarRoute.setOnClickListener {
-
             if (imageUri != null) {
-
-
                 token = sharedPreferences.getString("token", "") ?: ""
 
                 if (verificarToken()) {
@@ -105,6 +104,7 @@ class saveRutasActivity : AppCompatActivity() {
         }
     }
 
+    //Función para subir imagen a firebase
     private fun subirImagen() {
         if (imageUri != null) {
             val storageRef = storage.reference
@@ -139,10 +139,17 @@ class saveRutasActivity : AppCompatActivity() {
         }
     }
 
+    //Función para enviar datos a base datos API
     private fun guardarRutaDb(imageUrl: String) {
         val nombreRuta = binding.nombreRuta.text.toString()
-        val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
-        val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()
+
+        val cordenadasInicioOriginal = intent.extras?.getString("cordenadasInicio").orEmpty()
+        val cordenadasFinalOriginal = intent.extras?.getString("cordenadasFinal").orEmpty()
+
+        // Cambiar el formato de las coordenadas
+        val cordenadasInicio = formatearCoordenadas(cordenadasInicioOriginal)
+        val cordenadasFinal = formatearCoordenadas(cordenadasFinalOriginal)
+
         val kmRuta = Constains.DISTANCIA_RUTA
         val ppto = 5000
         val imagenRuta = imageUrl
@@ -162,6 +169,7 @@ class saveRutasActivity : AppCompatActivity() {
             motoviajero
         )
 
+        //Función para validar el token
         token = sharedPreferences.getString("token", "") ?: ""
 
         if (verificarToken()) {
@@ -181,7 +189,7 @@ class saveRutasActivity : AppCompatActivity() {
                 )
                 .build()
 
-
+            //Corrutine para enviar datos a API por retrofit
             val service = retrofit.create(ApiServices::class.java)
 
             GlobalScope.launch(Dispatchers.IO) {
@@ -232,4 +240,16 @@ class saveRutasActivity : AppCompatActivity() {
         Log.d("TOKEN", "$token")
         return !token.isNullOrBlank()
     }
+
+    //Función para formatear las los valores de las cordenadas
+    private fun formatearCoordenadas(coordenadas: String): String {
+        val coordenadasRegex = Regex("lat/lng: \\((-?\\d+\\.\\d+), (-?\\d+\\.\\d+)\\)")
+        val matchResult = coordenadasRegex.find(coordenadas)
+
+        return matchResult?.let { match ->
+            val (latitud, longitud) = match.destructured
+            "$latitud, $longitud"
+        } ?: coordenadas.replace("lat/lng: (", "").replace(")","")
+        }
+
 }
