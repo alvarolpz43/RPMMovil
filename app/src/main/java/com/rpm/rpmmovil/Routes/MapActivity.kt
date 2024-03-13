@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,12 +29,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasItemRespose
-import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasRespose
+import com.rpm.rpmmovil.ExplorarRutas.model.rutas.RutasResponses
 
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.R
-import com.rpm.rpmmovil.Routes.saveRutasActivity
 import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +40,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
-import kotlin.math.log
 
 @Suppress("DEPRECATION")
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -109,7 +107,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         btnCalculate = binding.btnCalculateRoute
 
-
+        binding.iniciar.visibility=View.GONE
         pInicioEditText = binding.pInicio
         pFinalEditText = binding.pFinal
 
@@ -214,23 +212,43 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun getCordinatesRoute(id:String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val rutaCordinate =
-                getRetrofit2().create(ApiService::class.java).getCordinateRoutes(id)
-            if (rutaCordinate.body() != null){
-                runOnUiThread { createUIRoute(rutaCordinate.body()!!) }
+        lifecycleScope.launch {
+            try {
+                Log.e("TAG", "${id}", )
+                val result = getRetrofit2().getCordinateRoutes(id)
+                createUIRoute(result)
+            }catch (e:Exception){
+                Log.e("TAG", "${e}", )
+                Toast.makeText(this@MapActivity, "Error", Toast.LENGTH_SHORT).show()
             }
         }
 
     }
 
-    private fun createUIRoute(ruta: DataRutasRespose) {
+    private fun createUIRoute(ruta: RutasResponses) {
 
+        val puntoIniRuta = ruta.ruta.puntoiniruta.split(",")
+        val puntoFinalRuta = ruta.ruta.puntofinalruta.split(",")
 
-       println(ruta)
-//        createRoute("2.483800320923335, -76.5621739444354",endLatLng)
+        if (puntoIniRuta.size != 2 || puntoFinalRuta.size != 2) {
+            // Handle invalid input
+            return
+        }
+
+        val startPoint = LatLng(puntoIniRuta[0].toDouble(), puntoIniRuta[1].toDouble())
+        val endPoint = LatLng(puntoFinalRuta[0].toDouble(), puntoFinalRuta[1].toDouble())
+
+        createRoute(startPoint, endPoint)
+
+        binding.km.text = ruta.ruta.kmstotruta.toString()
+        binding.desp.visibility = View.GONE
+        binding.btnSave.visibility = View.GONE
+        binding.btnDesp.visibility = View.GONE
+        binding.iniciar.visibility = View.VISIBLE
+
 
     }
+
 
 
 
@@ -324,11 +342,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             .build()
 
     }
-    private fun getRetrofit2(): Retrofit {
+    private fun getRetrofit2(): ApiService {
         return Retrofit.Builder()
             .baseUrl("https://rpm-back-end.vercel.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(ApiService::class.java)
 
     }
 

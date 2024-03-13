@@ -2,6 +2,7 @@ package com.rpm.rpmmovil.Routes
 
 import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasItemRespose
 import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasRespose
+import com.rpm.rpmmovil.ExplorarRutas.model.rutas.RutasResponses
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,5 +17,5 @@ interface ApiService {
     ): Response<RouteResponse>
 
     @GET("rutas/{id}")
-    suspend fun getCordinateRoutes(@Path("id") rutaid:String):Response<DataRutasRespose>
+    suspend fun getCordinateRoutes(@Path("id") rutaid:String):RutasResponses
 }
