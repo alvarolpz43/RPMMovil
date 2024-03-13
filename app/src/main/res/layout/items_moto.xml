@@ -7,15 +7,14 @@
     android:layout_margin="20dp"
     android:background="@drawable/rounded_items_motos"
     android:padding="16dp">
-
     <TextView
         android:id="@+id/nombreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"/>
+
+        android:textStyle="bold"
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/modeloTextView"
@@ -52,4 +51,9 @@
         android:textStyle="bold"
         android:textSize="14sp"/>
 
+    <ImageView
+        android:id="@+id/imageViewMoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop" />
 </LinearLayout>
