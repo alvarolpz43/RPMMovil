@@ -95,7 +95,7 @@ class UserMotosActivity : AppCompatActivity(),MotosAdapter.OnMotoClickListener  
             } catch (e: Exception) {
                 e.printStackTrace()
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@UserMotosActivity, "Error al enviar el consumo al presupuesto", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UserMotosActivity, "Error al enviar el consumo al presupuesto Unu", Toast.LENGTH_SHORT).show()
                 }
             }
         }
