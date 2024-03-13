@@ -7,7 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.Api.Client
 import com.google.firebase.FirebaseApp
@@ -15,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.rpm.rpmmovil.MainActivity
 import com.rpm.rpmmovil.Model.Constains
-import com.rpm.rpmmovil.Rmotos.ShowGarageActivity
 import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
 import com.rpm.rpmmovil.databinding.ActivitySaveRutasBinding
 import com.rpm.rpmmovil.interfaces.ApiClient
@@ -39,15 +39,12 @@ class saveRutasActivity : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     private lateinit var token: String
     private var imageUri: Uri? = null
-    private var selectedImageByte: ByteArray? = null
 
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+    private val pickMedia = registerForActivityResult(PickVisualMedia()) { uri ->
         if (uri != null) {
             imageUri = uri
-            val bitmapImage = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
-            val result = bitmapToByteArray(bitmapImage)
-            selectedImageByte = result
-            binding.imagenRuta.setImageBitmap(bitmapImage)
+
+            Constains.ivImage.setImageURI(uri)
         } else {
             Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
         }
@@ -60,12 +57,6 @@ class saveRutasActivity : AppCompatActivity() {
 
         binding = ActivitySaveRutasBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //GUARDA LAS CORDENADAS DE LA RUTA
-//        val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
-//        val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()
-//        binding.cordenadasRutaInicio.text = cordenadasInicio
-//        binding.cordenadasRutaFinal.text = cordenadasFinal
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         storage = FirebaseStorage.getInstance()
@@ -86,25 +77,21 @@ class saveRutasActivity : AppCompatActivity() {
                 }
             }
 
+        //MÉTODO PARA SUBIR UNA FOTO DESDE LA GALERÍA DEL CELULAR
+        Constains.ivImage = binding.imagenRuta
         binding.imageButton.setOnClickListener {
-            pickMedia.launch("image/*")
+            pickMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageOnly))
         }
 
         binding.btnGuardarRoute.setOnClickListener {
 
-            if (selectedImageByte != null) {
+            if (imageUri != null) {
 
-                val imageFilePart = selectedImageByte?.let {
-                    MultipartBody.Part.createFormData(
-                        "image",
-                        "image.jpg",
-                        it.toRequestBody("image/*".toMediaTypeOrNull())
-                    )
-                }
+
                 token = sharedPreferences.getString("token", "") ?: ""
 
                 if (verificarToken()) {
-                    subirImagen(imageFilePart)
+                    subirImagen()
                 } else {
                     Toast.makeText(
                         this@saveRutasActivity,
@@ -118,14 +105,8 @@ class saveRutasActivity : AppCompatActivity() {
         }
     }
 
-    private fun bitmapToByteArray(bitmapImage: Bitmap): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
-    }
-
-    private fun subirImagen(imageFile: MultipartBody.Part?) {
-        if (imageFile != null && imageUri != null) {
+    private fun subirImagen() {
+        if (imageUri != null) {
             val storageRef = storage.reference
             val imageRef = storageRef.child("imagenes/imagen_${System.currentTimeMillis()}.jpg")
             imageRef.putFile(imageUri!!)
@@ -139,7 +120,7 @@ class saveRutasActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        guardarDatosEnBaseDeDatos(downloadUrl)
+                        guardarRutaDb(downloadUrl)
                     }
                 }
                 .addOnFailureListener {
@@ -158,7 +139,7 @@ class saveRutasActivity : AppCompatActivity() {
         }
     }
 
-    private fun guardarDatosEnBaseDeDatos(imageUrl: String) {
+    private fun guardarRutaDb(imageUrl: String) {
         val nombreRuta = binding.nombreRuta.text.toString()
         val cordenadasInicio = intent.extras?.getString("cordenadasInicio").orEmpty()
         val cordenadasFinal = intent.extras?.getString("cordenadasFinal").orEmpty()

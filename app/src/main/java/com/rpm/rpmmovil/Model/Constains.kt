@@ -9,7 +9,7 @@ class Constains {
         const val nomDb="rpmdb"
         const val versionDb = 8
 
-        lateinit var URI: ImageView
+        lateinit var ivImage: ImageView
 
         const val ROUTES= "CREATE TABLE routes(rutaN string, cordenadasInicio string ,cordenadasFinal string, detalle string, imagen string)"
 
