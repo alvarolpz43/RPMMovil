@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface PresupuestoService {
     @POST("presupuesto")
-    suspend fun enviarPresupuesto(@Body presupuestoRequest: Presupuesto): Response<Any>
+    suspend fun enviarPresupuesto(@Body presupuestoRequest: Presupuesto): Response<PresupuestoResponse>
 }

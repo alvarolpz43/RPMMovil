@@ -1,5 +1,7 @@
 package com.rpm.rpmmovil.presupuesto
 
 data class Presupuesto(
-    val consumoMotoLx100km: Int
+    val NumeroKm: Double,
+    val ConsumoMoto: Int
+
 )
