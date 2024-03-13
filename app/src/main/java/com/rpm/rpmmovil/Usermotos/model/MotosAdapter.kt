@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.R
 
-class MotosAdapter(private val motosList: List<Usermoto>, private val listener: OnMotoClickListener) : RecyclerView.Adapter<MotosAdapter.MotoViewHolder>() {
+class MotosAdapter(private val motosList: List<Usermoto>, private val listener: OnMotoClickListener, private val distanceKm: Int) : RecyclerView.Adapter<MotosAdapter.MotoViewHolder>() {
     interface OnMotoClickListener {
-        fun onMotoClicked(consumoMotoLx100km: Int)
+        fun onMotoClicked(consumoMotoLx100km: Int, distanceKm: Int)
     }
 
     inner class MotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,9 +25,9 @@ class MotosAdapter(private val motosList: List<Usermoto>, private val listener: 
             consumoTextView.text = "Consumo: ${usermoto.ConsumoMotoLx100km} L/100km"
             cilindrajeTextView.text = "Cilindraje: ${usermoto.CilindrajeMoto}"
 
-            // Manejar clic en el elemento de la lista
+
             itemView.setOnClickListener {
-                listener.onMotoClicked(usermoto.ConsumoMotoLx100km)
+                listener.onMotoClicked(usermoto.ConsumoMotoLx100km, distanceKm)
             }
         }
     }

@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rpm.rpmmovil.R
+import com.rpm.rpmmovil.Usermotos.UserMotosActivity
 import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -139,6 +140,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         val distanceKmRounded = "%.2f".format(distanceKm)
                         binding.km.text = "${distanceKmRounded} Km"
 
+                      binding.btnsiguiente.setOnClickListener{
+                  funcionBtnSiguiente(distanceKmRounded)
+
+                      }
+
 
                     } else {
                         Toast.makeText(
@@ -200,7 +206,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     }
-    //fura de oncreate
+    private fun funcionBtnSiguiente(distanceKmRounded: String) {
+        Toast.makeText(this, "Este es el valor que se está enviando: $distanceKmRounded", Toast.LENGTH_SHORT).show()
+        Log.d("MyTag", "Este es el valor que se está enviando: $distanceKmRounded")
+
+
+
+
+
+        val distanceKm = distanceKmRounded.toFloat().toInt()
+        val intent = Intent(this, UserMotosActivity::class.java)
+        intent.putExtra("distanceKm", distanceKm)
+        startActivity(intent)
+    }
+
+
+
+
 
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -272,8 +294,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     intent.putExtra("cordenadasFinal", endLatLng.toString())
                     startActivity(intent)
                 }
-
-
 
 
 
