@@ -1,12 +1,12 @@
 package com.rpm.rpmmovil.Rmotos.model.RecyclerV
 
+import DataItemMotos
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.ViewsUpdateMotos
-import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataItemMotos
-import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataMotosResponse
+
 import com.rpm.rpmmovil.databinding.ItemMotosBinding
 import com.squareup.picasso.Picasso
 

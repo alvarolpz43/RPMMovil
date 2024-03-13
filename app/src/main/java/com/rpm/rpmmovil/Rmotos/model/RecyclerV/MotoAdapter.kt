@@ -1,10 +1,11 @@
 package com.rpm.rpmmovil.Rmotos.model.RecyclerV
 
+import DataItemMotos
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rpm.rpmmovil.R
-import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataItemMotos
+
 
 class MotoAdapter(var motolist: List<DataItemMotos> = emptyList(),
                   private  val onItemSelected: (String) -> Unit

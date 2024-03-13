@@ -1,5 +1,6 @@
     package com.rpm.rpmmovil.Rmotos
 
+    import DataMotosResponse
     import android.content.SharedPreferences
     import android.os.Bundle
     import android.util.Log
@@ -9,7 +10,7 @@
     import androidx.core.view.isVisible
     import androidx.recyclerview.widget.LinearLayoutManager
     import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
-    import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataMotosResponse
+
     import com.rpm.rpmmovil.Rmotos.model.RecyclerV.MotoAdapter
     import com.rpm.rpmmovil.databinding.ActivityShowGarageBinding
     import kotlinx.coroutines.CoroutineScope

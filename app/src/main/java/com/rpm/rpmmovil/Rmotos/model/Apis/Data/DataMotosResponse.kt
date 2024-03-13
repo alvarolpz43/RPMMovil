@@ -2,6 +2,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
+data class DataMotosResponse( @SerializedName("motos") val moto:List<DataItemMotos>)
 data class DataItemMotos(
    @SerializedName("MotoNombre") val motonom: String,
    @SerializedName("MarcaMoto") val motomarca: String,

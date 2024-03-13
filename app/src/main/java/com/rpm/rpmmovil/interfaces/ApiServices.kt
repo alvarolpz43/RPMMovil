@@ -2,8 +2,9 @@ package com.rpm.rpmmovil.interfaces
 
 
 
+import DataItemMotos
 import com.rpm.rpmmovil.Model.Constains
-import com.rpm.rpmmovil.Rmotos.model.Apis.Data.DataItemMotos
+
 
 import okhttp3.MultipartBody
 
