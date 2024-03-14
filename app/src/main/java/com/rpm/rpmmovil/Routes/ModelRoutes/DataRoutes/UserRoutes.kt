@@ -3,11 +3,11 @@ package com.rpm.rpmmovil.Routes.apiRoute
 import com.google.gson.annotations.SerializedName
 
 data class UserRoutes(
-    @SerializedName("rutas") val rutas: List<Route>
+    @SerializedName("rutas") val rutas: List<Routes>
 )
 
 
-data class Route(
+data class Routes(
     @SerializedName("NombreRuta") val NombreRuta: String,
     @SerializedName("PuntoInicioRuta") val PuntoInicioRuta: String,
     @SerializedName("PuntoFinalRuta") val PuntoFinalRuta: String,

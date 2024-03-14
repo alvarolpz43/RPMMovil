@@ -26,4 +26,5 @@
     <string name="txt_identificacion">Identificacion</string>
     <string name="txt_numero_Telefono">Numero de Telefono</string>
     <string name="txt_telefono">Telefono</string>
+    <string name="default_web_client_id" />
 </resources>

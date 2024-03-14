@@ -1,13 +1,12 @@
-
-package com.rpm.rpmmovil.ExplorarRutas.model
+package com.rpm.rpmmovil.ExplorarRutas.model.rutas
 
 import com.google.gson.annotations.SerializedName
 
-data class DataRutasRespose(
-    @SerializedName("ruta") val ruta: List<DataRutasItemRespose>
+data class RutasResponses(
+    var ruta: RutasData
 )
 
-data class DataRutasItemRespose(
+data class RutasData(
     @SerializedName("_id") val rutaid: String,
     @SerializedName("NombreRuta") val nomruta: String,
     @SerializedName("PuntoInicioRuta") val puntoiniruta: String,
@@ -18,9 +17,3 @@ data class DataRutasItemRespose(
     @SerializedName("DescripcionRuta") val descripruta: String,
     @SerializedName("CalificacionRuta") val califruta: Number
 )
-
-//data class RutaImageResponse(@SerializedName("url") val url: String)
-
-
-
-
