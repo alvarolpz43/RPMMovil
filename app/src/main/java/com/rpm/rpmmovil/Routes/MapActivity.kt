@@ -112,11 +112,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         pFinalEditText = binding.pFinal
 
 
-
-
-
-
-
         btnCalculate.setOnClickListener {
             val location1 = pInicioEditText.text.toString()
             val location2 = pFinalEditText.text.toString()
@@ -219,7 +214,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 createUIRoute(result)
             }catch (e:Exception){
                 Log.e("TAG", "${e}", )
-                Toast.makeText(this@MapActivity, "Error", Toast.LENGTH_SHORT).show()
             }
         }
 
