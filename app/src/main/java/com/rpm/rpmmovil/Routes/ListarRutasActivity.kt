@@ -80,7 +80,11 @@ class ListarRutasActivity : AppCompatActivity() {
                             adapter.updatelist(response.rutas)
                             binding.progressBar.isVisible = false
                         }
+                    }else{
+                        Toast.makeText(this@ListarRutasActivity, "No hay Rutas, Puedes Crear una!!!!", Toast.LENGTH_SHORT).show()
                     }
+
+
                 } else {
                     Log.e("Rpm", "Error en la respuesta: ${myResponse.code()}")
                 }
