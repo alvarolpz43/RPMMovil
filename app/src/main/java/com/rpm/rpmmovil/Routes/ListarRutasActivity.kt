@@ -89,7 +89,7 @@ class ListarRutasActivity : AppCompatActivity() {
                     Log.e("Rpm", "Error en la respuesta: ${myResponse.code()}")
                 }
             } catch (e: Exception) {
-                Log.e("Rpm", "Error: ${e.message}", e)
+                Log.e("Rpm", "Error en: ${e.message}", e)
                 runOnUiThread {
                     // Puedes mostrar un mensaje de error al usuario
                     Toast.makeText(this@ListarRutasActivity, "${e.message}", Toast.LENGTH_SHORT).show()
