@@ -66,24 +66,9 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/background_btn"
-                    android:hint="Nombre de Ruta" />
+                    android:hint="Nombre de Ruta"
+                    android:maxLength="50"/>
 
-<!--                <TextView-->
-<!--                    android:id="@+id/cordenadasRutaInicio"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_margin="7dp"-->
-<!--                    android:background="@drawable/background_btn"-->
-<!--                    android:text="cordenadasRutaInicio" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/cordenadasRutaFinal"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:layout_margin="7dp"-->
-<!--                    android:background="@drawable/background_btn"-->
-<!--                    android:hint="Cordenadas Ruta"-->
-<!--                    android:text="cordenadasRutaFinal" />-->
 
                 <MultiAutoCompleteTextView
                     android:id="@+id/detallesRuta"
@@ -91,13 +76,13 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/background_btn"
-                    android:hint="Descripción" />
+                    android:hint="Descripción"
+                    android:maxLength="200"/>
 
                 <ImageView
                     android:id="@+id/imagenRuta"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    />
+                    android:layout_height="150dp" />
 
                 <Button
                     android:id="@+id/imageButton"
