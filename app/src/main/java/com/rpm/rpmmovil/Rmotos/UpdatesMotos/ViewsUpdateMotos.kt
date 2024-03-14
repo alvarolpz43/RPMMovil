@@ -186,7 +186,7 @@ class ViewsUpdateMotos : AppCompatActivity() {
                     Toast.makeText(this@ViewsUpdateMotos, "${myResponse}", Toast.LENGTH_SHORT).show()
 
                 }else{
-                    Log.i("Respoonse", "Error en la Respuesta")
+                    Log.i("Respoonss", "Error en la Respuesta")
 
                 }
 
