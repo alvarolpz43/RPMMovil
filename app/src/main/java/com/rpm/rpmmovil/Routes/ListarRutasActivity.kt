@@ -37,10 +37,11 @@ class ListarRutasActivity : AppCompatActivity() {
 
         //Cambio de Hilo
         lifecycleScope.launch(Dispatchers.IO) {
-            getUserRutas()
+            initUI()
+            searchAllUserRutas()
+
         }
-        initUI()
-        searchAllRutas()
+
 
 
     }
@@ -52,7 +53,7 @@ class ListarRutasActivity : AppCompatActivity() {
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchAllRutas()  // Cambia a la función de búsqueda de todas las rutas
+                searchAllUserRutas()  // Cambia a la función de búsqueda de todas las rutas
                 return false
             }
 
@@ -63,7 +64,7 @@ class ListarRutasActivity : AppCompatActivity() {
         binding.rvRutas.layoutManager = LinearLayoutManager(this)
         binding.rvRutas.adapter = adapter
     }
-    private fun searchAllRutas() {
+    private fun searchAllUserRutas() {
         binding.progressBar.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {
             val retrofit = getRetrofit()
@@ -105,27 +106,7 @@ class ListarRutasActivity : AppCompatActivity() {
 
 
 
-    private suspend fun getUserRutas() {
-        val retrofit = getRetrofit()
-        val myResponse: Response<UserRoutes> =
-            retrofit.create(ApiServices::class.java).getUserRutas(token.toString())
 
-
-
-        if (myResponse.isSuccessful) {
-            val response: UserRoutes? = myResponse.body()
-
-            if (response != null) {
-                runOnUiThread {
-                    adapter.updatelist(response.rutas)
-                    binding.progressBar.isVisible = false
-                }
-
-            }
-        } else {
-            Log.e("Rpm", "Error en la respuesta: ${myResponse.code()}")
-        }
-    }
 }
 
 
