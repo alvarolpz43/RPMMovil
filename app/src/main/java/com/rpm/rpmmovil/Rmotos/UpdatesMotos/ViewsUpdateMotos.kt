@@ -1,6 +1,7 @@
 package com.rpm.rpmmovil.Rmotos.UpdatesMotos
 
 import DataItemMotos
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -14,7 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.rpm.rpmmovil.R
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.updateMoto
+import com.rpm.rpmmovil.Rmotos.model.RecyclerV.motoViewHolder
 import com.rpm.rpmmovil.databinding.ActivityViewsUpdateMotosBinding
 import com.rpm.rpmmovil.interfaces.ApiServices
 import com.rpm.rpmmovil.profile.ViewProfile
@@ -78,17 +81,17 @@ class ViewsUpdateMotos : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         storage = FirebaseStorage.getInstance()
 
-        FirebaseAuth.getInstance().signInAnonymously()
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-
-                    val moto = task.result?.user
-
-                } else {
-
-                    Log.e("GarageActivity", "Error al iniciar sesión anónimamente", task.exception)
-                }
-            }
+//        FirebaseAuth.getInstance().signInAnonymously()
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//
+//                    val moto = task.result?.user
+//
+//                } else {
+//
+//                    Log.e("GarageActivity", "Error al iniciar sesión anónimamente", task.exception)
+//                }
+//            }
         //aqui se gaurda solo ela imagen
 
 
@@ -105,11 +108,6 @@ class ViewsUpdateMotos : AppCompatActivity() {
         val btnGuardar = binding.btnGuardar
 
 
-        btnGuardar.setOnClickListener {
-            val token = token
-
-
-        }
 
 
 
@@ -132,7 +130,7 @@ class ViewsUpdateMotos : AppCompatActivity() {
         val cilimoto = intent.getStringExtra("cilimoto")
 
         //para usarlo en el edit
-        val idUserMoto= intent.getStringExtra("idMoto")
+        val idUserMoto = intent.getStringExtra("idMoto")
 
         binding.motonombre.setText(motonom)
         binding.motomodelo.setText(motomodel)
@@ -154,50 +152,51 @@ class ViewsUpdateMotos : AppCompatActivity() {
         editTexts.forEach { it.isEnabled = false }
 
 
-        val nombre= binding.motonombre.text.toString()
-        val modelo= binding.motomodelo.text.toString()
-        val marca= binding.marcamoto.text.toString()
-        val version= binding.versionmoto.text.toString()
-        val consumo= binding.consumokmxg.text.toString()
-        val cilindraje=binding.cilimoto.text.toString()
+        val nombre = binding.motonombre.text.toString()
+        val modelo = binding.motomodelo.text.toString()
+        val marca = binding.marcamoto.text.toString()
+        val version = binding.versionmoto.text.toString()
+        val consumo = binding.consumokmxg.text.toString()
+        val cilindraje = binding.cilimoto.text.toString()
 
 
-
-        val objMotoUbdate=updateMoto (
-            nombre, marca,modelo,version.toInt(),consumo.toInt(),cilindraje
+        val objMotoUbdate = updateMoto(
+            nombre, marca, modelo, version.toInt(), consumo.toInt(), cilindraje
         )
 
         binding.btnEdit.setOnClickListener {
 
             editTexts.forEach { it.isEnabled = true }
+            binding.motonombre.setTextColor(resources.getColor(R.color.black))
+            binding.motomodelo.setTextColor(resources.getColor(R.color.black))
+            binding.marcamoto.setTextColor(resources.getColor(R.color.black))
+            binding.versionmoto.setTextColor(resources.getColor(R.color.black))
+            binding.consumokmxg.setTextColor(resources.getColor(R.color.black))
+            binding.cilimoto.setTextColor(resources.getColor(R.color.black))
         }
 
-        binding.btnGuardar.setOnClickListener{
-
-
-            Toast.makeText(this, "${nombre}", Toast.LENGTH_SHORT).show()
+        binding.btnGuardar.setOnClickListener {
+            val token = token
             lifecycleScope.launch(Dispatchers.IO) {
-                val retrofit=getRetrofit()
-                val response= retrofit.create(ApiServices::class.java).updateMoto(idUserMoto!!,objMotoUbdate,token)
+                val retrofit = getRetrofit()
+                val response = retrofit.create(ApiServices::class.java)
+                    .updateMoto(idUserMoto!!, objMotoUbdate, token)
                 Log.i("El Aldair", "$response")
 
-                if (response.isSuccessful){
-                    val myResponse=response.body()
-                    Toast.makeText(this@ViewsUpdateMotos, "${myResponse}", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful) {
+                    val myResponse = response.body()
+                    Toast.makeText(this@ViewsUpdateMotos, "${myResponse}", Toast.LENGTH_SHORT)
+                        .show()
 
-                }else{
+                    // Aquí puedes añadir el código para volver a la actividad donde están listadas las motos guardadas
+                    val intent = Intent(this@ViewsUpdateMotos, motoViewHolder::class.java)
+                    startActivity(intent)
+                    finish() // Esto finalizará la actividad actual para que no puedas volver atrás con el botón de retroceso
+                } else {
                     Log.i("Respoonss", "Error en la Respuesta")
-
                 }
-
-
-
             }
-
         }
-
-
-
 
 
 
