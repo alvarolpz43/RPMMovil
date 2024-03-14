@@ -83,19 +83,6 @@
             android:theme="@style/Theme.RPMSQLite">
 
         </activity>
-
-        <!--Proveedor de archivos para guardar imágenes en FIREBASE-->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="io.devexpert.android_firebase.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-
         
     </application>
 </manifest>
