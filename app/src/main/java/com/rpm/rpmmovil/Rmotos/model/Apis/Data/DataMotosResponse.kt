@@ -5,6 +5,7 @@ import java.io.Serializable
 
 data class DataMotosResponse( @SerializedName("motos") val moto:List<DataItemMotos>)
 data class DataItemMotos(
+   @SerializedName("_id") val _id: String,
    @SerializedName("MotoNombre") val motonom: String,
    @SerializedName("MarcaMoto") val motomarca: String,
    @SerializedName("ModeloMoto") val motomodel: String,
@@ -12,4 +13,4 @@ data class DataItemMotos(
    @SerializedName("ConsumoMotoLx100km") val consumokmxg: Number,
    @SerializedName("CilindrajeMoto") val cilimoto: String,
    @SerializedName("FotoMoto") val imagemoto: String
-): Serializable
+)

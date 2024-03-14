@@ -46,12 +46,22 @@ interface ApiServices {
     ): Response<updateUser>
 
 
-    @GET("motos")
-    suspend fun getupdateMoto(@Header("Authorization") token: String): Response<dataUpdatemoto>
-    @PUT("motos/update/{idMoto}")
+
+
+
+    @GET("usermotos")
+    suspend fun getuserMotos(@Header("Authorization") token: String): Response<dataUpdatemoto>
+
+
+
+
+
+
+
+    @PUT("motos/{idMoto}")
     suspend fun updateMoto(
         @Path("idMoto") idMoto: String,
-        @Body request: DataItemMotos,
+        @Body request: updateMoto,
         @Header("Authorization") token: String
     ): Response<updateMoto>
 

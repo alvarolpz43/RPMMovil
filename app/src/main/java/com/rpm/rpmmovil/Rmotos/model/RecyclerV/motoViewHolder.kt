@@ -29,18 +29,27 @@ class motoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
         binding.btnEditar.setOnClickListener {
+            val idMoto = datamotos._id
+//            Toast.makeText(itemView.context, "Editando a $idMoto", Toast.LENGTH_SHORT).show()
+
             val intent = Intent(itemView.context, ViewsUpdateMotos::class.java)
-            intent.putExtra("dataItemMotos", datamotos) // Pasar el objeto DataItemMotos
+            intent.putExtra("idMoto", datamotos._id)
+            intent.putExtra("motonom", datamotos.motonom)
+            intent.putExtra("motomodel", datamotos.motomodel)
+            intent.putExtra("motomarca", datamotos.motomarca)
+            intent.putExtra("motovers", datamotos.motovers.toString())
+            intent.putExtra("consumokmxg", datamotos.consumokmxg.toString())
+            intent.putExtra("cilimoto", datamotos.cilimoto)
             itemView.context.startActivity(intent)
-            Toast.makeText(itemView.context, "Editando", Toast.LENGTH_SHORT).show()
         }
+
 
 
 
 
         binding.btnEliminar.setOnClickListener {
 
-            Toast.makeText(itemView.context, "Eliminando", Toast.LENGTH_SHORT).show()
+            Toast.makeText(itemView.context, "Eliminandoo", Toast.LENGTH_SHORT).show()
         }
     }
 
