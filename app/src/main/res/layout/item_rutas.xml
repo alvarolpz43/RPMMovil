@@ -22,7 +22,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="230dp"
-            android:layout_weight="1"
+            android:layout_weight="0.6"
             app:cardCornerRadius="16dp">
 
             <ImageView
@@ -53,6 +53,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="@color/black"
+                    android:gravity="left"
                     android:padding="5dp">
 
                     <TextView
@@ -83,13 +84,11 @@
                         android:id="@+id/calificacionruta"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="0.4"
-                        android:scaleY="0.4"
-                        android:background="@color/yellow"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginRight="0dp"
                         android:numStars="5"
-                        android:stepSize="0.1"/>
+                        android:progressTint="@color/primary"
+                        android:scaleX="0.6"
+                        android:scaleY="0.6" />
+
 
                     <Button
                         android:id="@+id/irmapa"
