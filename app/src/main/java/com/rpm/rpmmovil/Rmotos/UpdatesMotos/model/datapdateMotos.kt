@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.rpm.rpmmovil.profile.model.dataUser
 
 data class dataUpdatemoto(
-    @SerializedName("motoFound") val motoFound: DataItemUpdateMotos
+    @SerializedName("foundMoto") val motoFound: DataItemUpdateMotos
 )
 data class DataItemUpdateMotos(
     @SerializedName("_id") val _id: String,

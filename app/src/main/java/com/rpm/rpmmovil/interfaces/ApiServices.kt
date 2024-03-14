@@ -6,6 +6,7 @@ package com.rpm.rpmmovil.interfaces
 import DataItemMotos
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.dataUpdatemoto
+import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.updateMoto
 
 
 import okhttp3.MultipartBody
@@ -52,7 +53,7 @@ interface ApiServices {
         @Path("idMoto") idMoto: String,
         @Body request: DataItemMotos,
         @Header("Authorization") token: String
-    ): Response<DataItemMotos>
+    ): Response<updateMoto>
 
     @GET("userrutas")
     suspend fun getUserRutas(@Header("Authorization") token: String): Response<UserRoutes>
