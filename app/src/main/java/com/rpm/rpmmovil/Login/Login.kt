@@ -2,6 +2,7 @@ package com.rpm.rpmmovil.Login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.rpm.rpmmovil.Login.model.ApiServiceLogin
@@ -59,10 +60,15 @@ class Login : AppCompatActivity() {
                 override fun onResponse(call: Call<DtaUser>, response: Response<DtaUser>) {
                     if (response.isSuccessful) {
                         userToken = response.body()?.Token
+                        val header = response.headers()
+                        Log.i("headers", " estos son los headers  $header");
+
+
 
                         if (isValidToken(userToken)) {
 
                             saveTokenToSharedPreferences(userToken)
+
 
                             val intent = Intent(this@Login, MainActivity::class.java)
                             startActivity(intent)
@@ -99,6 +105,7 @@ class Login : AppCompatActivity() {
         return token != null && token.isNotEmpty()
     }
 
+    //y ese code???
     private fun saveTokenToSharedPreferences(token: String?) {
         val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()

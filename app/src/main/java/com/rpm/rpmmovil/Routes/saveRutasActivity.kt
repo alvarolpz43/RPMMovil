@@ -1,16 +1,13 @@
 package com.rpm.rpmmovil.Routes//package com.rpm.rpmmovil.Rmotos
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.common.api.Api.Client
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
@@ -18,18 +15,13 @@ import com.rpm.rpmmovil.MainActivity
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
 import com.rpm.rpmmovil.databinding.ActivitySaveRutasBinding
-import com.rpm.rpmmovil.interfaces.ApiClient
 import com.rpm.rpmmovil.interfaces.ApiServices
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
 
 class saveRutasActivity : AppCompatActivity() {
@@ -249,7 +241,7 @@ class saveRutasActivity : AppCompatActivity() {
         return matchResult?.let { match ->
             val (latitud, longitud) = match.destructured
             "$latitud, $longitud"
-        } ?: coordenadas.replace("lat/lng: (", "").replace(")","")
-        }
+        } ?: coordenadas.replace("lat/lng: (", "").replace(")", "")
+    }
 
 }

@@ -70,6 +70,8 @@ class ExploraRutasActivity: AppCompatActivity() {
                 val myResponse: Response<DataRutasRespose> =
                     retrofit.create(ApiServiceRutas::class.java).getAllRutas()
 
+                Log.i("iraa", myResponse.toString())
+
                 if (myResponse.isSuccessful) {
                     val response: DataRutasRespose? = myResponse.body()
 

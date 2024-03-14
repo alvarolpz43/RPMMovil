@@ -1,88 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="16dp">
-
-        <ImageView
-            android:id="@+id/ivRutas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="16dp">
+        android:layout_margin="10dp"
 
-        <LinearLayout
+
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/nomruta"
+            <ImageView
+                android:id="@+id/ivRutas"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 1" />
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
 
-            <TextView
-                android:id="@+id/puntoinicioruta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 2" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
-            <TextView
-                android:id="@+id/puntofinalruta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 3" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/userprofile" />
 
-            <TextView
-                android:id="@+id/kmtotalesruta"
+            <LinearLayout
+                android:id="@+id/info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 4" />
+                android:layout_height="match_parent"
+                android:padding="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivRutas">
 
-            <TextView
-                android:id="@+id/presupuestogas"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 5" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/descripruta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 6" />
+                    <TextView
+                        android:id="@+id/nomruta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Nombre Ruta" />
 
-            <TextView
-                android:id="@+id/calificacionruta"
+
+                    <TextView
+                        android:id="@+id/kmtotalesruta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Km 4" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Texto 7" />
-        </LinearLayout>
+                android:layout_height="50dp"
+                android:background="@color/fontRoutes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/info">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/calificacionruta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:textColor="@color/black"
+                        android:textSize="40sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="5" />
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:numStars="3"
+                        android:progressBackgroundTint="@color/white"
+                        android:progressTint="@color/primary"
+                        android:rating="2.5"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/calificacionruta"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/presupuestogas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="25dp"
+                        android:text="Texto 5"
+                        android:textSize="30sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.cardview.widget.CardView>
 
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="50dp"
-        android:text="Ir al Mapa"
-        android:layout_gravity="center_horizontal" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
