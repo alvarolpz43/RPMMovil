@@ -38,7 +38,7 @@ interface ApiServices {
     @GET("profile")
     suspend fun getprofileUser(@Header("Authorization") token: String): Response<dataProfileUser>
 
-    @PUT("updateuser/{idUser}")
+    @PUT("motos/update/{idUser}")
     suspend fun updateUser(
         @Path("idUser") idUser: String,
         @Body request: updateUser,
@@ -58,7 +58,7 @@ interface ApiServices {
 
 
 
-    @PUT("motos/{idMoto}")
+    @PUT("motos/update/{idMoto}")
     suspend fun updateMoto(
         @Path("idMoto") idMoto: String,
         @Body request: updateMoto,
