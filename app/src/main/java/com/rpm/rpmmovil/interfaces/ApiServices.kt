@@ -1,8 +1,10 @@
 package com.rpm.rpmmovil.interfaces
 
 
+import DataItemMotos
 import com.rpm.rpmmovil.Model.Constains
-import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
+import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.dataUpdatemoto
+import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.updateMoto
 import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
 import com.rpm.rpmmovil.Routes.apiRoute.UserRoutes
 import com.rpm.rpmmovil.profile.model.dataProfileUser
@@ -36,6 +38,17 @@ interface ApiServices {
         @Header("Authorization") token: String
     ): Response<updateUser>
 
+
+    @GET("usermotos")
+    suspend fun getuserMotos(@Header("Authorization") token: String): Response<dataUpdatemoto>
+
+
+    @PUT("motos/update/{idMoto}")
+    suspend fun updateMoto(
+        @Path("idMoto") idMoto: String,
+        @Body request: updateMoto,
+        @Header("Authorization") token: String
+    ): Response<updateMoto>
 
     @GET("userrutas")
     suspend fun getUserRutas(@Header("Authorization") token: String): Response<UserRoutes>
