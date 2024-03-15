@@ -4,117 +4,243 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Rmotos.UpdatesMotos.ViewsUpdateMotos">
+    android:background="@color/black"
+    tools:context=".Rmotos.UpdatesMotos.ViewsUpdateMotos"
+   >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Editar Moto "
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/motonombre"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="nombre"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
 
-    <EditText
-        android:id="@+id/motomodelo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="modelo"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/motonombre" />
+            >
 
-    <EditText
-        android:id="@+id/marcamoto"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="marca"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/motomodelo" />
+            <TextView
+                android:id="@+id/textViewRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="40dp"
+                android:text="Editar Motos"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/cardView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.52" />
 
-    <EditText
-        android:id="@+id/versionmoto"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="version"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/marcamoto" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/WP_trasparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-    <EditText
-        android:id="@+id/consumokmxg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="consumo"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/versionmoto" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/curve_register"
+                    android:gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="32dp"
+                    android:paddingTop="52dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="20dp">
 
-    <EditText
-        android:id="@+id/cilimoto"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="cilindraje"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/consumokmxg" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/curve_register"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="32dp"
+                        android:paddingTop="52dp"
+                        android:paddingRight="30dp"
+                        android:paddingBottom="20dp">
 
-    <ImageView
-        android:id="@+id/imagemoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cilimoto" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/white"
+                            app:boxBackgroundMode="none"
+                            app:endIconMode="clear_text"
+                            app:hintEnabled="false">
 
-    <Button
-        android:id="@+id/btnGuardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="guardar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagemoto" />
+                            <EditText
+                                android:id="@+id/marcamoto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
 
-    <Button
-        android:id="@+id/btnEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="Editar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGuardar"
-        app:layout_constraintVertical_bias="0.0" />
+                                android:hint="Marca Moto"
+                                android:inputType="text"
+                                android:textColor="@color/Gray"
+                                 />
 
-    <!-- Añade EditTexts adicionales para otros campos de la moto -->
+                        </com.google.android.material.textfield.TextInputLayout>
 
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/white"
+                            app:boxBackgroundMode="none"
+                            app:endIconMode="clear_text"
+                            app:hintEnabled="false">
+
+                            <EditText
+                                android:id="@+id/motomodelo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Modelo Moto"
+                                android:inputType="text"
+                                android:textColor="@color/Gray"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/white"
+                            app:boxBackgroundMode="none"
+                            app:endIconMode="clear_text"
+                            app:hintEnabled="false">
+
+                            <EditText
+                                android:id="@+id/cilimoto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Cilindraje Moto"
+                                android:inputType="text"
+                                android:textColor="@color/Gray"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/white"
+                            app:boxBackgroundMode="none"
+                            app:endIconMode="clear_text"
+                            app:hintEnabled="false">
+
+                            <EditText
+                                android:id="@+id/motonombre"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Nombre Moto"
+                                android:inputType="text"
+                                android:textColor="@color/Gray"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/white"
+                            app:boxBackgroundMode="none"
+                            app:endIconMode="clear_text"
+                            app:hintEnabled="false">
+
+                            <EditText
+                                android:id="@+id/versionmoto"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Version Moto"
+
+                                android:inputType="number"
+                                android:textColor="@color/Gray"
+                                 />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            android:background="@color/white"
+                            app:boxBackgroundMode="none"
+                            app:endIconMode="clear_text"
+                            app:hintEnabled="false">
+
+                            <EditText
+                                android:id="@+id/consumokmxg"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="ConsumoX100Km"
+
+                                android:inputType="number"
+                                android:textColor="@color/Gray"
+                                 />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:scaleType="fitXY"
+                            app:layout_constraintTop_toBottomOf="@+id/consumo" />
+
+
+                        <ImageView
+                            android:id="@+id/imagemoto"
+                            android:layout_marginTop="16dp"
+                            android:backgroundTint="@color/ColorPrincipalAPP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subir imagen" />
+
+                        <Button
+                            android:id="@+id/btnEdit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:backgroundTint="@color/ColorPrincipalAPP"
+                            android:text="Editar"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/consumo" />
+
+                        <Button
+                            android:id="@+id/btnGuardar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="1dp"
+                            android:layout_marginEnd="16dp"
+                            android:backgroundTint="@color/ColorPrincipalAPP"
+                            android:text="Guardar"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/button1" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
