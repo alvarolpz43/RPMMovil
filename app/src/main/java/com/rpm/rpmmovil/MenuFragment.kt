@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.rpm.rpmmovil.Login.Login
 import com.rpm.rpmmovil.databinding.FragmentMenuBinding
+import com.rpm.rpmmovil.interfaces.ApiClient
 import com.rpm.rpmmovil.interfaces.ApiServices
 import com.rpm.rpmmovil.profile.ViewProfile
 import com.rpm.rpmmovil.profile.model.dataProfileUser
@@ -26,10 +28,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MenuFragment : Fragment() {
-
     private var _binding: FragmentMenuBinding? = null
     private val binding get() = _binding!!
-
 
 
     override fun onCreateView(
@@ -40,62 +40,51 @@ class MenuFragment : Fragment() {
         return binding.root
     }
 
-    //Traigo el token sisis
-    val token= AppRPM.prefe.getToken()
+    //Traemos lod Datos necesarios
+    val retrofit = ApiClient.web
+    val token = AppRPM.prefe.getToken()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnLogout.setOnClickListener {
-            recuperarToken()
-        }
 
+
+        binding.btnLogout.setOnClickListener {
+            limpiarYRedirigirALogin()
+        }
+        llenarDatos()
 
         //Vamos al ViewProfile
         binding.userProfile.setOnClickListener {
-            val intent:Intent= Intent(requireContext(), ViewProfile::class.java)
+            val intent: Intent = Intent(requireContext(), ViewProfile::class.java)
             startActivity(intent)
         }
 
-        //datos
-        llenarDatos()
+
     }
 
     private fun llenarDatos() {
         val token = AppRPM.prefe.getToken().toString()
 
-
-        val retrofit = getRetrofit()
         lifecycleScope.launch(Dispatchers.IO) {
-            val response: Response<dataProfileUser> =
-                retrofit.create(ApiServices::class.java).getprofileUser(token)
-
-
-            Log.i("Albañil", response.toString())
+            val response: Response<dataProfileUser> = retrofit.getprofileUser(token)
             if (response.isSuccessful) {
                 val myResponse = response.body()
-
                 withContext(Dispatchers.Main) {
                     myResponse?.let {
                         binding.userName.setText(myResponse.userFound.Nombres_Mv)
                         binding.userEmail.setText(myResponse.userFound.Email_Mv)
-
-
-
-
-                        if (myResponse.userFound.ImageUser.isEmpty()){
+                        if (myResponse.userFound.ImageUser.isEmpty()) {
                             Picasso.get()
                                 .load("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
                                 .into(binding.userPhoto)
 
-                        }else{
+                        } else {
                             Picasso.get()
                                 .load(myResponse.userFound.ImageUser)
                                 .into(binding.userPhoto)
 
                         }
-
-
 
 
                     }
@@ -117,38 +106,16 @@ class MenuFragment : Fragment() {
 
         }
     }
-    private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(ViewProfile.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
 
 
     private fun limpiarYRedirigirALogin() {
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", AppCompatActivity.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.clear()
-        editor.apply()
-        val intent = Intent(requireActivity(), Login::class.java)
+        AppRPM.prefe.clearPreferences()
+        val intent = Intent(requireContext(), Login::class.java)
         startActivity(intent)
         requireActivity().finish()
-      //  val userTokenAfterClear = sharedPreferences.getString("token", null)
-    //Toast.makeText(requireContext(), "Token después de limpiar: $userTokenAfterClear", Toast.LENGTH_SHORT).show()
-
     }
 
-    private fun recuperarToken() {
-        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", AppCompatActivity.MODE_PRIVATE)
-        val userToken = sharedPreferences.getString("token", null)
-        Toast.makeText(requireContext(), "${userToken}", Toast.LENGTH_SHORT).show()
 
-        if (userToken != null) {
-            Toast.makeText(requireContext(),"Sesion Finalizada", Toast.LENGTH_SHORT).show()
-            limpiarYRedirigirALogin()
 
-        } else {
-            Toast.makeText(requireContext(), "Token no encontrado", Toast.LENGTH_SHORT).show()
-        }
-    }
+
 }
