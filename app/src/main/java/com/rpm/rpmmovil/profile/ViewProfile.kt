@@ -1,6 +1,5 @@
 package com.rpm.rpmmovil.profile
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,7 +10,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
@@ -19,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.rpm.rpmmovil.MainActivity
 import com.rpm.rpmmovil.databinding.ActivityViewProfileBinding
-import com.rpm.rpmmovil.interfaces.ApiServices
+import com.rpm.rpmmovil.interfaces.ApiClient
 import com.rpm.rpmmovil.profile.model.dataProfileUser
 import com.rpm.rpmmovil.profile.model.updateUser
 import com.rpm.rpmmovil.utils.AppRPM
@@ -31,83 +29,65 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 
 class ViewProfile : AppCompatActivity() {
-
     private lateinit var binding: ActivityViewProfileBinding
     private lateinit var storage: FirebaseStorage
+    val token = AppRPM.prefe.getToken().toString()
     private var imageUri: Uri? = null
-    //pick
 
+
+    //pick
     private var selectedImageByte: ByteArray? = null
 
-
-    //pick media
     private val pickMedia = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        if (uri != null) {
-            imageUri = uri
-            val bitmapImage = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
-            val result = bitmapToByteArray(bitmapImage)
-            selectedImageByte = result
+        uri?.let { // Verificar si se seleccionó una URI de imagen
+            imageUri = it
+            val bitmapImage = BitmapFactory.decodeStream(contentResolver.openInputStream(it))
+            selectedImageByte = bitmapToByteArray(bitmapImage)
             binding.userPhoto.setImageBitmap(bitmapImage)
             Log.i("sube", selectedImageByte.toString())
-        } else {
-            // El usuario no seleccionó ninguna imagen nueva, mantener la imagen actual
-            val currentImageDrawable = binding.userPhoto.drawable
-            selectedImageByte = if (currentImageDrawable != null && currentImageDrawable is BitmapDrawable) {
-                val currentBitmap = currentImageDrawable.bitmap
-                bitmapToByteArray(currentBitmap)
-            } else {
-                null // Opcionalmente, puedes asignar otro valor en lugar de null
+        } ?: run {
+            // No se seleccionó ninguna imagen nueva, mantener la imagen actual
+            selectedImageByte = binding.userPhoto.drawable?.let { drawable ->
+                if (drawable is BitmapDrawable) {
+                    bitmapToByteArray(drawable.bitmap)
+                } else {
+                    null
+                }
             }
-
             Log.i("cargada", "${selectedImageByte}")
             Toast.makeText(this, "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show()
         }
     }
 
 
-    //
 
-
-    companion object {
-        const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
-    }
-
-
-    private var idUser = null
-    val token = AppRPM.prefe.getToken().toString()
+    val retrofit = ApiClient.web
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityViewProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val retrofit = getRetrofit()
-
-
         //el firebase
         FirebaseApp.initializeApp(this)
         storage = FirebaseStorage.getInstance()
 
+
         FirebaseAuth.getInstance().signInAnonymously()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
-                    val user = task.result?.user
-
+                    // Autenticación exitosa, continuar con el flujo de la aplicación
                 } else {
+                    // Autenticación fallida, mostrar un mensaje de error
+                    Log.e("ViewProfile", "Error al iniciar sesión anónimamente", task.exception)
 
-                    Log.e("GarageActivity", "Error al iniciar sesión anónimamente", task.exception)
                 }
             }
-        //aqui se gaurda solo ela imagen
 
 
-        //lamza la galeria o arch...
         binding.userPhoto.setOnClickListener {
             pickMedia.launch("image/*")
         }
@@ -115,8 +95,8 @@ class ViewProfile : AppCompatActivity() {
 
         //Obteener el perfil del usuario
         lifecycleScope.launch(Dispatchers.IO) {
-            val response: Response<dataProfileUser> =
-                retrofit.create(ApiServices::class.java).getprofileUser(token)
+
+            val response: Response<dataProfileUser> = retrofit.getprofileUser(token)
 
 
             Log.i("Albañil", response.toString())
@@ -133,12 +113,12 @@ class ViewProfile : AppCompatActivity() {
                         binding.brithday.setText(myResponse.userFound.FechaNac_Mv)
                         binding.phoneNumber.setText(myResponse.userFound.NumeroTel_Mv.toString())
 
-                        if (myResponse.userFound.ImageUser.isEmpty()){
+                        if (myResponse.userFound.ImageUser.isEmpty()) {
                             Picasso.get()
                                 .load("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
                                 .into(binding.userPhoto)
 
-                        }else{
+                        } else {
                             Picasso.get()
                                 .load(myResponse.userFound.ImageUser)
                                 .into(binding.userPhoto)
@@ -166,21 +146,16 @@ class ViewProfile : AppCompatActivity() {
         }
 
 
-        //por ahora
-
-
-
-
         val btnGuardar = binding.btnGuardar
 
 
         btnGuardar.setOnClickListener {
-            val token =token
+            val token = token
             //si el user no Actualiza photo
-            lifecycleScope.launch(Dispatchers.IO){
-                val response: Response<dataProfileUser> =
-                    retrofit.create(ApiServices::class.java).getprofileUser(token)
-                val myRespons=response.body()
+            lifecycleScope.launch(Dispatchers.IO) {
+                val response: Response<dataProfileUser> = retrofit.getprofileUser(token)
+                val myResponse = response.body()
+
                 val imageFilePart = selectedImageByte?.let {
                     MultipartBody.Part.createFormData(
                         "image",
@@ -194,15 +169,11 @@ class ViewProfile : AppCompatActivity() {
                     subirImagen(imageFilePart)
                 } else {
                     // No se seleccionó una nueva imagen, actualizar otros datos sin cambiar la imagen
-                    val currentImageUrl = myRespons?.userFound?.ImageUser ?: ""
+                    val currentImageUrl = myResponse?.userFound?.ImageUser ?: ""
                     upUser(currentImageUrl)
                 }
 
             }
-
-
-
-
 
 
         }
@@ -222,23 +193,22 @@ class ViewProfile : AppCompatActivity() {
         binding.btnEdit.setOnClickListener {
             editTexts.forEach { it.isEnabled = true }
             btnGuardar.visibility = View.VISIBLE
-            binding.btnCancelar.visibility=View.VISIBLE
+            binding.btnCancelar.visibility = View.VISIBLE
 
-            binding.btnEdit.visibility=View.GONE
+            binding.btnEdit.visibility = View.GONE
 
         }
         binding.btnCancelar.setOnClickListener {
             editTexts.forEach { it.isEnabled = false }
-            binding.btnCancelar.visibility=View.GONE
-            binding.btnEdit.visibility=View.VISIBLE
+            binding.btnCancelar.visibility = View.GONE
+            binding.btnEdit.visibility = View.VISIBLE
         }
-
 
 
     }
 
     private fun upUser(imgUsuario: String) {
-        val retrofit = getRetrofit()
+
         val idUser = binding.idUser.text.toString()
         val userName = binding.name.text.toString()
         val userEmail = binding.email.text.toString()
@@ -248,15 +218,12 @@ class ViewProfile : AppCompatActivity() {
         val userPhoneNumber = binding.phoneNumber.text.toString()
 
 
-
         val updateData = updateUser(
             userName, userEmail, userIdenti, userBrithday, userPhoneNumber, imgUsuario
         )
 
         lifecycleScope.launch(Dispatchers.IO) {
-
-            val response =
-                retrofit.create(ApiServices::class.java).updateUser(idUser, updateData, token)
+            val response = retrofit.updateUser(idUser, updateData, token)
             if (response.isSuccessful) {
 
                 withContext(Dispatchers.Main) {
@@ -264,7 +231,7 @@ class ViewProfile : AppCompatActivity() {
                         .show()
                     val intent = Intent(this@ViewProfile, MainActivity::class.java)
                     startActivity(intent)
-
+                    finish()
 
                 }
 
@@ -284,35 +251,35 @@ class ViewProfile : AppCompatActivity() {
         return stream.toByteArray()
     }
 
-    fun getRetrofit(): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-    }
-
 
     //esta es la fun es para subir un archivo de imagen a Firebase
     private fun subirImagen(imageFile: MultipartBody.Part?) {
-        if (imageFile != null ) {
-            val storageRef = storage.reference
-            val imageRef = storageRef.child("imagenes/imagen_${System.currentTimeMillis()}.jpg")
-            imageRef.putFile(imageUri!!)
-                .addOnSuccessListener { uploadTask ->
-                    uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
-                        val downloadUrl = uri.toString()
-                        Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
-                        Toast.makeText(this@ViewProfile, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
-
-                        upUser(downloadUrl)
-                    }
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this@ViewProfile, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
-                }
-        } else {
+        imageFile ?: run {
             Toast.makeText(this@ViewProfile, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
-
-
+            return
         }
+
+        val storageRef = storage.reference
+        val imageRef = storageRef.child("imagenes/imagen_${System.currentTimeMillis()}.jpg")
+
+        imageRef.putFile(imageUri!!)
+            .addOnSuccessListener { uploadTask ->
+                uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
+                    val downloadUrl = uri.toString()
+                    Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
+                    Toast.makeText(this@ViewProfile, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
+                    upUser(downloadUrl)
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this@ViewProfile, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+            }
     }
+
+
+
+
+
+
 
 }

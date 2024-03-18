@@ -99,6 +99,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
 
+
     // PARA IMAGENES
 
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")

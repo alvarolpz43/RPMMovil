@@ -106,6 +106,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     tools:hint="User Name"
+                    android:maxLength="20"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
@@ -122,6 +123,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     tools:hint="user@gmail.com"
+                    android:maxLength="25"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
 
@@ -146,6 +148,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:inputType="date"
                     android:layout_marginHorizontal="20dp"
                     android:text="Fecha de Naciemiento"
                     android:textColor="@color/white" />
@@ -154,6 +158,7 @@
                     android:id="@+id/brithday"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:maxLength="11"
                     android:layout_marginHorizontal="20dp"
 
                     tools:hint="26-04-2002"
@@ -175,6 +180,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
                     tools:hint="123456"
+                    android:maxLength="10"
                     android:inputType="number"
                     android:textColor="@color/white"
                     android:textColorHint="@color/Gray" />
