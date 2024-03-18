@@ -28,8 +28,7 @@
         private lateinit var apiService: ApiServiceMotouser
         private lateinit var presupuestoService: PresupuestoService
         private lateinit var sharedPreferences: SharedPreferences
-        private var distanceKm: Int?=null
-
+        private var distanceKm: Int = 0
         override fun onCreate(savedInstanceState: Bundle?) {
 
             super.onCreate(savedInstanceState)
@@ -37,8 +36,8 @@
             setContentView(binding.root)
             //-----------------------------------------------------------------------------
             val intent = intent
-            distanceKm = intent.getStringExtra("distanceKm")?.toIntOrNull() ?: 0
-            Log.d("MyTag", "Este es el valor que se está enviando: $distanceKm")
+            distanceKm = intent.getIntExtra("distanceKm", 0)
+            Log.d("MyTag", "Este es el valor que se está recibiendo: $distanceKm")
             binding.recyclerView.layoutManager = LinearLayoutManager(this)
             apiService = RetrofitClient.apiService
             presupuestoService = RetrofitClient.presupuestoService
@@ -95,8 +94,10 @@
 
                     withContext(Dispatchers.Main) {
                         if (response.isSuccessful) {
+                            val presupuestoRedondeado = String.format("%.2f", response.body()?.presupuesto ?: 0.0)
+
                             // Si la solicitud fue exitosa, mostrar el presupuesto obtenido
-                            Toast.makeText(this@UserMotosActivity, "Presupuesto: ${response.body()?.presupuesto}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@UserMotosActivity, "Presupuesto: $$presupuestoRedondeado", Toast.LENGTH_SHORT).show()
                             Log.d("MyTag", "distanceKm: $distanceKm, consumoMotoLx100km: $consumoMotoLx100km")
 
                         } else {

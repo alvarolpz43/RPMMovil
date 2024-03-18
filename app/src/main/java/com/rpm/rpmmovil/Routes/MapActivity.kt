@@ -207,18 +207,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
     private fun funcionBtnSiguiente(distanceKmRounded: String) {
-        Toast.makeText(this, "Este es el valor que se está enviando: $distanceKmRounded", Toast.LENGTH_SHORT).show()
-        Log.d("MyTag", "Este es el valor que se está enviando: $distanceKmRounded")
-
-
-
-
-
-        val distanceKm = distanceKmRounded.toFloat().toInt()
+        val distanceKmRoundedInt = distanceKmRounded.toDouble().toInt()
         val intent = Intent(this, UserMotosActivity::class.java)
-        intent.putExtra("distanceKm", distanceKm)
+        intent.putExtra("distanceKm", distanceKmRoundedInt)
+        Toast.makeText(this, "Este es el valor que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
+        Log.d("MyTag", "Este es el valor que se está enviando: $distanceKmRoundedInt")
         startActivity(intent)
     }
+
 
 
 
