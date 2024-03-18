@@ -1,5 +1,19 @@
     package com.rpm.rpmmovil.Rmotos
 
+<<<<<<< HEAD
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.rpm.rpmmovil.Model.Garage
+import com.rpm.rpmmovil.Model.ManagerDb
+import com.rpm.rpmmovil.databinding.ActivityShowGarageBinding
+
+class ShowGarageActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityShowGarageBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+=======
     import DataMotosResponse
     import android.content.SharedPreferences
     import android.os.Bundle
@@ -19,6 +33,7 @@
     import retrofit2.Response
     import retrofit2.Retrofit
     import retrofit2.converter.gson.GsonConverterFactory
+>>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
 
     class ShowGarageActivity : AppCompatActivity() {
         private lateinit var binding: ActivityShowGarageBinding

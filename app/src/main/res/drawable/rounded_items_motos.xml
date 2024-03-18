@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="20dp" /> <!-- Todos los bordes redondeados -->
+    <solid android:color="@color/WP_Gray" /> <!-- Color de fondo de la CardView -->
+</shape>

@@ -12,6 +12,7 @@ import com.rpm.rpmmovil.ExplorarRutas.ExploraRutasActivity
 import com.rpm.rpmmovil.Rmotos.GarageActivity
 import com.rpm.rpmmovil.Routes.ListarRutasActivity
 import com.rpm.rpmmovil.Routes.MapActivity
+import com.rpm.rpmmovil.Usermotos.UserMotosActivity
 import com.rpm.rpmmovil.databinding.FragmentHomeBinding
 import com.rpm.rpmmovil.interfaces.ApiClient
 import com.rpm.rpmmovil.profile.model.dataProfileUser
@@ -62,7 +63,7 @@ class HomeFragment : Fragment() {
     private fun buttonsFunction() {
         val btnTrazarRuta = binding.btnTrazarRuta
         btnTrazarRuta.setOnClickListener {
-            val intent = Intent(requireContext(), MapActivity::class.java)
+            val intent = Intent(requireContext(),MapActivity::class.java)
             startActivity(intent)
         }
         val btnListarRuta = binding.btnTusRutas
