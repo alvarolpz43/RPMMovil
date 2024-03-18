@@ -2,12 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
+
+
+    <!--Permisos uso de CÁMARA-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--Permisos uso de INTERNET-->
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
     <application
+        android:name=".utils.AppRPM"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_rpm_foreground"
         android:label="@string/app_name"
@@ -15,18 +31,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RPMSQLite"
         tools:targetApi="31">
+
+        <!-- Actividades -->
+        <activity
+            android:name=".Login.Login"
+            android:exported="false" />
+        <activity
+            android:name=".Login.Register"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.RPMSQLite" />
+        <activity
+            android:name=".Rmotos.GarageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Rmotos.ShowGarageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Rmotos.UpdatesMotos.ViewsUpdateMotos"
+            android:exported="false" />
+        <activity
+            android:name=".profile.ViewProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ExplorarRutas.ExploraRutasActivity"
+            android:exported="false" />
         <activity
             android:name=".Usermotos.UserMotosActivity"
             android:exported="false" />
         <activity
             android:name=".Routes.MapActivity"
+<<<<<<< HEAD
             android:exported="false"></activity>
+=======
+            android:exported="false" />
+>>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
         <activity
             android:name=".Routes.ListarRutasActivity"
             android:exported="true" />
         <activity
             android:name=".Routes.saveRutasActivity"
             android:exported="true" />
+<<<<<<< HEAD
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -42,16 +90,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC162bg5xfftD66bXYjOR5aoyJ2rezey4A" />
 
+=======
+>>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.RPMSQLite">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity
             android:name=".Rmotos.ShowGarageActivity"
             android:exported="false" />
@@ -70,3 +120,32 @@
     </application>
 
 </manifest>
+=======
+
+        <!-- Proveedor de archivos para guardar imágenes en Firebase -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="io.devexpert.android_firebase.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- API Key de Google Maps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC162bg5xfftD66bXYjOR5aoyJ2rezey4A" />
+
+    </application>
+
+</manifest>
+
+
+
+
+
+
+
+>>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
