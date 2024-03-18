@@ -2,6 +2,7 @@ package com.rpm.rpmmovil.ExplorarRutas
 
 
 import android.content.Intent
+import android.nfc.NfcAdapter.EXTRA_ID
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -13,7 +14,6 @@ import com.rpm.rpmmovil.ExplorarRutas.model.ApiServiceRutas
 import com.rpm.rpmmovil.ExplorarRutas.model.DataRutasRespose
 import com.rpm.rpmmovil.ExplorarRutas.model.RutaAdapter
 import com.rpm.rpmmovil.Routes.MapActivity
-import com.rpm.rpmmovil.Routes.MapActivity.Companion.EXTRA_ID
 import com.rpm.rpmmovil.databinding.ActivityExploraRutasBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

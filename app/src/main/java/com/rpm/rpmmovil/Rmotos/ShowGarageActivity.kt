@@ -1,19 +1,5 @@
     package com.rpm.rpmmovil.Rmotos
 
-<<<<<<< HEAD
-import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.rpm.rpmmovil.Model.Garage
-import com.rpm.rpmmovil.Model.ManagerDb
-import com.rpm.rpmmovil.databinding.ActivityShowGarageBinding
-
-class ShowGarageActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityShowGarageBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-=======
     import DataMotosResponse
     import android.content.SharedPreferences
     import android.os.Bundle
@@ -23,8 +9,8 @@ class ShowGarageActivity : AppCompatActivity() {
     import androidx.appcompat.widget.SearchView
     import androidx.core.view.isVisible
     import androidx.recyclerview.widget.LinearLayoutManager
+    import com.rpm.rpmmovil.Model.Constains.Companion.BASE_URL
     import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
-
     import com.rpm.rpmmovil.Rmotos.model.RecyclerV.MotoAdapter
     import com.rpm.rpmmovil.databinding.ActivityShowGarageBinding
     import kotlinx.coroutines.CoroutineScope
@@ -33,7 +19,6 @@ class ShowGarageActivity : AppCompatActivity() {
     import retrofit2.Response
     import retrofit2.Retrofit
     import retrofit2.converter.gson.GsonConverterFactory
->>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
 
     class ShowGarageActivity : AppCompatActivity() {
         private lateinit var binding: ActivityShowGarageBinding
@@ -41,13 +26,8 @@ class ShowGarageActivity : AppCompatActivity() {
         private lateinit var adapter: MotoAdapter
         private lateinit var retrofit: Retrofit
 
-        companion object {
-            private const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
-        }
-
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-
             binding = ActivityShowGarageBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
@@ -58,12 +38,12 @@ class ShowGarageActivity : AppCompatActivity() {
 
         private fun initUI() {
             adapter = MotoAdapter(emptyList()) {
-                // Lógica cuando un elemento de la lista se selecciona
+                // Logic when an item in the list is selected
             }
 
             binding.searchView2.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    searchAllMotos()  // Cambia a la función de búsqueda de todas las rutas
+                    searchAllMotos()  // Switch to the function to search all routes
                     return false
                 }
 
@@ -86,7 +66,7 @@ class ShowGarageActivity : AppCompatActivity() {
 
                     if (myResponse.isSuccessful) {
                         val response: DataMotosResponse? = myResponse.body()
-                        Log.e("TAG", "${response}", )
+                        Log.e("TAG", "${response}",)
                         if (response != null) {
                             runOnUiThread {
                                 adapter.updatelist(response.moto)
@@ -99,7 +79,7 @@ class ShowGarageActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     Log.e("Rpm", "Error: ${e.message}", e)
                     runOnUiThread {
-                        // Puedes mostrar un mensaje de error al usuario
+                        // You can display an error message to the user
                         Toast.makeText(
                             this@ShowGarageActivity,
                             "Error: ${e.message}",
@@ -110,9 +90,11 @@ class ShowGarageActivity : AppCompatActivity() {
                 }
             }
         }
-        private fun updateMotos(){
+
+        private fun updateMotos() {
 
         }
+
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -125,4 +107,3 @@ class ShowGarageActivity : AppCompatActivity() {
             return sharedPreferences.getString("token", "") ?: ""
         }
     }
-

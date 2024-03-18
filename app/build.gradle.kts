@@ -67,13 +67,11 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
-<<<<<<< HEAD
-=======
+
     //Firebase
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation ("com.google.firebase:firebase-storage:20.2.0")
 
->>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -96,11 +94,11 @@ dependencies {
     implementation("com.google.android.material:material:1.3.0-alpha01")
 
     //picaso
-<<<<<<< HEAD
+
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
-=======
+
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.squareup.picasso:picasso:2.71828")
 
@@ -126,7 +124,7 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
->>>>>>> 16bb43320198e2aa6e5cdc603f19ce4afcefdce8
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
