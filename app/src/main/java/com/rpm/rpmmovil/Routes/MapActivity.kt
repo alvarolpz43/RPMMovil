@@ -155,7 +155,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         ).show()
                     }
                 } catch (e: IOException) {
-                    // Manejo de errores más detallado aquí (por ejemplo, mostrar un mensaje de error)
+
                     e.printStackTrace()
                 }
             } else {
