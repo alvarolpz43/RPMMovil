@@ -56,7 +56,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     fun distanceInKm(startLat: Double, startLng: Double, endLat: Double, endLng: Double): Double {
-        val radioDeLaTierra = 6371.0 // Radio de la Tierra en kilómetros
+        val radioDeLaTierra = 6371.0 // Radio de la Tierra en km
 
         val startLatRad = Math.toRadians(startLat)
         val startLngRad = Math.toRadians(startLng)
