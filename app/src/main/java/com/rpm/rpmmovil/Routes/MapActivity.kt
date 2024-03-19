@@ -333,7 +333,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val distanceKmRoundedInt = distanceKmRounded.toDouble().toInt()
         val intent = Intent(this, UserMotosActivity::class.java)
         intent.putExtra("distanceKm", distanceKmRoundedInt)
-        Toast.makeText(this, "Este es el valor que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Este es el valortirris que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
         startActivity(intent)
     }
 
