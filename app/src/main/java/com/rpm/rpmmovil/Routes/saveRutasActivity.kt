@@ -233,7 +233,7 @@ class saveRutasActivity : AppCompatActivity() {
         return !token.isNullOrBlank()
     }
 
-    //Función para formatear las los valores de las cordenadas
+
     private fun formatearCoordenadas(coordenadas: String): String {
         val coordenadasRegex = Regex("lat/lng: \\((-?\\d+\\.\\d+), (-?\\d+\\.\\d+)\\)")
         val matchResult = coordenadasRegex.find(coordenadas)
