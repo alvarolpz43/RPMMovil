@@ -385,7 +385,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             REQUEST_CODE_LOCATION -> if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
                 map.isMyLocationEnabled = true
             }else{
-                Toast.makeText(this, "Para activar la localización ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Para activar la localización,ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
             }
             else -> {}
         }
