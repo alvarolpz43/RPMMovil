@@ -334,7 +334,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val intent = Intent(this, UserMotosActivity::class.java)
         intent.putExtra("distanceKm", distanceKmRoundedInt)
         Toast.makeText(this, "Este es el valor que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
-        Log.d("MyTag", "Este es el valor que se está enviando: $distanceKmRoundedInt")
         startActivity(intent)
     }
 
