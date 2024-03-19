@@ -2,6 +2,9 @@ package com.rpm.rpmmovil.utils
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContextCompat.startActivity
+import com.rpm.rpmmovil.Login.Login
 
 class AppRPM : Application() {
 
@@ -27,5 +30,14 @@ class Preferences(context: Context){
     fun getToken() : String? {
         return storage.getString("token", "")
     }
+
+    // Método para limpiar todas las preferencias
+    fun clearPreferences() {
+        storage.edit().clear().apply()
+
+
+    }
+
+
 
 }

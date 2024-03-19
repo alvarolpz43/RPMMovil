@@ -94,6 +94,7 @@
         <activity
             android:name=".Rmotos.GarageActivity"
             android:exported="false" />
+        <activity android:name=".Usermotos.UserMotosActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
@@ -106,7 +107,6 @@
 
 
     <!--Proveedor de archivos para guardar imágenes en FIREBASE-->
-
 
 
 

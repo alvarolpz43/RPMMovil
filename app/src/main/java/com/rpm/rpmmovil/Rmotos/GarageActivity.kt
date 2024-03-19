@@ -1,5 +1,7 @@
-package com.rpm.rpmmovil.Rmotos//package com.rpm.rpmmovil.Rmotos
+package com.rpm.rpmmovil.Rmotos
 
+
+import DataItemMotos
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,7 +17,6 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.rpm.rpmmovil.Rmotos.model.Apis.ApiServiceMotos
-import com.rpm.rpmmovil.Rmotos.model.Data.DataItemMotos
 import com.rpm.rpmmovil.databinding.ActivityGarajeBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -96,6 +97,7 @@ class GarageActivity : AppCompatActivity() {
 
             if (selectedImageByte != null) {
                 val motoRegisterData = DataItemMotos(
+                    _id = "",
                     motonom = nombre,
                     motomarca = marca,
                     motomodel = modelo,
@@ -118,7 +120,11 @@ class GarageActivity : AppCompatActivity() {
                 if (verificarToken()) {
                     subirImagen(imageFilePart)
                 } else {
-                    Toast.makeText(this@GarageActivity, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@GarageActivity,
+                        "Usuario no autenticado",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } else {
                 Toast.makeText(this, "Seleccione una imagen", Toast.LENGTH_SHORT).show()
@@ -141,16 +147,25 @@ class GarageActivity : AppCompatActivity() {
                     uploadTask.storage.downloadUrl.addOnSuccessListener { uri ->
                         val downloadUrl = uri.toString()
                         Log.d("GarageActivity", "Enlace de descarga de la imagen: $downloadUrl")
-                        Toast.makeText(this@GarageActivity, "Imagen subida con éxito", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@GarageActivity,
+                            "Imagen subida con éxito",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                         guardarDatosEnBaseDeDatos(downloadUrl)
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this@GarageActivity, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@GarageActivity,
+                        "Error al subir la imagen",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else {
-            Toast.makeText(this@GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@GarageActivity, "La URI de la imagen es nula", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -163,6 +178,7 @@ class GarageActivity : AppCompatActivity() {
         val consumo = binding.consumo.text.toString()
 
         val motoRegisterData = DataItemMotos(
+            _id = "",
             motonom = nombre,
             motomarca = marca,
             motomodel = modelo,
@@ -180,7 +196,10 @@ class GarageActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(
                     OkHttpClient.Builder()
-                        .readTimeout(60, TimeUnit.SECONDS) // Ajusta el tiempo de espera según tus necesidades
+                        .readTimeout(
+                            60,
+                            TimeUnit.SECONDS
+                        ) // Ajusta el tiempo de espera según tus necesidades
                         .writeTimeout(60, TimeUnit.SECONDS)
                         .connectTimeout(60, TimeUnit.SECONDS)
                         .build()
@@ -195,7 +214,11 @@ class GarageActivity : AppCompatActivity() {
                     val response = service.postDataMoto(token, motoRegisterData)
                     if (response.isSuccessful) {
                         runOnUiThread {
-                            Toast.makeText(this@GarageActivity, "Datos guardados exitosamente", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@GarageActivity,
+                                "Datos guardados exitosamente",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             val intent = Intent(this@GarageActivity, ShowGarageActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -204,13 +227,21 @@ class GarageActivity : AppCompatActivity() {
                         val errorBody = response.errorBody()?.string()
                         Log.e("GarageActivity", "Error en la respuesta: $errorBody")
                         runOnUiThread {
-                            Toast.makeText(this@GarageActivity, "Error al guardar los datos", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@GarageActivity,
+                                "Error al guardar los datos",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 } catch (e: Exception) {
                     Log.e("GarageActivity", "Error al guardar los datos: ${e.message}", e)
                     runOnUiThread {
-                        Toast.makeText(this@GarageActivity, "Error al guardar los datos: ${e.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@GarageActivity,
+                            "Error al guardar los datos: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -224,4 +255,6 @@ class GarageActivity : AppCompatActivity() {
         Log.d("TOKEN", "$token")
         return !token.isNullOrBlank()
     }
+
+
 }
