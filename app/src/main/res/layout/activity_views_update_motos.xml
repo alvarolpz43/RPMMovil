@@ -208,6 +208,8 @@
                             android:layout_height="wrap_content"
                             android:text="Subir imagen" />
 
+
+
                         <Button
                             android:id="@+id/btnEdit"
                             android:layout_width="wrap_content"

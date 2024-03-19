@@ -1,11 +1,12 @@
-package com.rpm.rpmmovil.Rmotos.UpdatesMotos.model
+    package com.rpm.rpmmovil.Rmotos.UpdatesMotos.model
 
-data class updateMoto (
-    val MotoNombre: String,
-    val MarcaMoto: String,
-    val ModeloMoto:String,
-    val VersionMoto: Number,
-    val ConsumoMotoLx100km: Number,
-    val CilindrajeMot: String,
+    data class updateMoto (
+        val MotoNombre: String,
+        val MarcaMoto: String,
+        val ModeloMoto:String,
+        val VersionMoto: Number,
+        val ConsumoMotoLx100km: Number,
+        val CilindrajeMot: String,
+        val ImageMoto: String
 
-)
+    )
