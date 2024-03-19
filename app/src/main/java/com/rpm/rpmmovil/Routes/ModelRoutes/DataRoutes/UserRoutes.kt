@@ -15,7 +15,7 @@ data class Routes(
     @SerializedName("PresupuestoGas") val PresupuestoGas: Number,
     @SerializedName("FotoRuta") val FotoRuta: String,
     @SerializedName("DescripcionRuta") val DescripcionRuta: String,
-    @SerializedName("CalificacionRuta") val CalificacionRuta: Number,
+    @SerializedName("CalificacionRuta") val CalificacionRuta: Float,
     @SerializedName("motoviajero") val motoviajero: String
 
 ) {
