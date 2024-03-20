@@ -19,6 +19,7 @@ import com.rpm.rpmmovil.databinding.FragmentHomeBinding
 import com.rpm.rpmmovil.interfaces.ApiClient
 
 import com.rpm.rpmmovil.interfaces.ApiServices
+import com.rpm.rpmmovil.profile.ViewProfile
 import com.rpm.rpmmovil.profile.model.dataProfileUser
 import com.rpm.rpmmovil.utils.AppRPM
 import com.squareup.picasso.Picasso
@@ -64,6 +65,13 @@ class HomeFragment : Fragment() {
         Picasso.get()
             .load(myResponse.userFound.ImageUser)
             .into(binding.userProfile)
+
+
+        binding.userProfile.setOnClickListener{
+            val intent:Intent=Intent(requireContext(), ViewProfile::class.java)
+            startActivity(intent)
+
+        }
 
     }
 
