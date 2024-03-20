@@ -53,10 +53,23 @@
             android:text="Botón"
             app:layout_constraintBottom_toTopOf="@+id/btnDesp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"
+            android:visibility="gone"/>
 
-            />
 
+        <ImageView
+            android:id="@+id/btnsiguiente"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_ppto"
+            android:background="@drawable/button_rounded"
+            app:layout_constraintBottom_toTopOf="@id/btnDesp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSave"
+            app:layout_constraintVertical_bias="0.5"
+            android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/btnDesp"
@@ -169,21 +182,12 @@
                 android:id="@+id/btnCalculateRoute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="15dp"
                 android:text="Trazar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-            <Button
-                android:id="@+id/btnsiguiente"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="36dp"
-                android:text="siguiente"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pFinal" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -204,6 +204,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.btnSave.visibility = View.GONE
         binding.btnDesp.visibility = View.GONE
         binding.iniciar.visibility = View.VISIBLE
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -260,6 +261,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 binding.btnSave.visibility = View.VISIBLE
                 binding.km.visibility = View.VISIBLE
+                binding.btnsiguiente.visibility= View.VISIBLE
 
                 binding.btnSave.setOnClickListener() {
                     val intent = Intent(this, saveRutasActivity::class.java)
