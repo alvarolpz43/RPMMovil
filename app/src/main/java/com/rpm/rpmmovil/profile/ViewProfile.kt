@@ -36,6 +36,7 @@ class ViewProfile : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     val token = AppRPM.prefe.getToken().toString()
     private var imageUri: Uri? = null
+    var idUserFoto: String? =null
 
 
     //pick
@@ -102,6 +103,10 @@ class ViewProfile : AppCompatActivity() {
             Log.i("Albañil", response.toString())
             if (response.isSuccessful) {
                 val myResponse = response.body()
+                if (myResponse != null) {
+                    idUserFoto= myResponse.userFound._id
+                }
+
 
                 withContext(Dispatchers.Main) {
                     myResponse?.let {
@@ -247,7 +252,7 @@ class ViewProfile : AppCompatActivity() {
 
     private fun bitmapToByteArray(bitmapImage: Bitmap): ByteArray {
         val stream = ByteArrayOutputStream()
-        bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        bitmapImage.compress(Bitmap.CompressFormat.PNG, 50, stream)
         return stream.toByteArray()
     }
 
@@ -260,7 +265,7 @@ class ViewProfile : AppCompatActivity() {
         }
 
         val storageRef = storage.reference
-        val imageRef = storageRef.child("imagenes/imagen_${System.currentTimeMillis()}.jpg")
+        val imageRef = storageRef.child("imgProfiles/id=${idUserFoto}.jpg")
 
         imageRef.putFile(imageUri!!)
             .addOnSuccessListener { uploadTask ->
