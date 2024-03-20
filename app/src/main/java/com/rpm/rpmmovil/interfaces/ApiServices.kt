@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit
 
 interface ApiServices {
 
-
     @GET("profile")
     suspend fun getprofileUser(@Header("Authorization") token: String): Response<dataProfileUser>
 
@@ -70,8 +69,6 @@ interface ApiServices {
         @Header("Authorization") token: String,
         @Body data: PostRoutes
     ): Response<Any>
-
-
 }
 
 
