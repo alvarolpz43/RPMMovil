@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,6 +25,7 @@
                 android:id="@+id/ivRutas"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:layout_margin="15dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,10 +58,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Nombre Ruta" />
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             </LinearLayout>
 
@@ -82,9 +80,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numStars="5"
-                        android:progressBackgroundTint="@color/white"
+                        android:progressBackgroundTint="@color/Gray"
                         android:progressTint="@color/primary"
-                        android:rating="2.5"
+                        android:rating="0.0"
                         android:scaleX="0.5"
                         android:scaleY="0.5"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -106,10 +104,7 @@
                         app:layout_constraintStart_toEndOf="@id/calificacionruta"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Km 4" />
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             </LinearLayout>
 
@@ -118,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Texto 5"
+                android:text="Presupuesto"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/verRuta"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,20 +124,17 @@
                 android:id="@+id/verRuta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/primary"
                 android:text="Ver ruta"
-                android:layout_gravity="center_horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/presupuestogas"/>
+                app:layout_constraintTop_toBottomOf="@+id/presupuestogas" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </androidx.cardview.widget.CardView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
