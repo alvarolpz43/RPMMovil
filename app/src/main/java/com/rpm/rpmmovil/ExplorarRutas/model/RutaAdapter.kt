@@ -11,25 +11,24 @@ class RutaAdapter(
     private val onItemSelected: (String) -> Unit
 ) :
     RecyclerView.Adapter<rutaViewHolder>() {
-        fun updateList(list: List<DataRutasItemRespose>) {
-            rutaslist = list ?: emptyList()
-            notifyDataSetChanged()
-        }
+    fun updateList(list: List<DataRutasItemRespose>) {
+        rutaslist = list ?: emptyList()
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): rutaViewHolder {
         return rutaViewHolder(
-       LayoutInflater.from(parent.context).inflate(R.layout.item_rutas,parent,false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_rutas,parent,false)
         )
     }
 
-//    override fun onBindViewHolder(holder: rutaViewHolder, position: Int) {
+    //    override fun onBindViewHolder(holder: rutaViewHolder, position: Int) {
 //        holder.bind(rutaslist[position])
 //    }
-            override fun onBindViewHolder(holder: rutaViewHolder, position: Int) {
-                holder.bind(rutaslist[position],onItemSelected)
-            }
+    override fun onBindViewHolder(holder: rutaViewHolder, position: Int) {
+        holder.bind(rutaslist[position],onItemSelected)
+    }
 
-            override fun getItemCount() = rutaslist.size
+    override fun getItemCount() = rutaslist.size
 
 
 }
-

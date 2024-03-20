@@ -20,8 +20,8 @@ class rutaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
         binding.irmapa.setOnClickListener { onItemSelected(datarutas.rutaid) }
-        }
     }
+}
 
 
 //    fun  bind(datarutas:DataRutasItemRespose,onItemSelected:(String) -> Unit){
@@ -36,6 +36,5 @@ class rutaViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 //        binding.root.setOnClickListener { onItemSelected(datarutas.rutaid) }
 //
 //    }
-
 
 

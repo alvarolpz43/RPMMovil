@@ -10,4 +10,3 @@ interface ApiServiceRutas {
     @GET("rutas")
     suspend fun getAllRutas(): Response<DataRutasRespose>
 }
-

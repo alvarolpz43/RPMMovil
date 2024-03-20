@@ -1,5 +1,6 @@
 package com.rpm.rpmmovil.Routes
 
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -26,15 +27,13 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rpm.rpmmovil.ExplorarRutas.model.rutas.RutasResponses
-
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.R
 import com.rpm.rpmmovil.Routes.apiRoute.ApiService
-
+import com.rpm.rpmmovil.Usermotos.UserMotosActivity
 import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,45 +45,33 @@ import java.io.IOException
 @Suppress("DEPRECATION")
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
-
     private lateinit var binding: ActivityMapBinding
     private lateinit var map: GoogleMap
 
     private lateinit var btnCalculate: Button
 
-    var poly: Polyline? = null
-
-    private var startLatLng: LatLng? = null
-    private var endLatLng: LatLng? = null
-
-    //vaarivle para abuscador
     private lateinit var pInicioEditText: EditText
     private lateinit var pFinalEditText: EditText
 
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>  
-
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<FrameLayout>
 
     fun distanceInKm(startLat: Double, startLng: Double, endLat: Double, endLng: Double): Double {
-        val radioDeLaTierra = 6371.0 // Radio de la Tierra en kilómetros
+        val radioDeLaTierra = 6371.0 // Radio de la Tierra en km
 
-        // Convertir latitudes y longitudes a radianes
         val startLatRad = Math.toRadians(startLat)
         val startLngRad = Math.toRadians(startLng)
         val endLatRad = Math.toRadians(endLat)
         val endLngRad = Math.toRadians(endLng)
 
-        // Calcular la diferencia de latitud y longitud
         val deltaLat = endLatRad - startLatRad
         val deltaLng = endLngRad - startLngRad
 
-        // Calcular la fórmula del haversine con un enfoque más preciso
         val a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
                 Math.cos(startLatRad) * Math.cos(endLatRad) * Math.sin(deltaLng / 2) * Math.sin(
             deltaLng / 2
         )
         val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
-        // Devolver la distancia en kilómetros
         return radioDeLaTierra * c
     }
 
@@ -93,26 +80,20 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         const val EXTRA_ID = "extra_id"
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
-        println(id)
         getCordinatesRoute(id)
 
-
-
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         btnCalculate = binding.btnCalculateRoute
 
-        binding.iniciar.visibility=View.GONE
+        binding.iniciar.visibility = View.GONE
         pInicioEditText = binding.pInicio
         pFinalEditText = binding.pFinal
-
 
         btnCalculate.setOnClickListener {
             val location1 = pInicioEditText.text.toString()
@@ -131,8 +112,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         val startLatLng = LatLng(startAddress.latitude, startAddress.longitude)
                         val endLatLng = LatLng(endAddress.latitude, endAddress.longitude)
 
-
-                        // Trazar la ruta entre los dos puntos
                         createRoute(startLatLng, endLatLng)
                         Toast.makeText(this, "Calculando Ruta", Toast.LENGTH_SHORT).show()
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -147,6 +126,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         binding.km.text = "${distanceKmRounded} Km"
                         Constains.DISTANCIA_RUTA = distanceKmRounded.toDouble()
 
+                        binding.btnsiguiente.setOnClickListener{
+                            funcionBtnSiguiente(distanceKmRounded)
+                        }
 
                     } else {
                         Toast.makeText(
@@ -156,7 +138,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         ).show()
                     }
                 } catch (e: IOException) {
-
                     e.printStackTrace()
                 }
             } else {
@@ -168,9 +149,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-
-
-        //desplegable
         val bottomSheet = findViewById<FrameLayout>(R.id.desp)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
             val displayMetrics = DisplayMetrics()
@@ -180,54 +158,39 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        // Resto del código...
-
-        // Asignar onClickListener al botón utilizando bottomSheetBehavior
-        // Variable para realizar un seguimiento del estado del BottomSheet
         var isBottomSheetExpanded = false
-
         val button = binding.icon
         button.setOnClickListener {
-
             if (isBottomSheetExpanded) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
-
             isBottomSheetExpanded = !isBottomSheetExpanded
         }
 
         binding.btnDesp.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
         }
-
-//
-
-
     }
 
-    private fun getCordinatesRoute(id:String) {
+    private fun getCordinatesRoute(id: String) {
         lifecycleScope.launch {
             try {
                 Log.e("TAG", "${id}", )
                 val result = getRetrofit2().getCordinateRoutes(id)
                 createUIRoute(result)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 Log.e("TAG", "${e}", )
             }
         }
-
     }
 
     private fun createUIRoute(ruta: RutasResponses) {
-
         val puntoIniRuta = ruta.ruta.puntoiniruta.split(",")
         val puntoFinalRuta = ruta.ruta.puntofinalruta.split(",")
 
         if (puntoIniRuta.size != 2 || puntoFinalRuta.size != 2) {
-            // Handle invalid input
             return
         }
 
@@ -241,17 +204,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.btnSave.visibility = View.GONE
         binding.btnDesp.visibility = View.GONE
         binding.iniciar.visibility = View.VISIBLE
-
-
     }
-
-
-
-
-
-
-    //fura de oncreate
-
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
@@ -259,10 +212,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun createRoute(startLatLng: LatLng, endLatLng: LatLng) {
-        // Tratar de obtener la ruta entre los puntos de inicio y final
         CoroutineScope(Dispatchers.IO).launch {
-
-
             val call = getRetrofit().create(ApiService::class.java)
                 .getRoute(
                     "5b3ce3597851110001cf6248c50b947f1222418498fae123bb1a6114",
@@ -299,22 +249,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 map?.addMarker(startMarkerOptions)
                 map?.addMarker(endMarkerOptions)
 
-                // Calcular LatLngBounds que abarca ambos puntos
                 val builder = LatLngBounds.Builder()
                 builder.include(startLatLng)
                 builder.include(endLatLng)
                 val bounds = builder.build()
 
-                // Ajustar la cámara para que abarque ambos puntos con un padding
-                val padding = 100 // Puedes ajustar este valor según tus preferencias
+                val padding = 100
                 val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
                 map?.animateCamera(cameraUpdate)
 
-                // Una vez que la ruta se ha trazado con éxito
-
-                //visauliza
-                binding.btnSave.visibility=View.VISIBLE
-                binding.km.visibility=View.VISIBLE
+                binding.btnSave.visibility = View.VISIBLE
+                binding.km.visibility = View.VISIBLE
 
                 binding.btnSave.setOnClickListener() {
                     val intent = Intent(this, saveRutasActivity::class.java)
@@ -322,11 +267,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     intent.putExtra("cordenadasFinal", endLatLng.toString())
                     startActivity(intent)
                 }
-
-
-
-
-
             }
         }
     }
@@ -336,15 +276,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             .baseUrl("https://api.openrouteservice.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
     }
+
     private fun getRetrofit2(): ApiService {
         return Retrofit.Builder()
             .baseUrl("https://rpm-back-end.vercel.app/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
-
     }
 
     private fun isLocationPermissionsGranted(): Boolean {
@@ -381,16 +320,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when(requestCode){
-            REQUEST_CODE_LOCATION -> if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        when (requestCode) {
+            REQUEST_CODE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 map.isMyLocationEnabled = true
-            }else{
+            } else {
                 Toast.makeText(this, "Para activar la localización ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
             }
-            else -> {}
         }
     }
 
-
+    private fun funcionBtnSiguiente(distanceKmRounded: String) {
+        val distanceKmRoundedInt = distanceKmRounded.toDouble().toInt()
+        val intent = Intent(this, UserMotosActivity::class.java)
+        intent.putExtra("distanceKm", distanceKmRoundedInt)
+        Toast.makeText(this, "Este es el valortirris que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
+        startActivity(intent)
+    }
 
 }

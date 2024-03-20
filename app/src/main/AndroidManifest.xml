@@ -2,22 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
     <application
         android:name=".utils.AppRPM"
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_rpm_foreground"
         android:label="@string/app_name"
@@ -26,10 +23,15 @@
         android:theme="@style/Theme.RPMSQLite"
         tools:targetApi="31">
 
-        <!-- Actividades -->
         <activity
             android:name=".Login.Login"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".Usermotos.UserMotosActivity"
             android:exported="false" />
@@ -65,28 +67,14 @@
         <activity
             android:name=".Routes.saveRutasActivity"
             android:exported="true" />
-        <activity
-            android:name=".SplashActivity"
-            android:exported="true"
-            android:theme="@style/Base.Theme.RPMSQLite">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="io.devexpert.android_firebase.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-
+        <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+             To get one, follow the directions here:
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC162bg5xfftD66bXYjOR5aoyJ2rezey4A" />
