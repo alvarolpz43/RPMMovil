@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:name=".MenuFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
     android:background="@color/font_black">
 
@@ -12,7 +12,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,13 +49,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        tools:text="userName"
                         android:textColor="@color/white"
                         android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/userPhoto" />
+                        app:layout_constraintTop_toBottomOf="@+id/userPhoto"
+                        tools:text="userName" />
 
 
                     <TextView
@@ -64,14 +63,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        tools:text="userEmail@gmail.com"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="italic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/userName" />
-
+                        app:layout_constraintTop_toBottomOf="@+id/userName"
+                        tools:text="userEmail@gmail.com" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -169,19 +167,6 @@
                 </androidx.cardview.widget.CardView>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/userHelp"
                     android:layout_width="match_parent"
@@ -225,8 +210,8 @@
                 <Button
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="100dp"
                     android:text="Logout"
                     app:layout_constraintEnd_toEndOf="parent"

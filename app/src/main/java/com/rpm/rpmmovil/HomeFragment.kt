@@ -12,9 +12,9 @@ import com.rpm.rpmmovil.ExplorarRutas.ExploraRutasActivity
 import com.rpm.rpmmovil.Rmotos.GarageActivity
 import com.rpm.rpmmovil.Routes.ListarRutasActivity
 import com.rpm.rpmmovil.Routes.MapActivity
-import com.rpm.rpmmovil.Usermotos.UserMotosActivity
 import com.rpm.rpmmovil.databinding.FragmentHomeBinding
 import com.rpm.rpmmovil.interfaces.ApiClient
+import com.rpm.rpmmovil.profile.ViewProfile
 import com.rpm.rpmmovil.profile.model.dataProfileUser
 import com.rpm.rpmmovil.utils.AppRPM
 import com.squareup.picasso.Picasso
@@ -58,12 +58,19 @@ class HomeFragment : Fragment() {
             .load(myResponse.userFound.ImageUser)
             .into(binding.userProfile)
 
+
+        binding.userProfile.setOnClickListener {
+            val intent: Intent = Intent(requireContext(), ViewProfile::class.java)
+            startActivity(intent)
+
+        }
+
     }
 
     private fun buttonsFunction() {
         val btnTrazarRuta = binding.btnTrazarRuta
         btnTrazarRuta.setOnClickListener {
-            val intent = Intent(requireContext(),MapActivity::class.java)
+            val intent = Intent(requireContext(), MapActivity::class.java)
             startActivity(intent)
         }
         val btnListarRuta = binding.btnTusRutas
