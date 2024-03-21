@@ -20,6 +20,8 @@ class Constains {
 
         const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
 
+        var VALOR_PPTO = 0
+
         var DISTANCIA_RUTA = 0.0
         var DIRECCION_URL = ""
     }

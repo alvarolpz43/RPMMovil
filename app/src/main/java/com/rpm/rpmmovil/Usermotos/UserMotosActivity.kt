@@ -10,6 +10,7 @@
     import android.widget.Toast
     import androidx.appcompat.app.AppCompatActivity
     import androidx.recyclerview.widget.LinearLayoutManager
+    import com.rpm.rpmmovil.Model.Constains
     import com.rpm.rpmmovil.Usermotos.model.ApiServiceMotouser
     import com.rpm.rpmmovil.Usermotos.model.MotosResponse
     import com.rpm.rpmmovil.Usermotos.model.RetrofitClient
@@ -95,6 +96,7 @@
                     withContext(Dispatchers.Main) {
                         if (response.isSuccessful) {
                             val presupuestoRedondeado = String.format("%.2f", response.body()?.presupuesto ?: 0.0)
+                            Constains.VALOR_PPTO = presupuestoRedondeado.toInt()
 
                             // Si la solicitud fue exitosa, mostrar el presupuesto obtenido
                             Toast.makeText(this@UserMotosActivity, "Presupuesto: $$presupuestoRedondeado", Toast.LENGTH_SHORT).show()

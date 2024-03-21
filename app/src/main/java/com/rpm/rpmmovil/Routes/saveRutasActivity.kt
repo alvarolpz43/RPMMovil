@@ -143,7 +143,7 @@ class saveRutasActivity : AppCompatActivity() {
         val cordenadasFinal = formatearCoordenadas(cordenadasFinalOriginal)
 
         val kmRuta = Constains.DISTANCIA_RUTA
-        val ppto = 5000
+        val ppto = Constains.VALOR_PPTO
         val imagenRuta = imageUrl
         val detalleRuta = binding.detallesRuta.text.toString()
         val calificacion = binding.ratingBar.rating.toInt()
