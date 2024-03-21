@@ -8,6 +8,7 @@ data class UserRoutes(
 
 
 data class Routes(
+    @SerializedName("_id") val rutaid: String,
     @SerializedName("NombreRuta") val NombreRuta: String,
     @SerializedName("PuntoInicioRuta") val PuntoInicioRuta: String,
     @SerializedName("PuntoFinalRuta") val PuntoFinalRuta: String,

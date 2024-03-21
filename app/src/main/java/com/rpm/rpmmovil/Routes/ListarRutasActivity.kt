@@ -1,5 +1,6 @@
 package com.rpm.rpmmovil.Routes
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -47,9 +48,7 @@ class ListarRutasActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        adapter = RoutesAdapter(emptyList()) {
-            // Lógica cuando un elemento de la lista se selecciona
-        }
+        adapter = RoutesAdapter{rutaId -> navigateMapaRuta(rutaId)}
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -64,6 +63,13 @@ class ListarRutasActivity : AppCompatActivity() {
         binding.rvRutas.layoutManager = LinearLayoutManager(this)
         binding.rvRutas.adapter = adapter
     }
+
+    private fun navigateMapaRuta(id:String) {
+        val intent = Intent(this,MapActivity::class.java)
+        intent.putExtra(MapActivity.EXTRA_ID,id)
+        startActivity(intent)
+    }
+
     private fun searchAllUserRutas() {
         binding.progressBar.isVisible = true
         CoroutineScope(Dispatchers.IO).launch {

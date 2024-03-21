@@ -10,7 +10,6 @@ import com.rpm.rpmmovil.Routes.apiRoute.Routes
 
 class RoutesAdapter(
     var userRoutes: List<Routes> = emptyList(),
-
     private val onItemSelected: (String) -> Unit
 
 ) : RecyclerView.Adapter<RoutesView>() {
@@ -30,7 +29,7 @@ class RoutesAdapter(
 
 
     override fun onBindViewHolder(holder: RoutesView, position: Int) {
-        holder.bind(userRoutes[position])
+        holder.bind(userRoutes[position],onItemSelected)
     }
 
 
