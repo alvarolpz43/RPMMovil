@@ -77,7 +77,6 @@ class GarageActivity : AppCompatActivity() {
                     Log.e("GarageActivity", "Error al iniciar sesión anónimamente", task.exception)
                 }
             }
-
         binding.garage.setOnClickListener {
             val intent = Intent(this, ShowGarageActivity::class.java)
             startActivity(intent)

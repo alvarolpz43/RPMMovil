@@ -1,6 +1,7 @@
     package com.rpm.rpmmovil.Rmotos
 
     import DataMotosResponse
+    import android.content.Intent
     import android.content.SharedPreferences
     import android.os.Bundle
     import android.util.Log
@@ -37,6 +38,11 @@
         }
 
         private fun initUI() {
+            binding.btnAgregarMoto.setOnClickListener {
+                val intent = Intent(this, GarageActivity::class.java)
+                startActivity(intent)
+            }
+
             adapter = MotoAdapter(emptyList()) {
                 // Logic when an item in the list is selected
             }
@@ -54,6 +60,8 @@
             binding.rvMotos.layoutManager = LinearLayoutManager(this)
             binding.rvMotos.adapter = adapter
         }
+
+
 
         private fun searchAllMotos() {
             binding.progressBar2.isVisible = true
@@ -107,3 +115,4 @@
             return sharedPreferences.getString("token", "") ?: ""
         }
     }
+
