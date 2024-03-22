@@ -3,6 +3,7 @@ package com.rpm.rpmmovil.interfaces
 
 import DataItemMotos
 import com.rpm.rpmmovil.Model.Constains
+import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.DeleteMotoResponse
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.dataUpdatemoto
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.updateMoto
 import com.rpm.rpmmovil.Routes.apiRoute.PostRoutes
@@ -15,6 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -36,6 +38,9 @@ interface ApiServices {
         @Body request: updateUser,
         @Header("Authorization") token: String
     ): Response<updateUser>
+    @DELETE("motos/delete/{idMoto}")
+
+    suspend fun deleteMoto(@Path("idMoto") idMoto: String): Response<DeleteMotoResponse>
 
 
     @GET("usermotos")
