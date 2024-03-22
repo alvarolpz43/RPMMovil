@@ -282,6 +282,7 @@ class ViewProfile : AppCompatActivity() {
                 Toast.makeText(this@ViewProfile, "Error al subir la imagen", Toast.LENGTH_SHORT)
                     .show()
             }
+
     }
 
 
