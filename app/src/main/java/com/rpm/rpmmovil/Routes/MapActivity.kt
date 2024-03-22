@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -20,10 +21,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
@@ -43,10 +47,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 @Suppress("DEPRECATION")
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback,OnMyLocationButtonClickListener {
 
     private lateinit var binding: ActivityMapBinding
     private lateinit var map: GoogleMap
+
+    //location
+    private val locationService:LocationService = LocationService()
 
     private lateinit var btnCalculate: Button
 
@@ -84,6 +91,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
         getCordinatesRoute(id)
 
@@ -92,21 +100,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         btnCalculate = binding.btnCalculateRoute
 
         binding.iniciar.visibility = View.GONE
-        pInicioEditText = binding.pInicio
-        pFinalEditText = binding.pFinal
+
 
         btnCalculate.setOnClickListener {
-            val location1 = pInicioEditText.text.toString()
-            val location2 = pFinalEditText.text.toString()
+            val pInicio = binding.pInicio.text.toString()
+            val pFinal = binding.pFinal.text.toString()
 
-            if (location1.isNotBlank() && location2.isNotBlank()) {
+            if (pInicio.isNotBlank() && pFinal.isNotBlank()) {
                 val geocoder = Geocoder(this@MapActivity)
+                var location: Location? = null
 
                 try {
-                    val addressList1 = geocoder.getFromLocationName(location1, 1)
-                    val addressList2 = geocoder.getFromLocationName(location2, 1)
+                    val addressList1 = geocoder.getFromLocationName(pInicio, 3)
+                    val addressList2 = geocoder.getFromLocationName(pFinal, 3)
 
                     if (!addressList1.isNullOrEmpty() && !addressList2.isNullOrEmpty()) {
+                        Log.i("Lugares", "${addressList1}")
                         val startAddress: Address = addressList1[0]
                         val endAddress: Address = addressList2[0]
                         val startLatLng = LatLng(startAddress.latitude, startAddress.longitude)
@@ -126,16 +135,24 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         binding.km.text = "${distanceKmRounded} Km"
                         Constains.DISTANCIA_RUTA = distanceKmRounded.toDouble()
 
-                        binding.btnsiguiente.setOnClickListener{
+                        binding.btnsiguiente.setOnClickListener {
                             funcionBtnSiguiente(distanceKmRounded)
                         }
-
                     } else {
-                        Toast.makeText(
-                            this,
-                            "No se encontraron direcciones para los puntos ingresados",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // Si no se encontraron direcciones exactas, intenta buscar lugares relacionados
+                        val relatedPlaces = geocoder.getFromLocationName(pInicio, 5) // Obtener hasta 5 lugares relacionados
+                        if (relatedPlaces.isNullOrEmpty()) {
+                            Toast.makeText(
+                                this,
+                                "No se encontraron direcciones para el punto de inicio, intenta ingresar un nombre más específico",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            // Imprimir la lista de lugares relacionados
+                            for (place in relatedPlaces) {
+                                Log.i("RelatedPlace", "${place.featureName}, ${place.adminArea}, ${place.countryName}")
+                            }
+                        }
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -149,39 +166,45 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+
         val bottomSheet = findViewById<FrameLayout>(R.id.desp)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
             val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(displayMetrics)
             val screenHeight = displayMetrics.heightPixels
-            peekHeight = (screenHeight * 0.1).toInt()
+            peekHeight = (screenHeight * 0.0).toInt()
             state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        var isBottomSheetExpanded = false
-        val button = binding.icon
-        button.setOnClickListener {
-            if (isBottomSheetExpanded) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        binding.btnCancel.setOnClickListener {
+            val newState = if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                BottomSheetBehavior.STATE_COLLAPSED
             } else {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                BottomSheetBehavior.STATE_EXPANDED
             }
-            isBottomSheetExpanded = !isBottomSheetExpanded
+            bottomSheetBehavior.state = newState
         }
 
-        binding.btnDesp.setOnClickListener {
+
+
+
+        binding.search.setOnClickListener{
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
         }
+
+
+
     }
 
     private fun getCordinatesRoute(id: String) {
         lifecycleScope.launch {
             try {
-                Log.e("TAG", "${id}", )
+                Log.e("TAG", "${id}")
                 val result = getRetrofit2().getCordinateRoutes(id)
                 createUIRoute(result)
             } catch (e: Exception) {
-                Log.e("TAG", "${e}", )
+                Log.e("TAG", "${e}")
             }
         }
     }
@@ -202,14 +225,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.km.text = ruta.ruta.kmstotruta.toString()
         binding.desp.visibility = View.GONE
         binding.btnSave.visibility = View.GONE
-        binding.btnDesp.visibility = View.GONE
+
         binding.iniciar.visibility = View.VISIBLE
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setOnMyLocationClickListener { this }
         enableMyLocation()
+
     }
 
     private fun createRoute(startLatLng: LatLng, endLatLng: LatLng) {
@@ -255,13 +280,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 builder.include(endLatLng)
                 val bounds = builder.build()
 
-                val padding = 100
+                val padding = 110
                 val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
                 map?.animateCamera(cameraUpdate)
 
                 binding.btnSave.visibility = View.VISIBLE
                 binding.km.visibility = View.VISIBLE
-                binding.btnsiguiente.visibility= View.VISIBLE
+                binding.btnsiguiente.visibility = View.VISIBLE
 
                 binding.btnSave.setOnClickListener() {
                     val intent = Intent(this, saveRutasActivity::class.java)
@@ -295,48 +320,121 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    @SuppressLint("MissingPermission")
+
     private fun enableMyLocation() {
         if (!::map.isInitialized) return
         if (isLocationPermissionsGranted()) {
             map.isMyLocationEnabled = true
+
+            lifecycleScope.launch {
+                //obtengo lo location del usuario
+                val result= locationService.getUserLocation(this@MapActivity)
+                if (result!=null){
+                    val myLocation = LatLng(result.latitude, result.longitude) // estas no las cambies es la ubicacion en tiempo real
+
+                    val cameraPosition = CameraPosition.Builder()
+                        .target(myLocation)
+                        .zoom(18F)
+                        .build()
+
+                    map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
+                }
+
+            }
+
+
         } else {
             requestLocationPermission()
         }
     }
 
     private fun requestLocationPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Toast.makeText(this, "Ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
+            Toast.makeText(
+                this,
+                "Ve a ajustes y Acepta los Permisos de Localizacion",
+                Toast.LENGTH_SHORT
+            ).show()
+
+
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_CODE_LOCATION)
+                REQUEST_CODE_LOCATION
+            )
         }
     }
 
-    @SuppressLint("MissingSuperCall", "MissingPermission")
+
+
+  //Location permisos
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_CODE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Si Esta en Rojo es Asi tranquilo Es Parte de Plan
                 map.isMyLocationEnabled = true
             } else {
-                Toast.makeText(this, "Para activar la localización ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Para activar la localización ve a ajustes y acepta los permisos",
+
+                    Toast.LENGTH_SHORT
+                ).show()
+
+
+
             }
         }
     }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        if(!isLocationPermissionsGranted()){
+            if (!::map.isInitialized) return
+            map.isMyLocationEnabled=false
+            Toast.makeText(
+                this,
+                "Para activar la localización ve a ajustes y acepta los permisos",
+
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+    override fun onMyLocationButtonClick(): Boolean {
+        return false
+    }
+
+
+
+
+
+
+
 
     private fun funcionBtnSiguiente(distanceKmRounded: String) {
         val distanceKmRoundedInt = distanceKmRounded.toDouble().toInt()
         val intent = Intent(this, UserMotosActivity::class.java)
         intent.putExtra("distanceKm", distanceKmRoundedInt)
-        Toast.makeText(this, "Este es el valortirris que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            "Este es el valortirris que se está enviando: $distanceKmRoundedInt",
+            Toast.LENGTH_SHORT
+        ).show()
         startActivity(intent)
     }
+
+
 
 }
