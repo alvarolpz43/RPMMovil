@@ -57,6 +57,7 @@ import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -69,6 +70,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
 
     //location
     private val locationService: LocationService = LocationService()
+
 
 
     //lugares calve
@@ -222,23 +224,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
 
 
         val bottomSheet = findViewById<FrameLayout>(R.id.desp)
-        val dialogInfo = findViewById<FrameLayout>(R.id.dialogInfo)
-
-// Configurar el BottomSheetBehavior para bottomSheet y dialogInfo
-        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
-            // Obtener la altura de la pantalla
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
             val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(displayMetrics)
             val screenHeight = displayMetrics.heightPixels
-
-            // Establecer la altura inicial del peek (parte visible)
             peekHeight = (screenHeight * 0.0).toInt()
-
-            // Establecer el estado inicial del bottom sheet
             state = BottomSheetBehavior.STATE_COLLAPSED
         }
-
-
 
 
 
@@ -325,6 +317,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
 
 
         }
+
+        binding.myLocation.setOnClickListener {
+            lifecycleScope.launch {
+                val location = locationService.getUserLocation(this@MapActivity)
+                withContext(Dispatchers.Main) {
+                    if (location != null) {
+                        val latitude = location.latitude.toString()
+                        val longitude = location.longitude.toString()
+                        val locationString = "$latitude, $longitude"
+
+                        // Establecer el texto del EditText con la ubicación
+                        binding.pInicio.setText(locationString)
+
+                        // Opcionalmente, puedes seleccionar todo el texto si deseas
+                        binding.pInicio.selectAll()
+                    }
+                }
+            }
+        }
+
 
 
     }
@@ -462,7 +474,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
             lifecycleScope.launch {
                 //obtengo lo location del usuario
                 val result = locationService.getUserLocation(this@MapActivity)
+
                 if (result != null) {
+
+
                     val myLocation = LatLng(
                         result.latitude,
                         result.longitude
