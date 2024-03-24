@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.CameraPosition
 
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -136,6 +137,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
         btnCalculate = binding.btnCalculateRoute
 
         binding.iniciar.visibility = View.GONE
+
 
 
 
@@ -385,7 +387,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
 
     }
 
+
+
     private fun createRoute(startLatLng: LatLng, endLatLng: LatLng) {
+        map?.clear()
+
         CoroutineScope(Dispatchers.IO).launch {
             val call = getRetrofit().create(ApiService::class.java)
                 .getRoute(
@@ -397,12 +403,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
             if (call.isSuccessful) {
                 drawRoute(call.body(), startLatLng, endLatLng)
             } else {
-                Log.i("aris", "Error al obtener la ruta")
+                Log.i("Luis", "Error al obtener la ruta")
             }
         }
     }
 
     private fun drawRoute(routeResponse: RouteResponse?, startLatLng: LatLng, endLatLng: LatLng) {
+
+
         routeResponse?.features?.firstOrNull()?.geometry?.coordinates?.let { coordinates ->
             val polyLineOptions = PolylineOptions().apply {
                 width(10f)
