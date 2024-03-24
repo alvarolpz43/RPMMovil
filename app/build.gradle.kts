@@ -61,6 +61,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("com.google.android.libraries.places:places:3.4.0")
 
     //Dependences of navigation
     val navVersion = "2.7.1"
@@ -125,8 +126,8 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
 
 
-
-
+    implementation ("com.google.android.gms:play-services-maps:18.0.1")
+    implementation ("com.google.android.libraries.places:places:2.4.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
