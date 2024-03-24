@@ -327,12 +327,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonC
                         val longitude = location.longitude.toString()
                         val locationString = "$latitude, $longitude"
 
-                        // Establecer el texto del EditText con la ubicación
+
                         binding.pInicio.setText(locationString)
 
-                        // Opcionalmente, puedes seleccionar todo el texto si deseas
+
                         binding.pInicio.selectAll()
                     }
+                    else{
+                        Toast.makeText(this@MapActivity, " Tienes Activada la ubi?? Parece que no", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
             }
         }
