@@ -2,51 +2,80 @@ package com.rpm.rpmmovil.Routes
 
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompletePrediction
+import com.google.android.libraries.places.api.model.RectangularBounds
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.CameraPosition
+
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.rpm.rpmmovil.ExplorarRutas.model.rutas.RutasResponses
 import com.rpm.rpmmovil.Model.Constains
 import com.rpm.rpmmovil.R
+import com.rpm.rpmmovil.Routes.RecyclerPlaces.PlaceViewHolder
+import com.rpm.rpmmovil.Routes.RecyclerPlaces.PlacesAdapter
+import com.rpm.rpmmovil.Routes.RecyclerPlaces.PlacesAdapter2
+
 import com.rpm.rpmmovil.Routes.apiRoute.ApiService
 import com.rpm.rpmmovil.Usermotos.UserMotosActivity
 import com.rpm.rpmmovil.databinding.ActivityMapBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 @Suppress("DEPRECATION")
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, OnMyLocationButtonClickListener {
 
     private lateinit var binding: ActivityMapBinding
     private lateinit var map: GoogleMap
+
+    //location
+    private val locationService: LocationService = LocationService()
+
+
+
+    //lugares calve
+    private lateinit var placesClient: PlacesClient
 
     private lateinit var btnCalculate: Button
 
@@ -80,33 +109,65 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         const val EXTRA_ID = "extra_id"
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
         val id: String = intent.getStringExtra(EXTRA_ID).orEmpty()
         getCordinatesRoute(id)
 
+        // Inicializar Places API
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, getString(R.string.GoogleKey))
+        }
+        placesClient = Places.createClient(this)
+
+
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+
+
+
         btnCalculate = binding.btnCalculateRoute
 
         binding.iniciar.visibility = View.GONE
-        pInicioEditText = binding.pInicio
-        pFinalEditText = binding.pFinal
+
+
+
+
+
+
 
         btnCalculate.setOnClickListener {
-            val location1 = pInicioEditText.text.toString()
-            val location2 = pFinalEditText.text.toString()
+            val pInicio = binding.pInicio.text.toString()
+            val pFinal = binding.pFinal.text.toString()
 
-            if (location1.isNotBlank() && location2.isNotBlank()) {
+            if (pInicio.isNotBlank() && pFinal.isNotBlank()) {
                 val geocoder = Geocoder(this@MapActivity)
 
+
                 try {
-                    val addressList1 = geocoder.getFromLocationName(location1, 1)
-                    val addressList2 = geocoder.getFromLocationName(location2, 1)
+                    val addressList1 = geocoder.getFromLocationName(pInicio, 3)
+                    val addressList2 = geocoder.getFromLocationName(pFinal, 3)
 
                     if (!addressList1.isNullOrEmpty() && !addressList2.isNullOrEmpty()) {
+
+                        if (addressList1.isNotEmpty()) {
+                            println("Resultados para $pInicio:")
+                            for (i in addressList1.indices) {
+                                val address = addressList1[i]
+                                println("${i + 1}. ${address.getAddressLine(0)}") // Imprimir la dirección
+                            }
+                        } else {
+                            println("No se encontraron resultados para $pInicio")
+                        }
+                        Log.i("Lugares", "${addressList1}")
                         val startAddress: Address = addressList1[0]
                         val endAddress: Address = addressList2[0]
                         val startLatLng = LatLng(startAddress.latitude, startAddress.longitude)
@@ -126,16 +187,30 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         binding.km.text = "${distanceKmRounded} Km"
                         Constains.DISTANCIA_RUTA = distanceKmRounded.toDouble()
 
-                        binding.btnsiguiente.setOnClickListener{
+                        binding.btnsiguiente.setOnClickListener {
                             funcionBtnSiguiente(distanceKmRounded)
                         }
-
                     } else {
-                        Toast.makeText(
-                            this,
-                            "No se encontraron direcciones para los puntos ingresados",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // Si no se encontraron direcciones exactas, intenta buscar lugares relacionados
+                        val relatedPlaces = geocoder.getFromLocationName(
+                            pInicio,
+                            5
+                        ) // Obtener hasta 5 lugares relacionados
+                        if (relatedPlaces.isNullOrEmpty()) {
+                            Toast.makeText(
+                                this,
+                                "No se encontraron direcciones para el punto de inicio, intenta ingresar un nombre más específico",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            // Imprimir la lista de lugares relacionados
+                            for (place in relatedPlaces) {
+                                Log.i(
+                                    "RelatedPlace",
+                                    "${place.featureName}, ${place.adminArea}, ${place.countryName}"
+                                )
+                            }
+                        }
                     }
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -149,39 +224,137 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+
         val bottomSheet = findViewById<FrameLayout>(R.id.desp)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
             val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getMetrics(displayMetrics)
             val screenHeight = displayMetrics.heightPixels
-            peekHeight = (screenHeight * 0.1).toInt()
+            peekHeight = (screenHeight * 0.0).toInt()
             state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        var isBottomSheetExpanded = false
-        val button = binding.icon
-        button.setOnClickListener {
-            if (isBottomSheetExpanded) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+
+
+        binding.btnCancel.setOnClickListener {
+            val newState = if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                BottomSheetBehavior.STATE_COLLAPSED
             } else {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                BottomSheetBehavior.STATE_EXPANDED
             }
-            isBottomSheetExpanded = !isBottomSheetExpanded
+            bottomSheetBehavior.state = newState
         }
 
-        binding.btnDesp.setOnClickListener {
+
+
+
+        binding.search.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+
         }
+
+
+
+
+        val adapter = PlacesAdapter(emptyList())
+        val adapter2 = PlacesAdapter2(emptyList())
+        binding.recyclerLugares.adapter = adapter
+
+
+
+        binding.pInicio.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString()
+                buscarLugaresSimilares(query) { lugares ->
+                    // Actualizar la lista de lugares en el adaptador
+                    adapter.updatePlacesList(lugares)
+                    binding.recyclerLugares.layoutManager = LinearLayoutManager(this@MapActivity)
+                    binding.recyclerLugares.adapter = adapter
+
+
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No se usa
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No se usa
+            }
+        })
+
+
+
+        binding.pFinal.addTextChangedListener(object : TextWatcher {
+
+            //Cuando cambia
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString()
+                buscarLugaresSimilares(query) { lugares ->
+                    // Actualizar la lista de lugares en el adaptador
+                    adapter2.updatePlacesList(lugares)
+                    binding.recyclerLugares.layoutManager = LinearLayoutManager(this@MapActivity)
+                    binding.recyclerLugares.adapter = adapter2
+
+
+                    println(lugares)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No se usa por q? nose
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No se usa
+            }
+        })
+
+        binding.btnLimpiar.setOnClickListener{
+            binding.pInicio.text=null
+            binding.pFinal.text=null
+
+
+        }
+
+        binding.myLocation.setOnClickListener {
+            lifecycleScope.launch {
+                val location = locationService.getUserLocation(this@MapActivity)
+                withContext(Dispatchers.Main) {
+                    if (location != null) {
+                        val latitude = location.latitude.toString()
+                        val longitude = location.longitude.toString()
+                        val locationString = "$latitude, $longitude"
+
+
+                        binding.pInicio.setText(locationString)
+
+
+                        binding.pInicio.selectAll()
+                    }
+                    else{
+                        Toast.makeText(this@MapActivity, " Tienes Activada la ubi?? Parece que no", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            }
+        }
+
+
+
     }
 
     private fun getCordinatesRoute(id: String) {
         lifecycleScope.launch {
             try {
-                Log.e("TAG", "${id}", )
+                Log.e("TAG", "${id}")
                 val result = getRetrofit2().getCordinateRoutes(id)
                 createUIRoute(result)
             } catch (e: Exception) {
-                Log.e("TAG", "${e}", )
+                Log.e("TAG", "${e}")
             }
         }
     }
@@ -202,17 +375,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.km.text = ruta.ruta.kmstotruta.toString()
         binding.desp.visibility = View.GONE
         binding.btnSave.visibility = View.GONE
-        binding.btnDesp.visibility = View.GONE
+
         binding.iniciar.visibility = View.VISIBLE
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        map.setOnMyLocationClickListener { this }
         enableMyLocation()
+
     }
 
+
+
     private fun createRoute(startLatLng: LatLng, endLatLng: LatLng) {
+        map?.clear()
+
         CoroutineScope(Dispatchers.IO).launch {
             val call = getRetrofit().create(ApiService::class.java)
                 .getRoute(
@@ -224,12 +403,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             if (call.isSuccessful) {
                 drawRoute(call.body(), startLatLng, endLatLng)
             } else {
-                Log.i("aris", "Error al obtener la ruta")
+                Log.i("Luis", "Error al obtener la ruta")
             }
         }
     }
 
     private fun drawRoute(routeResponse: RouteResponse?, startLatLng: LatLng, endLatLng: LatLng) {
+
+
         routeResponse?.features?.firstOrNull()?.geometry?.coordinates?.let { coordinates ->
             val polyLineOptions = PolylineOptions().apply {
                 width(10f)
@@ -255,13 +436,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 builder.include(endLatLng)
                 val bounds = builder.build()
 
-                val padding = 100
+                val padding = 110
                 val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
                 map?.animateCamera(cameraUpdate)
 
                 binding.btnSave.visibility = View.VISIBLE
                 binding.km.visibility = View.VISIBLE
-                binding.btnsiguiente.visibility= View.VISIBLE
+                binding.btnsiguiente.visibility = View.VISIBLE
 
                 binding.btnSave.setOnClickListener() {
                     val intent = Intent(this, saveRutasActivity::class.java)
@@ -295,48 +476,178 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    @SuppressLint("MissingPermission")
+
     private fun enableMyLocation() {
         if (!::map.isInitialized) return
         if (isLocationPermissionsGranted()) {
+            //Si Esta en Rojo es Asi tranquilo Es Parte de Plan
             map.isMyLocationEnabled = true
+
+            lifecycleScope.launch {
+                //obtengo lo location del usuario
+                val result = locationService.getUserLocation(this@MapActivity)
+
+                if (result != null) {
+
+
+                    val myLocation = LatLng(
+                        result.latitude,
+                        result.longitude
+                    ) // estas no las cambies es la ubicacion en tiempo real
+
+                    val cameraPosition = CameraPosition.Builder()
+                        .target(myLocation)
+                        .zoom(14F)
+                        .build()
+
+                    map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+
+                }
+
+            }
+
+
         } else {
             requestLocationPermission()
         }
     }
 
     private fun requestLocationPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Toast.makeText(this, "Ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
+            Toast.makeText(
+                this,
+                "Ve a ajustes y Acepta los Permisos de Localizacion",
+                Toast.LENGTH_SHORT
+            ).show()
+
+
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_CODE_LOCATION)
+                REQUEST_CODE_LOCATION
+            )
         }
     }
 
-    @SuppressLint("MissingSuperCall", "MissingPermission")
+
+    //Location permisos
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_CODE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Si Esta en Rojo es Asi tranquilo Es Parte de Plan
                 map.isMyLocationEnabled = true
             } else {
-                Toast.makeText(this, "Para activar la localización ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Para activar la localización ve a ajustes y acepta los permisos",
+
+                    Toast.LENGTH_SHORT
+                ).show()
+
+
             }
         }
     }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        if (!isLocationPermissionsGranted()) {
+            if (!::map.isInitialized) return
+            //Si Esta en Rojo es Asi tranquilo Es Parte de Plan
+            map.isMyLocationEnabled = false
+            Toast.makeText(
+                this,
+                "Para activar la localización ve a ajustes y acepta los permisos",
+
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        return true
+    }
+
 
     private fun funcionBtnSiguiente(distanceKmRounded: String) {
         val distanceKmRoundedInt = distanceKmRounded.toDouble().toInt()
         val intent = Intent(this, UserMotosActivity::class.java)
         intent.putExtra("distanceKm", distanceKmRoundedInt)
-        Toast.makeText(this, "Este es el valortirris que se está enviando: $distanceKmRoundedInt", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            "Este es el valortirris que se está enviando: $distanceKmRoundedInt",
+            Toast.LENGTH_SHORT
+        ).show()
         startActivity(intent)
     }
 
+
+
+
+    private fun buscarLugaresSimilares(query: String, callback: (List<String>) -> Unit) {
+        val lugaresEncontrados = mutableListOf<String>()
+
+        // Verificar si la consulta no está vacía
+        if (query.isNotEmpty()) {
+            // Establecer límites de búsqueda para América Latina
+            val bounds = RectangularBounds.newInstance(
+                LatLng(-56.0, -180.0), // Extremo sur y oeste de América Latina
+                LatLng(33.0, -34.0)    // Extremo norte y este de América Latina
+            )
+
+            // Crear la solicitud de búsqueda
+            val request = FindAutocompletePredictionsRequest.builder()
+                .setCountry("CO") // Establecer país (opcional)
+                .setLocationBias(bounds) // Establecer límites de búsqueda
+                .setQuery(query) // Establecer la consulta de búsqueda
+                .build()
+
+            // Realizar la solicitud de búsqueda
+            placesClient.findAutocompletePredictions(request)
+                .addOnSuccessListener { response ->
+                    for (prediction: AutocompletePrediction in response.autocompletePredictions) {
+                        val lugar = prediction.getFullText(null)
+                        lugaresEncontrados.add(lugar.toString())
+                    }
+
+                    // Llamar al callback con la lista de lugares encontrados
+                    callback(lugaresEncontrados)
+                }
+                .addOnFailureListener { exception ->
+                    if (exception is ApiException) {
+                        // Manejar errores de la API
+                        Log.e("MapActivity", "Error al buscar lugares: ${exception.statusCode}")
+                    }
+
+                    // Llamar al callback con una lista vacía en caso de fallo
+                    callback(emptyList())
+                }
+        } else {
+            // Llamar al callback con una lista vacía si la consulta está vacía
+            callback(emptyList())
+        }
+    }
+
+
+
+
+
+
+
 }
+
+
+
+
+

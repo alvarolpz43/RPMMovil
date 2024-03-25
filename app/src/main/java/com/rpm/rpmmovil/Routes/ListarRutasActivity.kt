@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rpm.rpmmovil.Model.Constains
+import com.rpm.rpmmovil.Routes.RecyclerPlaces.PlacesAdapter
 import com.rpm.rpmmovil.Routes.RecyclerView.RoutesAdapter
 import com.rpm.rpmmovil.Routes.apiRoute.UserRoutes
 import com.rpm.rpmmovil.databinding.ActivityListarRutasBinding
@@ -62,6 +63,8 @@ class ListarRutasActivity : AppCompatActivity() {
         binding.rvRutas.setHasFixedSize(true)
         binding.rvRutas.layoutManager = LinearLayoutManager(this)
         binding.rvRutas.adapter = adapter
+
+
     }
 
     private fun navigateMapaRuta(id:String) {

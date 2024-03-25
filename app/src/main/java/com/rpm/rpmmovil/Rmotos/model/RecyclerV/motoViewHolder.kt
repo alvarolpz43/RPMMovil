@@ -5,17 +5,18 @@ import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-
+import com.rpm.rpmmovil.Rmotos.ShowGarageActivity
 import com.rpm.rpmmovil.Rmotos.UpdatesMotos.ViewsUpdateMotos
-
 import com.rpm.rpmmovil.databinding.ItemMotosBinding
 import com.squareup.picasso.Picasso
 
 
-class motoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class motoViewHolder(
+    view: View,
+    private val adapter: MotoAdapter  // Agrega una instancia de MotoAdapter como parámetro
+) : RecyclerView.ViewHolder(view) {
     private val binding = ItemMotosBinding.bind(view)
-    private val btnEditar = binding.btnEditar
-    private val btnEliminar = binding.btnEliminar
+
 
     fun bind(datamotos: DataItemMotos) {
         binding.motonom.text = datamotos.motonom
@@ -29,7 +30,7 @@ class motoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         binding.btnEditar.setOnClickListener {
             val idMoto = datamotos._id
-//            Toast.makeText(itemView.context, "Editando a $idMoto", Toast.LENGTH_SHORT).show()
+           Toast.makeText(itemView.context, "Editando a $idMoto", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(itemView.context, ViewsUpdateMotos::class.java)
             intent.putExtra("idMoto", datamotos._id)
@@ -48,7 +49,15 @@ class motoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         binding.btnEliminar.setOnClickListener {
 
-            Toast.makeText(itemView.context, "Eliminandoo", Toast.LENGTH_SHORT).show()
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                val dataItemMotos = adapter.motolist[position]
+                val idMoto = dataItemMotos._id
+                val context = itemView.context
+                if (context is ShowGarageActivity) {
+                    context.deleteMoto(idMoto)
+                }
+            }
         }
     }
 

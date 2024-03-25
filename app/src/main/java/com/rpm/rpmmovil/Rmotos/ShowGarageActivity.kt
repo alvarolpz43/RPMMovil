@@ -21,11 +21,23 @@
     import retrofit2.Retrofit
     import retrofit2.converter.gson.GsonConverterFactory
 
+    import androidx.core.view.isVisible
+
+    import com.rpm.rpmmovil.Rmotos.UpdatesMotos.model.DeleteMotoResponse
+
+    import com.rpm.rpmmovil.interfaces.ApiServices
+
+    import kotlinx.coroutines.launch
+
+
     class ShowGarageActivity : AppCompatActivity() {
         private lateinit var binding: ActivityShowGarageBinding
         private lateinit var sharedPreferences: SharedPreferences
         private lateinit var adapter: MotoAdapter
         private lateinit var retrofit: Retrofit
+        companion object {
+            private const val BASE_URL = "https://rpm-back-end.vercel.app/api/"
+        }
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -101,6 +113,39 @@
 
         private fun updateMotos() {
 
+        }
+        fun deleteMoto(idMoto: String) {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val response = retrofit.create(ApiServices::class.java).deleteMoto(idMoto)
+                    if (response.isSuccessful) {
+                        // Eliminar el elemento de la lista local en el hilo principal
+                        runOnUiThread {
+                            adapter.removeItems(listOf(idMoto))
+                        }
+                    } else {
+                        Log.e("Rpm", "Error en la respuesta: ${response.code()}")
+                        // Manejar el error
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@ShowGarageActivity,
+                                "Error: ${response.message()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("Rpm", "Error: ${e.message}", e)
+                    // Manejar el error
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ShowGarageActivity,
+                            "Error: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
 
         private fun getRetrofit(): Retrofit {

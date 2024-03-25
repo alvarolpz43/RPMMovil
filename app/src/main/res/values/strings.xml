@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">RPM</string>
+    <string name="app_name" translatable="false">RPM</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="GoogleKey">AIzaSyC162bg5xfftD66bXYjOR5aoyJ2rezey4A</string>
 
     <string name="Home">Home</string>
     <string name="Rpm">Rpm</string>
@@ -26,5 +28,8 @@
     <string name="txt_identificacion">Identificacion</string>
     <string name="txt_numero_Telefono">Numero de Telefono</string>
     <string name="txt_telefono">Telefono</string>
+
     <string name="default_web_client_id" />
+
+
 </resources>

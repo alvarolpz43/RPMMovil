@@ -7,5 +7,6 @@ data class updateMoto (
     val VersionMoto: Number,
     val ConsumoMotoLx100km: Number,
     val CilindrajeMot: String,
+    val FotoMoto: String
 
 )
