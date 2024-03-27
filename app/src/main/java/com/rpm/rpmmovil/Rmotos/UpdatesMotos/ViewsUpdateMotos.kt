@@ -101,6 +101,7 @@ class ViewsUpdateMotos : AppCompatActivity() {
         val consumokmxg = intent.getStringExtra("consumokmxg")
         val cilimoto = intent.getStringExtra("cilimoto")
 
+
         //para usarlo en el edit
         val idUserMoto = intent.getStringExtra("idMoto")
 
@@ -111,10 +112,12 @@ class ViewsUpdateMotos : AppCompatActivity() {
         binding.consumokmxg.setText(consumokmxg)
         binding.cilimoto.setText(cilimoto)
 
+
         // Obtener la URL de la imagen del intent
         val imagemoto = intent.getStringExtra("imagemoto")
         if (!imagemoto.isNullOrEmpty()) {
             Picasso.get().load(imagemoto).into(binding.imagemoto)
+
         }
 
         //inputs
@@ -126,6 +129,7 @@ class ViewsUpdateMotos : AppCompatActivity() {
             binding.cilimoto,
             binding.versionmoto,
             binding.consumokmxg
+
         )
         editTexts.forEach { it.isEnabled = false }
         binding.btnEdit.setOnClickListener {

@@ -40,6 +40,7 @@ class motoViewHolder(
             intent.putExtra("motovers", datamotos.motovers.toString())
             intent.putExtra("consumokmxg", datamotos.consumokmxg.toString())
             intent.putExtra("cilimoto", datamotos.cilimoto)
+            intent.putExtra("imagemoto", datamotos.imagemoto)
             itemView.context.startActivity(intent)
         }
 
